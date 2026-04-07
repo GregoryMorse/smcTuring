@@ -1,4 +1,4 @@
-# smcTuring — mov-only Turing Machine
+# smcTuring — Pure Infinitely Self-Modifying Code Turing Machine
 
 Code supplement to the published research paper:
 
@@ -10,21 +10,30 @@ Code supplement to the published research paper:
 
 ## Overview
 
-This project provides a working implementation of a Turing machine whose simulation loop
-is expressed exclusively using `mov` instructions — no arithmetic, no branches, no
-comparisons. This is possible because of Stephen Dolan's result that `mov` alone is
-Turing-complete, requiring only three addressing modes:
+This project is a working demonstration that *pure infinitely self-modifying code* (pure
+SMC) is Turing-complete. In the pure SMC model every instruction in the simulation loop
+exists solely to rewrite the operands of other instructions — the code never performs
+arithmetic, branching, or comparison directly. Computation emerges entirely from the code
+rewriting itself on every iteration, indefinitely.
+
+The sole instruction used is `mov`. This is not incidental: `mov` is the natural primitive
+for pure SMC because it can write to any memory address, including the code segment, making
+it the only general instruction through which one instruction can directly rewrite another.
+This is a **distinct result** from Dolan's 2013 proof that `mov` alone is Turing-complete.
+Dolan's construction uses a *static* body of `mov` instructions and achieves
+Turing-completeness through data-driven dispatch, with no self-modification whatsoever.
+Here the code is never static: every `mov` in the loop rewrites the operands of subsequent
+`mov` instructions before they execute. Dolan's result supplies the theoretical foundation;
+the pure SMC model — that a code-only, infinitely self-rewriting program can achieve
+general computation — is the paper's own contribution.
+
+Three `mov` addressing modes are used:
 
 | Mode | Syntax |
 |---|---|
 | Load immediate | `mov Rdest, c` |
 | Load indexed | `mov Rdest, [Rsrc + Roffset]` |
 | Store indexed | `mov [Rdest + Roffset], Rsrc` |
-
-The paper extends this to *self-modifying code*, showing that a code-only model in which
-every instruction only modifies other instructions is itself Turing-complete — a pure form
-of infinitely self-modifying code that achieves general computation without any classical
-control-flow instructions.
 
 ## Background
 
@@ -63,17 +72,21 @@ input and benchmarked head-to-head:
 | Inline x86 — general | `4` | MSVC inline `__asm`; x86 only |
 | External — general | `8` | MASM `AsmListTM`; x86 and x64 |
 
-### `MovTM` — mov-only Turing Machine
+### `MovTM` — Pure Self-Modifying `mov`-only Turing Machine
 
 | Variant | Flag | Notes |
 |---|---|---|
 | Inline x86 | `1` | MSVC inline `__asm`; x86 only; pure `mov` loop |
 | External | `2` | MASM `MovTM`; x86 and x64; pure `mov` loop |
-| C emulation | `4` | C translation of the `mov`-only data-driven dispatch |
+| C emulation | `4` | C translation of the pure SMC `mov`-only simulation |
 
 The `MovTM` assembly procedures contain **no** `jmp`, `cmp`, `add`, `call`, or any
-instruction other than `mov`. Branching and symbol comparison are achieved entirely through
-indexed memory access into a scratch array that acts as a comparison selector.
+instruction other than `mov`. Unlike Dolan's static `mov`-only programs, the loop body is
+never static: each iteration the active `mov` instructions rewrite the immediate operands
+of subsequent `mov` instructions, so the encoded bytes of the loop differ from one step to
+the next. Symbol comparison is mediated by indexed memory access into a scratch array that
+acts as a selector, with the result written directly back into the instruction stream —
+there is no separate control-flow mechanism; the self-modification *is* the control flow.
 
 ## Turing Machine Example
 
@@ -161,6 +174,40 @@ Eötvös Loránd University
 ORCID: [0000-0002-0231-6557](https://orcid.org/0000-0002-0231-6557)  
 GitHub: [@GregoryMorse](https://github.com/GregoryMorse)  
 Email: <gregory.morse@live.com>
+
+## Citation
+
+If you use this work, please cite the paper:
+
+Morse, G. (2018). Pure Infinitely Self-Modifying Code is Realizable and Turing-complete.
+*International Journal of Electronics and Telecommunications*, vol. 64, no. 2.
+Polish Academy of Sciences. DOI: [10.24425/119359](https://doi.org/10.24425/119359)
+
+```bibtex
+@ARTICLE{MorseGregoryPure2018,
+  author    = {Morse, Gregory},
+  title     = {Pure Infinitely Self-Modifying Code is Realizable and Turing-complete},
+  journal   = {International Journal of Electronics and Telecommunications},
+  volume    = {vol. 64},
+  number    = {No 2},
+  year      = {2018},
+  publisher = {Polish Academy of Sciences Committee of Electronics and Telecommunications},
+  doi       = {10.24425/119359},
+  url       = {http://www.czasopisma.pan.pl/Content/103840/PDF/18_1151-4306-1-PB.pdf},
+  keywords  = {x86, x86-64, assembly language, self-modifying code,
+               Turing-completeness, code obfuscation},
+  howpublished = {online},
+  type      = {Artykuły / Articles},
+  abstract  = {Although self-modifying code has been shyed away from due to its
+               complexity and discouragement due to safety issues, it nevertheless
+               provides for a very unique obfuscation method and a different perspective
+               on the relationship between data and code. The generality of the von
+               Neumann architecture is hardly realized by today's processor models. A
+               code-only model is shown where every instruction merely modifies other
+               instructions yet achieves the ability to compute and Turing machine
+               operation is easily possible.}
+}
+```
 
 ## License
 
