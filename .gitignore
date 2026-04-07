@@ -1,0 +1,35 @@
+# Visual Studio build output
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.dll
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+*.aps
+ipch/
+*.ipch
+*.ncb
+*.sdf
+*.opensdf
+
+# MSBuild
+*.log
+*.tlog
+
+# MASM listing files
+*.lst
+*.cod
