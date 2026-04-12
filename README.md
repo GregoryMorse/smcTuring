@@ -1,10 +1,16 @@
 # smcTuring — Pure Infinitely Self-Modifying Code Turing Machine
 
+[![DOI](https://img.shields.io/badge/DOI-10.24425%2F119359-blue)](https://doi.org/10.24425/119359)
+[![IJET](https://img.shields.io/badge/Journal-IJET_Vol._64_No._2_%282018%29-green)](https://ijet.ise.pw.edu.pl/index.php/ijet/article/view/10.24425-119359)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 Code supplement to the published research paper:
 
 > **Pure Infinitely Self-Modifying Code is Realizable and Turing-complete**  
 > Gregory Morse — *International Journal of Electronics and Telecommunications*, Vol. 64 No. 2, 2018  
 > DOI: [10.24425/119359](https://ijet.ise.pw.edu.pl/index.php/ijet/article/view/10.24425-119359)
+>
+> Presented at the 17th Central European Conference on Cryptology ([CECC’17](https://cecc17.tele.pw.edu.pl/index.php/technical-program/program)), Warsaw, Poland, June 28, 2017.
 
 ---
 
@@ -183,6 +189,10 @@ Morse, G. (2018). Pure Infinitely Self-Modifying Code is Realizable and Turing-c
 *International Journal of Electronics and Telecommunications*, vol. 64, no. 2.
 Polish Academy of Sciences. DOI: [10.24425/119359](https://doi.org/10.24425/119359)
 
+Presented at the 17th Central European Conference on Cryptology (CECC’17),
+Warsaw, Poland, June 28, 2017.
+[Technical programme](https://cecc17.tele.pw.edu.pl/index.php/technical-program/program)
+
 ```bibtex
 @ARTICLE{MorseGregoryPure2018,
   author    = {Morse, Gregory},
@@ -196,6 +206,7 @@ Polish Academy of Sciences. DOI: [10.24425/119359](https://doi.org/10.24425/1193
   url       = {http://www.czasopisma.pan.pl/Content/103840/PDF/18_1151-4306-1-PB.pdf},
   keywords  = {x86, x86-64, assembly language, self-modifying code,
                Turing-completeness, code obfuscation},
+  note      = {SCImago Q3},
   howpublished = {online},
   type      = {Artykuły / Articles},
   abstract  = {Although self-modifying code has been shyed away from due to its
