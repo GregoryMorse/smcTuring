@@ -57,6 +57,8 @@ validation/palomar/*
 validation/remote-agent/
 .codex/
 .agents/
+# Private submission receipts and access links are local only.
+/.private/
 __pycache__/
 tmp/pdfs/
 

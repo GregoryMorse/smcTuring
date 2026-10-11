@@ -69,6 +69,23 @@ The MOV foundation uses three addressing forms:
 | Load indexed | `mov Rdest, [Rsrc + Roffset]` |
 | Store indexed | `mov [Rdest + Roffset], Rsrc` |
 
+## Lean formalization of Stephen Dolan's *mov is Turing-complete*
+
+This repository also contains a complete Lean proof of the central
+Turing-completeness result of Stephen Dolan's 2013 paper, including the
+four-register reduction. One fixed MOV body with an unconditional loop backedge
+simulates every finite Turing machine and finite input, preserving halting and
+divergence in the disclosed unbounded abstract machine model.
+
+Start with the [Dolan formalization guide](lean/DOLAN_FORMALIZATION.md).
+The standalone result is
+[`SmcTuring.Dolan.Four.four_register_mov_simulation`](lean/SmcTuring/Dolan/FourSimulation.lean).
+The guide maps the paper's construction to the checked source and explains the
+local source corrections, two-sided tape initialization and sentinel guard.
+Dolan is explicitly credited as a formalized source in
+[the metadata](lean/formalization.yaml). This result is proved independently of
+the pure-SMC construction and is included in the same audited development.
+
 ## Background
 
 - S. Dolan, *mov is Turing-complete*, University of Cambridge Computer Laboratory, Technical Report, 2013.  

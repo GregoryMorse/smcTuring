@@ -35,7 +35,9 @@ fields are separate statements, the latter witnessed by the constructed walker.
 Stephen Dolan's *mov is Turing-complete* is a separately credited foundation:
 one fixed four-register program using three MOV forms and an unconditional
 loop backedge simulates each finite machine. That static program is different
-from the paper's pure instruction-modifying construction.
+from the paper's pure instruction-modifying construction. The
+[Dolan formalization guide](DOLAN_FORMALIZATION.md) provides the standalone
+theorem, source map and precise normalization/adaptation account.
 
 `SmcTuring.Appendix.Listing9PhysicalBinding.full_paper` supplies conditional
 bounded native refinement. It derives the full trace and each prefix from
