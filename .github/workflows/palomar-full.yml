@@ -18,4 +18,4 @@ jobs:
       request_id: smcturing001
       mode: full
       execution_profile: palomar-standard-v1
-      options: '{"project_path":"lean","comparator_config_path":"lean/comparator.json","formalization_metadata_path":"lean/formalization.yaml","authorization_relationship":"maintainer"}'
+      options: '{"project_path":"lean","comparator_config_path":"lean/comparator.json","formalization_metadata_path":"lean/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'
