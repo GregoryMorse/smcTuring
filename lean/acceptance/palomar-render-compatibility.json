@@ -1,5 +1,5 @@
 {
-  "status": "dependency-merge-pass",
+  "status": "blocked-upstream-renderer-compatibility",
   "checked_on": "2026-10-11",
   "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
   "verso_commit": "8fc7a297f14d5adc1a551b5b4ecf283c08bd691f",
@@ -15,7 +15,14 @@
   "original_conflict_reproduced": "Verso dependency conflicts with submitted package 'plausible'",
   "corrected_merge_package_count": 13,
   "manifest_sha256": "903b0d18f24d6a575b3fb3f1d52820c58db3b30353e81de5a5aa24e074c0461f",
-  "full_html_render": "not-yet-run",
+  "full_html_render": {
+    "status": "error",
+    "stage": "workspace",
+    "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38152118403",
+    "error": "Mathlib cache discovery was incomplete (0 of 0 keys); cache command exited 1",
+    "proof_or_challenge_render_started": false,
+    "advisory_not_registry_acceptance": true
+  },
   "new_mechanical_verification": "not-run",
   "original_merger_helpers_executed": [
     "lake_package_name",
@@ -34,5 +41,16 @@
     "mathlib_post_update_cache_disabled": true,
     "project_proofs_built": false,
     "memory_report": "validation/checkpoint-archive/lake-plausible-pin-final-memory-20261011.json"
-  }
+  },
+  "tested_source_commit": "7b0206dd6f1f97b832ab07aef4603b2c30e1cee1",
+  "cache_constraint_diagnosis": {
+    "method": "Pinned source and manifests inspected; report truncates cache stdout",
+    "source": "https://github.com/leanprover-community/mathlib4/blob/302343bb9a029d4edab4f736703f0736896c1b64/Cache/Requests.lean#L1066-L1127",
+    "renderer_requires_plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+    "mathlib_cache_requires_plausible_revision": "afc2695efcb6855264d85a45632db1ddc56c8774",
+    "revision_equality_required_by_both": true,
+    "source_identical_revision_override_is_not_complete_workaround": true
+  },
+  "workaround_reverted": true,
+  "dependency_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a"
 }

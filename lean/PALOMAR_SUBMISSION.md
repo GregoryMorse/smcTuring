@@ -1,26 +1,40 @@
 # Palomar submission packet
 
-**Ready for Gregory Morse to submit.** The official full mechanical preflight
-passes on the immutable source below. Submission/registration has not been performed.
+**Renderer blocked; hold off on a replacement submission.** The original
+submission passed mechanical verification. The tested Plausible override passed
+the dependency merger but failed complete renderer preparation and has been
+reverted. The table records the existing submission, not a successful new retry.
 
 | Form field | Exact value |
 | --- | --- |
 | Repository | `GregoryMorse/smcTuring` |
-| Commit | `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4` |
+| Commit | `e6aaea4723a82ee50385ac4d7991fbde9ba8ae03` |
 | Project directory | `lean` |
 | Comparator configuration | `lean/comparator.json` |
 | Formalization metadata | `lean/formalization.yaml` |
 | Responsible author/maintainer | Gregory Morse |
 | Authorization relationship | I am a responsible author or maintainer |
 | Approval evidence | Blank for the responsible-maintainer route |
-| Submission type | First submission (confirmed by Gregory Morse, 2026-10-11) |
-| Existing Palomar ID | Blank — first submission |
+| Submission type | Existing first submission; replacement on hold |
+| Existing Palomar ID | Blank — no registered result |
 | Preliminary override | Disabled |
 
-Gregory Morse confirmed on 2026-10-11 that this is the first Palomar submission
-of this formalization. Select the first-submission route and leave the existing
-Palomar ID blank. The earlier automated lookup returned HTTP 403; the route
-is established by the author's confirmation.
+Gregory Morse's first submission used
+`e6aaea4723a82ee50385ac4d7991fbde9ba8ae03`. It passed
+[mechanical verification](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/38141132403).
+No registration is claimed. Leave the existing Palomar ID blank when retrying.
+The form's replacement choice after GitHub authentication closes the prior
+submission and starts the corrected one in one transaction; a separate manual
+withdrawal is unnecessary. See
+[the server's replacement contract](https://github.com/PalomarRegistry/PalomarServer#the-state-a-submission-holds).
+
+[The renderer compatibility note](PALOMAR_RENDER_COMPATIBILITY.md) and
+[check receipt](acceptance/palomar-render-compatibility.json) explain
+the tested and reverted dependency change. The
+[complete renderer probe](https://github.com/GregoryMorse/smcTuring/actions/runs/38152118403)
+failed during Mathlib cache discovery. It is advisory, not a Palomar registration
+or a new mechanical-verification receipt. Verso's revision requirement conflicts
+with Mathlib's cache manifest check; an upstream compatibility remedy is needed.
 
 The accepted statement surface selects four theorems:
 
@@ -51,7 +65,7 @@ Suggested submission notes:
 > substantial proof/tooling contributions under the author's direction. No new
 > theorem priority or independent human review is claimed.
 
-[Official full preflight](https://github.com/GregoryMorse/smcTuring/actions/runs/38108849833): **pass**, pipeline revision
+[Original-source official full preflight](https://github.com/GregoryMorse/smcTuring/actions/runs/38108849833): **pass**, pipeline revision
 `d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44`, `palomar-standard-v1`.
 The only warning concerns the preferred Challenge review surface; 984 physical
 lines / 60,700 bytes remain within the 1,000-line hard limit. Lean, NanoDa and
@@ -64,9 +78,13 @@ with only standard axioms. The later packaging failure was repaired without
 repeating the audit. [Final acceptance](FINAL_ACCEPTANCE.json) binds the recovered
 source/driver distinction, actual run URLs and report hashes.
 
-The repository's latest master adds CI/runtime fixes and closure documents.
-Use the **exact commit above** for this accepted submission. All selected proof
-and native algorithm source is identical. [Semantic account](PALOMAR_SEMANTICS.md),
+The earlier cold proof acceptance source is
+`1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`. Dependency configuration has been
+restored after the unsuccessful renderer workaround. All selected proof and
+native algorithm source is identical. Once the renderer compatibility issue is
+resolved and a complete probe passes, record the exact replacement commit here.
+Palomar will verify that newly submitted commit; prior run receipts remain bound
+to their original sources. [Semantic account](PALOMAR_SEMANTICS.md),
 [theorem map](FINAL_THEOREM_MAP.md), [physical contract](PHYSICAL_BINDING_CONTRACT.md),
 [minimal diff](errata/morse-2018-minimal.diff), [TeX](errata/morse-2018-errata.tex)
 and [reviewed PDF](../output/pdf/morse-2018-errata.pdf) accompany the source.
