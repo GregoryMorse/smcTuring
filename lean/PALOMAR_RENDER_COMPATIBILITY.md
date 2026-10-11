@@ -79,6 +79,17 @@ does not modify the upstream renderer or its security checks.
 
 ## Remediation and submission status
 
+A concrete [proposed upstream patch](../validation/ci/palomar-renderer-plausible.patch)
+now retains the submitted Mathlib-compatible revision while accepting the exact
+known source-identical Plausible pair during manifest merging. It rejects every
+other revision/fork and altered package configuration or subdirectory. Eight
+focused regression tests pass. The
+[advisory workflow](../.github/workflows/palomar-render.yml) checks the complete
+upstream Git trees before applying it, then runs the complete renderer path.
+Full-render validation is pending. The submitted proof and dependency pins are
+unchanged, as are the renderer's cache, sandbox and declaration checks. This is
+a proposed Palomar code change; it does not update Palomar's deployed service.
+
 **No demonstrated working retry candidate yet.** Keep the mechanically verified
 submission open. Hash-only retries and the reverted Plausible override do not
 resolve the complete renderer path. The narrow upstream remedy is to reconcile

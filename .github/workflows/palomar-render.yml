@@ -1,5 +1,5 @@
-name: Palomar Challenge rendering compatibility
-run-name: Render compatibility ${{ inputs.commit }}
+name: Palomar proposed renderer fix
+run-name: Patched renderer ${{ inputs.commit }}
 
 on:
   workflow_dispatch:
@@ -27,6 +27,17 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.11.10'
+      - name: Checkout the proposed repair and regression tests
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          path: repair
+          persist-credentials: false
+      - name: Test and apply the proposed upstream dependency repair
+        run: |
+          python repair/validation/ci/test_palomar_renderer_repair.py \
+            --pipeline pipeline --manifest repair/lean/lake-manifest.json
+          python repair/validation/ci/repair_palomar_renderer.py \
+            --pipeline pipeline --report "$RUNNER_TEMP/renderer-repair.json"
       - name: Install the pinned renderer dependencies
         run: python -m pip install --disable-pip-version-check --require-hashes --no-deps -r pipeline/requirements.txt
       - name: Prepare the exact source and Challenge
@@ -89,7 +100,7 @@ jobs:
             --renderer-commit d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44 \
             --bwrap-source-tag v0.12.0 \
             --workflow-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-      - name: Upload the advisory render report and HTML bundle
+      - name: Upload the proposed patch, advisory report and HTML bundle
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -97,6 +108,8 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           path: |
+            ${{ runner.temp }}/renderer-repair.json
+            ${{ runner.temp }}/renderer-repair.patch
             ${{ runner.temp }}/palomar-render/report.json
             ${{ runner.temp }}/palomar-render/result
       - name: Require a complete render
