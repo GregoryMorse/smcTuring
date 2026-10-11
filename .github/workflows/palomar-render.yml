@@ -65,17 +65,23 @@ jobs:
           sudo apt-get update -qq >/dev/null
           sudo apt-get install -y -qq meson ninja-build libcap-dev pkg-config >/dev/null
           echo "PALOMAR_BWRAP=$(pipeline/scripts/install_bwrap.sh "$RUNNER_TEMP/bwrap-bin")" >> "$GITHUB_ENV"
-      - name: Render and verify every selected declaration in a bounded cgroup
+      - name: Enable the bounded user-scope supervisor
+        run: |
+          render_uid="$(id -u)"
+          sudo loginctl enable-linger "$(id -un)"
+          sudo systemctl start "user@${render_uid}.service"
+          export XDG_RUNTIME_DIR="/run/user/${render_uid}"
+          export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+          systemctl --user set-property --runtime app.slice \
+            MemoryMax=7500000000 MemorySwapMax=0 CPUQuota=800% TasksMax=512
+          echo "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" >> "$GITHUB_ENV"
+          echo "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" >> "$GITHUB_ENV"
+      - name: Render and verify every selected declaration in bounded user scopes
         working-directory: pipeline
         env:
           PALOMAR_EXECUTION_PROFILE: palomar-standard-v1
         run: |
-          sudo systemd-run --wait --pipe --collect --uid="$(id -u)" --gid="$(id -g)" \
-            --property=MemoryMax=7500000000 --property=MemorySwapMax=0 \
-            --property=CPUQuota=800% --property=TasksMax=512 \
-            --working-directory="$PWD" \
-            --setenv=PATH="$PATH" --setenv=HOME="$HOME" \
-            --setenv=PALOMAR_EXECUTION_PROFILE=palomar-standard-v1 \
+          systemd-run --user --scope --quiet --property=Delegate=yes -- \
             "$(command -v python)" -m scripts.render_challenge execute \
             --work-dir "$RUNNER_TEMP/palomar-render" \
             --output "$RUNNER_TEMP/palomar-render/report.json" \
