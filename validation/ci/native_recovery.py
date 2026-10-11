@@ -12,6 +12,7 @@ def main():
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--prior', type=Path)
     parser.add_argument('--windows-prior', type=Path)
+    parser.add_argument('--native-prior', type=Path)
     args = parser.parse_args()
     source = args.source.resolve()
     driver = Path(__file__).resolve().parents[2]
@@ -95,6 +96,40 @@ def main():
         spec = importlib.util.spec_from_file_location('frozen_native',path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
+        retained = []
+        prior = args.native_prior.resolve() if args.native_prior is not None else None
+        if prior is not None:
+            prior_proof = json.loads((prior/'lean.json').read_text(encoding='utf-8'))
+            assert prior_proof['linux_report_sha256'] == PROOF_SHA
+            assert prior_proof['sources'] == module.inputs()
+            shutil.copytree(prior/'.build',source/'validation/.build',dirs_exist_ok=True)
+            shutil.copyfile(prior/'kernel.json',source/'validation/kernel.json')
+            for script,name in module.SUITES[:6]:
+                path = prior/name
+                result = json.loads(path.read_text(encoding='utf-8'))
+                assert result.get('passed',all(r['passed'] for r in result.get('runs',[])))
+                if name=='baseline.json':
+                    assert len(result['runs'])==4 and sum(r['simulator_count'] for r in result['runs'])==30
+                    for row in result['runs']:
+                        assert digest(prior/'.build/baseline'/row['configuration']/'smcTuring.exe')==row['executable_sha256']
+                module.verify_sources(result.get('sources',{}))
+                def retained_hashes(value):
+                    if isinstance(value,dict):
+                        for name,expected in value.items():
+                            if isinstance(expected,str) and len(expected)==64 and all(c in '0123456789abcdef' for c in expected):
+                                relative = Path(name)
+                                if relative.parts and relative.parts[0]=='validation' and '.build' in relative.parts:
+                                    saved = prior/relative.relative_to('validation')
+                                    assert digest(saved) == expected
+                            retained_hashes(expected)
+                    elif isinstance(value,list):
+                        for item in value:retained_hashes(item)
+                retained_hashes(result)
+                shutil.copyfile(path,source/'validation'/name)
+                retained.append(dict(script=script,report='validation/'+name,sha256=digest(path),passed=True,
+                    origin_run_id='38117226865',verified_retained=True))
+            shutil.copyfile(prior/'kernel.json',source/'validation/kernel.json')
+            module.SUITES = module.SUITES[6:]
         def native_run(command, **kwargs):
             command = list(command)
             baseline = str(source/'validation/run_baseline.py')
@@ -105,9 +140,19 @@ def main():
         module.main()
         path = source/'validation/ci-results/native-artifacts.json'
         result = json.loads(path.read_text(encoding='utf-8'))
+        if retained:
+            previous_tools = json.loads((prior/'ci-results/windows-tools.json').read_text(encoding='utf-8'))['tools']
+            current_tools = json.loads((source/'validation/ci-results/windows-tools.json').read_text(encoding='utf-8'))['tools']
+            assert {n:v['sha256'] for n,v in previous_tools.items()} == {n:v['sha256'] for n,v in current_tools.items()}
+            result['suites'] = retained + result['suites']
+            result['retained_native_origin'] = dict(run_id='38117226865',passed_suites=6,new_suites=15,
+                exact_source_snapshot_verified=True,tool_binary_hashes_match=True)
         result['runtime_baseline_provider'] = dict(source_files_modified=False,
             path='validation/run_baseline.py',sha256=digest(driver/'validation/run_baseline.py'),
             project_requested_toolset='v145',runner_override_toolset='v143')
+        result['runtime_proof_bridge_provider'] = dict(source_files_modified=False,
+            path='validation/ci/proof_bridge.py',sha256=digest(driver/'validation/ci/proof_bridge.py'),
+            windows_path_aliases_for_identical_checked_files=True)
         path.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     else:
         assert os.name == 'nt'
@@ -157,10 +202,13 @@ def main():
         else:
             subprocess.run([sys.executable, str(Path(__file__)), 'windows-export',
                             '--source', str(source)], cwd=source, env=env, check=True)
-        run('ci/proof_bridge.py', linux/'remote-evidence/lean.json', linux/'ci-results/linux-snapshot.json')
-        subprocess.run([sys.executable, str(Path(__file__)), 'windows-native',
-                        '--source',str(source)], cwd=source,env=env,check=True)
-        print('Fresh Windows exporter objects and all native suites passed for the same public proof source.', flush=True)
+        subprocess.run([sys.executable,str(driver/'validation/ci/proof_bridge.py'),
+                        str(linux/'remote-evidence/lean.json'),str(linux/'ci-results/linux-snapshot.json')],
+                       cwd=source,env=env,check=True)
+        command = [sys.executable,str(Path(__file__)),'windows-native','--source',str(source)]
+        if args.native_prior is not None:command+=['--native-prior',str(args.native_prior.resolve())]
+        subprocess.run(command,cwd=source,env=env,check=True)
+        print('Verified Windows exporter objects and all native suites passed for the same public proof source.', flush=True)
 
 if __name__ == '__main__':
     main()

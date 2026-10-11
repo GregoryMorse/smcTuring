@@ -89,10 +89,16 @@ jobs:
           run-id: 38115827274
           github-token: ${{ github.token }}
           path: source/lean/.lake/proof-build
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: windows-native-evidence
+          run-id: 38117226865
+          github-token: ${{ github.token }}
+          path: prior-native
       - name: Fresh Windows exporter and native checks
         shell: pwsh
         run: |
-          python driver/validation/ci/native_recovery.py windows --source source --windows-prior prior-windows
+          python driver/validation/ci/native_recovery.py windows --source source --windows-prior prior-windows --native-prior prior-native
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

@@ -19,18 +19,23 @@ def bridge(report_path, snapshot_path):
     assert [d['name'] for d in declarations]==expected and len(expected)==len(set(expected))
     assert all(set(d['axioms'])<=ALLOWED for d in declarations)
     names = set(expected)
+    sources = dict(snapshot['sources'])
+    if os.name == 'nt':
+        # Legacy native validators use str(relative Windows Path). Keep the
+        # canonical manifest and add aliases for the identical checked files.
+        sources.update({str(Path(name)):sha for name,sha in snapshot['sources'].items()})
     contract = json.loads(Path(__file__).with_name('native-proof-contract.json').read_text(encoding='utf-8'))
     for group, required in contract['required_declaration_groups'].items():
         assert set(required)<=names, 'Missing positively audited native group: '+group
     result = dict(passed=True,scope='Complete Linux kernel/axiom evidence adapted for native test declaration lookup; NOT a Windows proof audit',
-                  toolchain=CHAIN,commit=COMMIT,version=report['version'],sources=snapshot['sources'],declarations=declarations,
+                  toolchain=CHAIN,commit=COMMIT,version=report['version'],sources=sources,declarations=declarations,
                   linux_report_sha256=digest(report_path),**contract['required_declaration_groups'],**contract['flags'])
     write(ROOT/'validation/lean.json',result)
     for stem, audit in [('cursor','AuditCursor.lean'),('input_update','AuditInputUpdate.lean')]:
         required = set(re.findall(r'^#print axioms (\S+)',(ROOT/'lean'/audit).read_text(encoding='utf-8'),re.M))
         assert required<=names
         write(ROOT/f'validation/{stem}_lean.json',dict(passed=True,scope='Linux complete audit subset for Windows native lookup; NOT a Windows proof audit',
-              toolchain=CHAIN,commit=COMMIT,sources=snapshot['sources'],declarations=[d for d in declarations if d['name'] in required],linux_report_sha256=digest(report_path)))
+              toolchain=CHAIN,commit=COMMIT,sources=sources,declarations=[d for d in declarations if d['name'] in required],linux_report_sha256=digest(report_path)))
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('report');p.add_argument('snapshot');args=p.parse_args()

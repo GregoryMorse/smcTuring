@@ -2,7 +2,7 @@
 import hashlib, json, os
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(os.environ.get('SMCTURING_SOURCE_ROOT', Path(__file__).resolve().parents[2])).resolve()
 VALIDATION = ROOT / 'validation'
 CHAIN = 'leanprover/lean4:v4.35.0-rc3'
 COMMIT = '470d5ce1400764999581fd26d5d72b00d990b0f4'
