@@ -23,9 +23,8 @@ Trial commit `7b0206dd6f1f97b832ab07aef4603b2c30e1cee1` explicitly required
 Plausible at Verso's revision in both Lake configurations and the manifest.
 The direct requirement followed Mathlib because Lake processes direct
 requirements in reverse order. It passed the manifest merger, but failed the
-complete renderer probe described below. This override has been reverted;
-the current dependency configurations and manifest are restored byte for byte
-from the previously verified source.
+complete renderer probe described below. This override was reverted before
+the subsequently approved alignment to a coherent Mathlib snapshot.
 
 [The complete upstream comparison](https://github.com/leanprover-community/plausible/compare/fb13df72ecefd8ddbf9291021d7f33a8673eb57b...afc2695efcb6855264d85a45632db1ddc56c8774)
 shows exactly one changed file, `.github/workflows/lean_action_ci.yml`, from two
@@ -33,8 +32,8 @@ CI-pinning commits. Every Lean source, Lake configuration, toolchain and other
 package file is identical. The trial changed the Git identity used by the
 dependency merger, with no change to the code consumed by Lean.
 
-Lean remains `leanprover/lean4:v4.35.0-rc3`, compiler
-`470d5ce1400764999581fd26d5d72b00d990b0f4`. Mathlib remains
+In the rejected override, Lean remained `leanprover/lean4:v4.35.0-rc3`, compiler
+`470d5ce1400764999581fd26d5d72b00d990b0f4`. Mathlib remained
 `302343bb9a029d4edab4f736703f0736896c1b64`. No project theorem, Challenge,
 Solution, Comparator declaration, native source or errata is modified.
 
@@ -101,7 +100,8 @@ and patched renderer SHA-256
 The report's `renderer_commit` is the base revision, not an assertion that
 Palomar ran the patch. Its separate repair receipt and workflow identify the
 modified code. A [ready PR description](../validation/ci/palomar-renderer-fix-pr.md)
-accompanies the exact patch; no upstream PR or issue comment has been posted.
+accompanies the exact patch. The optional upstream PR is now
+[open as #166](https://github.com/PalomarRegistry/PalomarSubmission/pull/166).
 
 ### Ordinary dependency alignment is also available
 
@@ -126,19 +126,28 @@ submitting that candidate. The user approved alignment to
 `5e043698502894993991089b2dd893867c0db5c2`. Both Lake configurations, the
 Lake-generated manifest, CI pins and dependency metadata now record this
 coherent snapshot. AGENTS.md retains the new pin. The unmodified merger and
-upstream manifest equality checks pass; fresh full proof, official mechanical
-and unmodified renderer checks are pending.
+upstream manifest equality checks pass. The
+[full unmodified render](https://github.com/GregoryMorse/smcTuring/actions/runs/38162124185)
+passes on `720a682c9e9185992200efd2a7467b2438704348`: both patch steps were
+skipped, all 8,941 cache archives downloaded and all eight selected declarations
+rendered into the sanitized HTML bundle. The validation-driver-only follow-up
+does not change any input consumed by rendering. Fresh full proof and official
+mechanical verification both pass on `a97fbd690b4051463a3b3fe86b5823823aa91bac`; see
+[the completed acceptance receipt](acceptance/palomar-render-compatibility.json).
 
 The proposed renderer repair is an alternative compatibility improvement that
 retains the exact previously verified Mathlib snapshot. The user authorized an
 optional upstream PR with the tested reproduction and restrictive regression
-coverage. Our submission route uses aligned dependencies and unmodified
+coverage. [PR #166](https://github.com/PalomarRegistry/PalomarSubmission/pull/166)
+is open with the unchanged tested patch and three new upstream regression
+methods. Five focused upstream tests and locked Ruff pass. Our submission
+route uses aligned dependencies and unmodified
 Palomar code. The patch does not alter Lean proofs or proof verification,
 but it is a proposed exception to the renderer's dependency identity check and
 must not be described as an unmodified Palomar run.
 
-Once a supported candidate passes proof and unmodified rendering checks, or
-Palomar deploys a compatible renderer for the existing pins, submit the commit and select
+The aligned candidate passes proof, mechanical and unmodified rendering checks.
+Use the exact commit in [the submission packet](PALOMAR_SUBMISSION.md) and select
 replacement of the earlier submission after GitHub authentication. Palomar's
 [replacement contract](https://github.com/PalomarRegistry/PalomarServer#the-state-a-submission-holds)
 closes the earlier record and admits the new record in one transaction. A
@@ -146,13 +155,5 @@ separate withdrawal or waiting for an abort is unnecessary. An existing
 Palomar ID remains blank because no result has been registered.
 
 Earlier proof/native acceptance receipts remain bound to their original sources.
-The formal proofs, native source, compiler/Mathlib pins and errata remain unchanged.
-
-Suggested follow-up for issue #131 (not posted by the agent):
-
-> We have a tested narrow fix for the Lean 4.35.0-rc3 Plausible conflict: retain
-> Mathlib's `afc2695…` pin and allow Verso's source-identical `fb13df7…` during
-> renderer merging. All 28 Lean files and other build inputs match; only a CI
-> workflow differs. The full patched renderer passes, including cache discovery
-> and all selected declarations. Could this repair be adopted? Reproduction:
-> https://github.com/GregoryMorse/smcTuring/actions/runs/38154282274.
+The project proof source, native source, Lean compiler and errata remain unchanged;
+Mathlib and its dependencies now use the approved coherent snapshot.

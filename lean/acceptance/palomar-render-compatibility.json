@@ -1,5 +1,5 @@
 {
-  "status": "aligned-mathlib-candidate-awaiting-fresh-verification",
+  "status": "ready-for-replacement-submission",
   "checked_on": "2026-10-11",
   "official_registry_renderer_updated": false,
   "official_resubmission_performed": false,
@@ -90,14 +90,19 @@
   "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
   "mathlib_revision": "5e043698502894993991089b2dd893867c0db5c2",
   "project_proof_native_and_errata_sources_unchanged_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
-  "dependency_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
-  "new_full_proof_or_native_audit": "not repeated; no source change",
+  "rejected_override_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
+  "new_full_proof_audit": "pass; cold verification with approved aligned Mathlib",
+  "new_native_audit": "not repeated; native source and compiler unchanged",
   "upstream_pr": {
     "approval_granted": true,
-    "opened": false,
+    "opened": true,
     "publication_on_hold": false,
     "optional_enhancement_not_submission_prerequisite": true,
-    "authorization": "User authorized opening as a solid enhancement, 2026-10-11"
+    "authorization": "User authorized opening as a solid enhancement, 2026-10-11",
+    "url": "https://github.com/PalomarRegistry/PalomarSubmission/pull/166",
+    "head_commit": "8bd6ef4cb8ddbb829b8857d2917e498c63946cc2",
+    "focused_upstream_tests_passed": 5,
+    "pinned_ruff": "0.16.2; both changed files pass"
   },
   "normal_dependency_alignment": {
     "compatible_official_mathlib_snapshots": [
@@ -117,8 +122,47 @@
       }
     ],
     "renderer_code": "unmodified upstream d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
-    "full_proof_verification": "pending on approved aligned candidate",
-    "full_html_render": "pending; original Palomar renderer, repair disabled",
+    "full_proof_verification": {
+      "status": "pass",
+      "source_commit": "a97fbd690b4051463a3b3fe86b5823823aa91bac",
+      "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38162641959",
+      "prior_preproof_driver_pin_failure": "https://github.com/GregoryMorse/smcTuring/actions/runs/38162122367",
+      "modules": 1152,
+      "declarations": 7976,
+      "freshly_compiled": 1152,
+      "reused": 0,
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "proof_report_sha256": "8b45bdf12c4a675ab1f3f1d7def3aebf283295dea4c05f2f377af5d0b3f4c300",
+      "snapshot_report_sha256": "9a4c15cbb09876ad4168ba462f9a9fea0304f93b0008ef586b87781197d0147b",
+      "resource_report_sha256": "6ebfec8768e42787cf6aff331e127237683bc55ba80ebacc6befc729c4ea0e64",
+      "memory_limit_bytes": 7499997184,
+      "sampled_peak_cgroup_memory_bytes": 7499997184,
+      "errata_report_sha256": "1b35edecb3d55ae08faf48e862489ea40b139fcaef089fa22a3981a61622e778"
+    },
+    "full_html_render": {
+      "status": "pass",
+      "source_commit": "720a682c9e9185992200efd2a7467b2438704348",
+      "renderer_code_modified": false,
+      "proposed_patch_steps": "skipped",
+      "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38162124185",
+      "report_sha256": "354eb70335fa07c90948484021cfd2b002508ad8f93b9680774dd6cf85836d7a",
+      "artifact_tree_sha256": "f1271a81f16ab53f83e6a38fd8943daa2cc7039b750517d13ae76fdea378bd7e",
+      "entrypoint": "Challenge/index.html",
+      "selected_declarations_checked": 8,
+      "mathlib_cache": {
+        "bytes": 452347870,
+        "downloaded": 8941,
+        "requested": 8941
+      },
+      "prepared_at": "2026-10-11T18:02:29Z",
+      "rendered_at": "2026-10-11T18:07:53Z",
+      "same_render_inputs_as_current_proof_candidate": "a97fbd690b4051463a3b3fe86b5823823aa91bac",
+      "advisory_not_registry_acceptance": true
+    },
     "mathlib_pin_change_approval": "explicit user approval, 2026-10-11",
     "current_project_mathlib_pin_unchanged": false,
     "nearest_snapshot_complete_tree_comparison": {
@@ -148,9 +192,30 @@
       "all_transitive_packages_match_upstream_manifest": true,
       "unmodified_renderer_merger": "pass",
       "compiler_and_project_proof_sources_unchanged": true,
-      "full_proof_and_render_checks": "pending"
+      "full_proof_and_render_checks": "pass"
     },
-    "official_mechanical_verification": "pending on approved aligned candidate"
+    "official_mechanical_verification": {
+      "status": "pass",
+      "source_commit": "a97fbd690b4051463a3b3fe86b5823823aa91bac",
+      "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38163151000",
+      "report_sha256": "296e18d224d2b2cdcf4b3f3d3a018f758e53040f56802dce3a4d69eef1336038",
+      "report_path": "lean/acceptance/palomar-aligned-mechanical-report.json",
+      "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+      "warnings": [
+        "configured Challenge source exceeds the preferred 32 KiB / 300-line review surface"
+      ],
+      "challenge_lines": 984
+    }
   },
-  "previous_mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64"
+  "previous_mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64",
+  "replacement_source_commit": "a97fbd690b4051463a3b3fe86b5823823aa91bac",
+  "retained_native_acceptance": {
+    "source_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+    "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38118165923",
+    "status": "pass",
+    "suites": 21,
+    "baseline_configurations": 4,
+    "native_sources_unchanged": true,
+    "fresh_aligned_proof_audit_includes_native_formal_bindings": true
+  }
 }
