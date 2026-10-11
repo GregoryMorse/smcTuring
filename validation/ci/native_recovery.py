@@ -91,6 +91,16 @@ def main():
         assert os.name == 'nt'
         linux = source/'linux-evidence'
         assert digest(linux/'remote-evidence/lean.json') == PROOF_SHA
+        # Check cross-platform checkout identity before installing or compiling.
+        sys.path.insert(0, str(source/'validation/ci'))
+        from common import inputs
+        snapshot = json.loads((linux/'ci-results/linux-snapshot.json').read_text(encoding='utf-8'))
+        current = inputs()
+        differences = {n:dict(linux=snapshot['sources'].get(n),windows=current.get(n))
+                       for n in snapshot['sources'].keys() | current.keys()
+                       if snapshot['sources'].get(n) != current.get(n)}
+        assert not differences, 'Source checkout mismatch: '+json.dumps(differences,sort_keys=True)
+        print('Exact Linux/Windows checkout identity passed before bootstrap.',flush=True)
         run('ci/bootstrap.py')
         subprocess.run([sys.executable, str(Path(__file__)), 'windows-export',
                         '--source', str(source)], cwd=source, env=env, check=True)

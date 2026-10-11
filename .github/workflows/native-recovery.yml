@@ -56,7 +56,9 @@ jobs:
     steps:
       - name: Preserve exact source bytes
         shell: pwsh
-        run: git config --global core.autocrlf false
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           path: driver
@@ -88,3 +90,10 @@ jobs:
             source/validation/ci-results
             source/validation/*.json
             source/validation/.build
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: windows-exporter-cache
+          include-hidden-files: true
+          if-no-files-found: warn
+          path: source/lean/.lake/proof-build
