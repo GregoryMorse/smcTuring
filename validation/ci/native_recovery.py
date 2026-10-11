@@ -1,5 +1,5 @@
 """Finish errata/native acceptance for the unchanged, already compiled public proof."""
-import argparse, json, os, shutil, subprocess, sys
+import argparse, json, os, runpy, shutil, subprocess, sys, tomllib, types
 from pathlib import Path
 
 SOURCE_COMMIT = '1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4'
@@ -8,7 +8,7 @@ PROOF_SHA = '078d3b80124d05e98ca2dcaa9e52cb105c087e89b4350dc696c9f9187b5baf2d'
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('phase', choices=['linux', 'windows'])
+    parser.add_argument('phase', choices=['linux', 'windows', 'windows-export'])
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--prior', type=Path)
     args = parser.parse_args()
@@ -58,12 +58,42 @@ def main():
         snapshot['runtime_audit_provider'] = dict(path='validation/checkpoint_common.py', sha256=digest(driver/'validation/checkpoint_common.py'))
         snapshot_path.write_text(json.dumps(snapshot, indent=2)+'\n', encoding='utf-8')
         print('Unchanged complete public proof audit retained; errata and Linux snapshot passed. No theorem rebuilt.', flush=True)
+    elif args.phase == 'windows-export':
+        assert os.name == 'nt'
+        # The immutable release omitted only two library registrations in its
+        # alternate cache configuration. No submitted file is rewritten. The
+        # exporter compiles named source files directly, with explicit options.
+        canonical = tomllib.loads((source/'lean/lakefile.toml').read_text(encoding='utf-8'))
+        proof = tomllib.loads((source/'lean/lakefile.proof.toml').read_text(encoding='utf-8'))
+        assert proof.pop('buildDir') == '.lake/proof-build'
+        assert canonical['lean_lib'] == [{'name': n} for n in ['SmcTuring','Challenge','Solution']]
+        assert proof['lean_lib'] == [{'name': 'SmcTuring'}]
+        canonical['lean_lib'] = proof['lean_lib']
+        assert canonical == proof, 'Unexpected frozen build-configuration difference'
+        provider = types.ModuleType('lean_build')
+        def frozen_command(project, binary):
+            assert project.resolve() == (source/'lean').resolve()
+            return [str(binary/'lake.exe'), '--file', 'lakefile.proof.toml']
+        provider.lake_command = frozen_command
+        sys.modules['lean_build'] = provider
+        sys.path[:0] = [str(source/'validation/ci'), str(source/'validation')]
+        runpy.run_path(str(source/'validation/ci/windows_exports.py'), run_name='__main__')
+        path = source/'validation/ci-results/windows-exports.json'
+        record = json.loads(path.read_text(encoding='utf-8'))
+        record['frozen_configuration_recovery'] = dict(
+            omitted_library_registrations=['Challenge','Solution'],
+            all_other_configuration_fields_identical=True,
+            source_files_modified=False,
+            direct_compiler_options={'autoImplicit':False},
+            runtime_driver_sha256=digest(Path(__file__)))
+        path.write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
     else:
         assert os.name == 'nt'
         linux = source/'linux-evidence'
         assert digest(linux/'remote-evidence/lean.json') == PROOF_SHA
         run('ci/bootstrap.py')
-        run('ci/windows_exports.py')
+        subprocess.run([sys.executable, str(Path(__file__)), 'windows-export',
+                        '--source', str(source)], cwd=source, env=env, check=True)
         run('ci/proof_bridge.py', linux/'remote-evidence/lean.json', linux/'ci-results/linux-snapshot.json')
         run('ci/windows_native.py')
         print('Fresh Windows exporter objects and all native suites passed for the same public proof source.', flush=True)
