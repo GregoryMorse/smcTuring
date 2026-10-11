@@ -1,0 +1,150 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/99c678e569c7c4c0772db297c5ddd5e4c9b6322e/schema/v0.4.schema.json
+version: "v0.4"
+project:
+  name: "Pure infinitely self-modifying code: a Lean formalization with minimal errata"
+  description: >-
+    Formalizes the corrected construction of pure infinitely self-modifying code
+    from Gregory Morse's 2018 paper. An unbounded integer-address machine
+    simulates finite Turing machines, preserves halting and divergence, writes
+    code at every computational instruction, and admits a run changing unboundedly
+    many fetched code fields. The development includes a four-register MOV
+    foundation, effective finite-machine interpretation, tape and head observations,
+    and conditional bounded x86/x64 instruction, relocation and native-trace
+    refinements. Finite hardware is not claimed to have unbounded memory.
+  authors: ["Gregory Morse"]
+  responsible_maintainers: ["Gregory Morse"]
+  license: "CC0-1.0"
+classification:
+  arxiv: ["cs.LO"]
+  msc2020: ["03D10", "68N30"]
+sources:
+  - title: "Pure Infinitely Self-Modifying Code is Realizable and Turing-complete"
+    authors: ["Gregory Morse"]
+    type: "paper"
+    id: "doi:10.24425/119359"
+    location: "https://ijet.ise.pw.edu.pl/index.php/ijet/article/view/10.24425-119359"
+    relationship: "adapts"
+    author_endorsement: "participated"
+    note: >-
+      IJET 64(2), 123-129 (2018). Formalizes the intended construction with
+      exact minimal corrections M01-M20 in errata/morse-2018-errata.tex,
+      errata/morse-2018-minimal.diff and errata/edits.json. The original paper
+      remains a separately licensed cited source, not a new mathematical result.
+  - title: "mov is Turing-complete"
+    authors: ["Stephen Dolan"]
+    type: "paper"
+    id: "https://www.cl.cam.ac.uk/~sd601/papers/mov.pdf"
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+    note: >-
+      Cambridge Computer Laboratory (2013), Sections 2-6. MOV simulation
+      uses a static body, four registers and one unconditional loop backedge.
+      It is a foundation rather than a pure-SMC construction. The disclosed
+      mathematical address model returns zero for invalid reads.
+  - title: "Certified Self-Modifying Code"
+    authors: ["Hongxu Cai", "Zhong Shao", "Alexander Vaynberg"]
+    type: "paper"
+    id: "https://flint.cs.yale.edu/shao/papers/smc.html"
+    location: "https://flint.cs.yale.edu/shao/papers/smc.html"
+    relationship: "background"
+    note: >-
+      PLDI 2007, 66-77. Context for verification of mutable machine code;
+      its separation-logic system and soundness theorem are not formalized here.
+  - title: "A Model for Self-Modifying Code"
+    authors: ["Bertrand Anckaert", "Matias Madou", "Koen De Bosschere"]
+    type: "paper"
+    id: "doi:10.1007/978-3-540-74124-4_16"
+    location: "https://biblio.ugent.be/publication/750330"
+    relationship: "background"
+    note: >-
+      Information Hiding, LNCS 4437, 232-248 (2007). Context for code
+      analysis and obfuscation; its state-enhanced control-flow graph is not
+      the machine model used by the principal formalized theorem.
+related_formalizations:
+  - id: "https://flint.cs.yale.edu/shao/papers/smc.html"
+    relationship: "other"
+    note: >-
+      Cai, Shao and Vaynberg provide an earlier Coq formalization of a logic
+      for general self-modifying code. This development does not use that
+      implementation or claim to replace it; its pure-SMC universality
+      construction is a different result.
+  - id: "https://github.com/leanprover-community/mathlib4/tree/302343bb9a029d4edab4f736703f0736896c1b64/Mathlib/Computability"
+    relationship: "builds-on"
+    note: >-
+      Uses the pinned Mathlib computability/Turing-machine development and proves
+      effective finite-machine and TM0 representation bridges. This is a dependency
+      relationship; no claim to be the first formalization of these background notions.
+status:
+  scope: >-
+    The selected Palomar record covers the principal mathematical result,
+    its four result definitions, the integer encoding injection and code-field
+    ownership declarations. Native and COFF proofs remain supporting material
+    in the same source development; they are not selected registered claims.
+    The substantive proof development is in SmcTuring/. FINAL_THEOREM_MAP.md
+    lists the proved result families. The ideal model uses unbounded integer
+    addresses and values. Bounded native realization has explicit alphabet,
+    byte-capacity and signed-relative-reach conditions. Conditional physical
+    refinement assumes a present normalized object/entry agreement and a local
+    ISA contract: coherent fetch, flat segments, CET disabled, stable mapping
+    and compatible ABI. These assumptions are disclosed, not a verified CPU/OS.
+    Logical head observation is before cleanup; full seeded AX restoration is
+    at the epilogue boundary, with the M20 x64 trailing-declaration effect.
+    No physical RET/OS stopping theorem, performance guarantee, or finite
+    hardware unboundedness is asserted. Comparator registration covers only
+    the declarations actually selected in comparator.json; other checked
+    theorems are supporting evidence and must not be presented as registered.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+automation:
+  methods:
+    - method: "agent"
+      models: ["GPT-6.1-Sol"]
+      framework: "OpenAI Codex"
+      tool_setup: >-
+        Agent-generated Lean proofs, source alignment and minimal errata,
+        native C++/MASM validators, source/axiom/artifact manifests and CI.
+        The named model is observed in the final server session; earlier model
+        identities are not exhaustively reconstructed.
+      prompting_notes: >-
+        Human-directed complete formalization, exact minimal paper corrections,
+        positive proof obligations, immutable passing turn-end checkpoints,
+        seven deliverable rounds, pinned compiler/dependencies, no custom
+        axioms or admitted Solution proofs, and no redundant finished-proof rebuilds.
+  spend_usd: "subscription-based; exact cost not tracked"
+  notes: >-
+    Gregory Morse supplied the published construction, original native source,
+    intended claims, correction policy and project direction. Codex produced
+    substantial formalization and validation code. Lean kernel/axiom audits
+    and native tests are mechanical evidence, not independent human peer review.
+fidelity:
+  divergences: >-
+    The exact changes are M01-M20, including DEFADDR's third mnemonic,
+    instruction-level purity wording, explicit unbounded theoretical model,
+    native width/layout/control corrections, pre-cleanup head observation,
+    and the precise x64 AX-restoration boundary. Each has exact source excerpts
+    and positive proof references; see ERRATA.md and ../validation/audit_errata.py.
+    Dolan's MOV result retains its unconditional loop backedge and is separate
+    from pure SMC. Physical ISA/OS behavior outside the disclosed contract is
+    not formalized. No further source mismatch is claimed absent after an
+    unspecified universal review; the scoped alignment evidence is recorded
+    in FINAL_THEOREM_MAP.md and the Palomar semantic audit.
+review:
+  status: "agent-reviewed"
+  reviewers: ["OpenAI Codex (automated source and proof audit)"]
+  notes: >-
+    Before submission, the agent checked source alignment, exact corrections,
+    standard-axiom closure and checkpoint provenance. One cold Linux replay
+    checked 1151 production modules and 7975 declarations at checkpoint
+    08f0a594f691cb0f131a72c81dbcbd79b5667a20. This is not independent human
+    mathematical review. Protected Comparator, NanoDa and Lean kernel replay
+    subsequently accepted the selected four theorem and four definition names;
+    the comparison log has SHA-256
+    98a500a79fcee09149537c9bab421b14d8cd93be56be6e82ddf522d1703882b6.
+    The principal wrapper uses the existing individual mathematical proofs.
+    The four deliberate Challenge theorem holes are excluded from the zero
+    Solution/development hole count. Official full public-commit preflight,
+    native release CI and Palomar editorial review remain separate pending gates.
+acknowledgements: >-
+  Stephen Dolan for the MOV construction; the Lean and Mathlib contributors
+  for the proof assistant and computability library; Codex for agent assistance.

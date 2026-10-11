@@ -1,0 +1,22 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "PalomarSMC.mathematical_result",
+    "SmcTuring.Dolan.Encoding.zigzag_injective",
+    "SmcTuring.SMC.Concrete.data_owner",
+    "SmcTuring.SMC.Concrete.metadata_owner"
+  ],
+  "definition_names": [
+    "SmcTuring.CorrectedPaper.Unbounded",
+    "SmcTuring.CorrectedPaper.FourMov",
+    "SmcTuring.CorrectedPaper.EffectiveInterpreter",
+    "SmcTuring.CorrectedPaper.Observations"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

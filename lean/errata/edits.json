@@ -1,0 +1,500 @@
+{
+  "source": "validation/.cache/morse-2018.pdf",
+  "source_sha256": "adf6d155c941770228d416ba16ef6dc4196420739034747e1ba57361bdda1a6e",
+  "edits": [
+    {
+      "id": "M01",
+      "page": 124,
+      "location": "Listing 2, DEFADDR, third instruction",
+      "kind": "replace",
+      "before": "mov acmltr, [acmltr]",
+      "after": "xchg acmltr, [acmltr]"
+    },
+    {
+      "id": "M02a",
+      "page": 123,
+      "location": "Section I, definition",
+      "kind": "replace",
+      "before": "always modifies code instructions in memory in every statement",
+      "after": "writes to code memory in every executed computational instruction"
+    },
+    {
+      "id": "M02b",
+      "page": 123,
+      "location": "Section II, after first paragraph",
+      "kind": "insert_after",
+      "before": "This practical choice is supported by the potential obfuscation uses of such self-modifying code.",
+      "after": "Unboundedness and Turing-completeness refer to an idealized machine with unbounded memory and addresses; arbitrarily large addresses may be represented by finite variable-length operands. The x86 and x86-64 listings give bounded realizations of this model."
+    },
+    {
+      "id": "M03",
+      "page": 127,
+      "location": "Prose after Listing 8, opening clause",
+      "kind": "replace",
+      "before": "The machine executes every single instruction at least once",
+      "after": "The machine writes to an instruction field in every executed computational instruction"
+    },
+    {
+      "id": "M04",
+      "page": 125,
+      "location": "After Listing 2, before comparison paragraph",
+      "kind": "insert_before",
+      "before": "Further operations are needed for the sake of Turing completeness so next comparison is considered.",
+      "after": "OP64 and USEWORDOP64 apply operations to corresponding 32-bit halves. Their MOV, XOR, AND, OR and NOT forms have the corresponding whole-word meaning; in OP64's immediate form, data is replicated in both halves. Independent half-word ADD or SUB gives whole-word arithmetic only when carry or borrow is absent; otherwise it must be propagated. DWORD helpers restore EAX; in 64-bit mode their final RAX is the zero extension of EAX. Full RAX restoration assumes a zero-extended entry RAX."
+    },
+    {
+      "id": "M05a",
+      "page": 128,
+      "location": "Listing 10, parameter list",
+      "kind": "replace",
+      "before": "DoBranch(x, y, not, gt, sign)",
+      "after": "DoBranch(x, y, target, not, gt, sign)"
+    },
+    {
+      "id": "M05b",
+      "page": 129,
+      "location": "Listing 10, displacement immediate",
+      "kind": "replace",
+      "before": "mov [lbl0+IMMOFFS], x-lbl2-OPSZ1-PTRSZ",
+      "after": "mov [lbl0+IMMOFFS], target-lbl2-OPSZ1-PTRSZ"
+    },
+    {
+      "id": "M05c",
+      "page": 128,
+      "location": "Listing 10, precondition after caption",
+      "kind": "insert_after",
+      "before": "Listing 10. 32-bit Conditional branching",
+      "after": "x, y, lbl0+IMMOFFS, lbl1+IMMOFFS and lbl2+OPSZ1 occupy pairwise disjoint complete instruction-operand words; the taken and fall-through entries use matching JUMPTARGET continuations. The bracketed CALL retains MASM NEAR-code-label typing."
+    },
+    {
+      "id": "M06a",
+      "page": 125,
+      "location": "Listing 3, declared mask parameter",
+      "kind": "replace",
+      "before": "sbb [maskptr], 0",
+      "after": "sbb [datamaskptr], 0"
+    },
+    {
+      "id": "M06b",
+      "page": 127,
+      "location": "Listing 8, operand offset spelling",
+      "kind": "replace",
+      "before": "inpdir + IMMOFS, OPDBLARGSZ",
+      "after": "inpdir + IMMOFFS, OPDBLARGSZ"
+    },
+    {
+      "id": "M06c",
+      "page": 129,
+      "location": "Listing 12, counter initialization offset",
+      "kind": "replace",
+      "before": "mov [lbl6+IMMOFSS], 32",
+      "after": "mov [lbl6+IMMOFFS], 32"
+    },
+    {
+      "id": "M07a",
+      "page": 129,
+      "location": "Listing 11, delta destination",
+      "kind": "replace",
+      "before": "mov [lbl1]",
+      "after": "mov [lbl1+IMMOFFS]"
+    },
+    {
+      "id": "M07b",
+      "page": 129,
+      "location": "Listing 11, exit displacement",
+      "kind": "replace",
+      "before": "($-lbl9)-($-lbl3-OPSZ1-PTRSZ)",
+      "after": "lbl9-lbl3-OPSZ1-PTRSZ"
+    },
+    {
+      "id": "M07c",
+      "page": 129,
+      "location": "Listing 11, first unnamed continuation",
+      "kind": "replace",
+      "before": "JUMPTARGET()",
+      "after": "JUMPTARGET(lblbody)",
+      "occurrence": 1
+    },
+    {
+      "id": "M07d",
+      "page": 129,
+      "location": "Listing 11, second unnamed continuation",
+      "kind": "replace",
+      "before": "JUMPTARGET()",
+      "after": "JUMPTARGET(lbl9)",
+      "occurrence": 2
+    },
+    {
+      "id": "M08a",
+      "page": 125,
+      "location": "Listing 6, NLZ definition",
+      "kind": "replace",
+      "before": "NLZ(value): Binary Number of Leading Zeros",
+      "after": "NLZ(value): Binary Number of Trailing Zeros"
+    },
+    {
+      "id": "M08b",
+      "page": 125,
+      "location": "Listing 6, shift immediately before while",
+      "kind": "replace",
+      "before": "shl SZW32 ptr [dataptr], NLZ(val) while ((val = (val >> (NLZ(val) + 1))) != 0)",
+      "after": "shl SZW32 ptr [dataptr], NLZ(val) + 1 while ((val = (val >> (NLZ(val) + 1))) != 0)"
+    },
+    {
+      "id": "M08c",
+      "page": 125,
+      "location": "Listing 6, shift immediately before loop",
+      "kind": "replace",
+      "before": "shl SZW32 ptr [dataptr], NLZ(val) loop",
+      "after": "shl SZW32 ptr [dataptr], NLZ(val) + 1 loop"
+    },
+    {
+      "id": "M08d",
+      "page": 125,
+      "location": "Listing 6, constant-emitter contract after caption",
+      "kind": "insert_after",
+      "before": "Listing 6. Further examples presented to reinforce and strengthen the concept",
+      "after": "Treat val as an unsigned 32-bit pattern (signed multiplication retains the low 32-bit product); compile-time logical shifts may consume all 32 bits. For val=0 emit mov SZW32 ptr [dataptr], 0; omit an initial shift by zero, and use distinct complete code-operand words for dataptr and the final ADD immediate."
+    },
+    {
+      "id": "M09",
+      "page": 125,
+      "location": "Listing 6, DEFZERO complete DWORD immediate",
+      "kind": "replace",
+      "before": "labelname: xor [labelname + IMMOFFS], 0",
+      "after": "labelname: xor SZW32 ptr [labelname + IMMOFFS], CNSTFRC32"
+    },
+    {
+      "id": "M10a",
+      "page": 125,
+      "location": "Listing 5, initial cursor operand",
+      "kind": "replace",
+      "before": "xchg gsi, [sourceinit]",
+      "after": "xchg gsi, [source + DATAOFFS]",
+      "occurrence": 1,
+      "listing": 5
+    },
+    {
+      "id": "M10b",
+      "page": 125,
+      "location": "Listing 5, initial cursor operand",
+      "kind": "replace",
+      "before": "xchg gdi, [destinit]",
+      "after": "xchg gdi, [dest + DATAOFFS]",
+      "occurrence": 1,
+      "listing": 5
+    },
+    {
+      "id": "M10c",
+      "page": 125,
+      "location": "Listing 5, restoring cursor operand",
+      "kind": "replace",
+      "before": "xchg gsi, [sourceinit]",
+      "after": "xchg gsi, [source + DATAOFFS]",
+      "occurrence": 2,
+      "listing": 5
+    },
+    {
+      "id": "M10d",
+      "page": 125,
+      "location": "Listing 5, restoring subtraction cursor operand",
+      "kind": "replace",
+      "before": "sub [sourceinit], size",
+      "after": "sub [source + DATAOFFS], size"
+    },
+    {
+      "id": "M10e",
+      "page": 125,
+      "location": "Listing 5, restoring cursor operand",
+      "kind": "replace",
+      "before": "xchg gdi, [destinit]",
+      "after": "xchg gdi, [dest + DATAOFFS]",
+      "occurrence": 2,
+      "listing": 5
+    },
+    {
+      "id": "M10f",
+      "page": 125,
+      "location": "Listing 5, restoring subtraction cursor operand",
+      "kind": "replace",
+      "before": "sub [destinit], size",
+      "after": "sub [dest + DATAOFFS], size"
+    },
+    {
+      "id": "M10g",
+      "page": 125,
+      "location": "Listing 5, cursor offset and copy preconditions",
+      "kind": "insert_after",
+      "before": "Listing 5. Data transfer",
+      "after": "DATAOFFS is IMMOFFS in 32-bit mode and zero in 64-bit mode. TRANSFERDATA requires DF=0, complete disjoint source/destination regions and cursor words, and representable pointers and subtraction size."
+    },
+    {
+      "id": "M10h",
+      "page": 126,
+      "location": "Listing 6, explicit TRANSFERDATA cursor labels",
+      "kind": "replace",
+      "before": "TRANSFERDATA(codeblueprint, codedest, codesize)",
+      "after": "TRANSFERDATA(srcptr, OFFSET codeblueprint, dstptr, OFFSET codedest, codesize)"
+    },
+    {
+      "id": "M11a",
+      "page": 129,
+      "location": "Listing 12, signed divisor initialization",
+      "kind": "replace",
+      "before": "mov [lbl11+IMMOFFS], acmltr",
+      "after": "mov [lbl13+IMMOFFS], acmltr"
+    },
+    {
+      "id": "M11b",
+      "page": 129,
+      "location": "Listing 12, exit displacement",
+      "kind": "replace",
+      "before": "($-lbl19)-($-lbl10-OPSZ1-PTRSZ)",
+      "after": "lbl19-lbl10-OPSZ1-PTRSZ"
+    },
+    {
+      "id": "M11c",
+      "page": 129,
+      "location": "Listing 12, body continuation label",
+      "kind": "replace",
+      "before": "JUMPTARGET(lbl10)",
+      "after": "JUMPTARGET(lbldivbody)"
+    },
+    {
+      "id": "M11d",
+      "page": 129,
+      "location": "Listing 12, final CALL reset operand",
+      "kind": "replace",
+      "before": "mov [lbl10+IMMOFFS], 0",
+      "after": "mov [lbl10+OPSZ1], 0"
+    },
+    {
+      "id": "M11e",
+      "page": 129,
+      "location": "Listing 12, division contract after caption",
+      "kind": "insert_after",
+      "before": "Listing 12. 32-bit Long Division",
+      "after": "Require y!=0, distinct complete operand and scratch words, and the existing code-backed stack contract. Signed division truncates toward zero and signed remainder has the dividend sign; for a mathematical signed quotient exclude MIN_INT/-1."
+    },
+    {
+      "id": "M12a",
+      "page": 125,
+      "location": "Listing 2, DOHALT instruction",
+      "kind": "replace",
+      "before": "mov [$], 0",
+      "after": "mov SZW32 ptr [$+IMMOFFS], 0"
+    },
+    {
+      "id": "M12b",
+      "page": 125,
+      "location": "After Listing 2, terminal-marker contract",
+      "kind": "insert_after",
+      "before": "mov [$], 0",
+      "after": "Observe termination immediately after this marker; host stopping and output handling lie outside the pure computation."
+    },
+    {
+      "id": "M13",
+      "page": 127,
+      "location": "Listing 8, input-symbol USEWORD32 source operand",
+      "kind": "replace",
+      "before": "USEWORD32((mov [inputupdate + REGIMMOFFS], acmltr32) , curinputval)",
+      "after": "USEWORD32((mov [inputupdate + REGIMMOFFS], acmltr32) , curinputval + IMMOFFS)"
+    },
+    {
+      "id": "M14",
+      "page": 127,
+      "location": "Listing 8, DWORD scalar owner declaration",
+      "kind": "replace",
+      "before": "DEFDATA(0, curtinputval)",
+      "after": "DEFDATA32(curtinputval, 0)"
+    },
+    {
+      "id": "M15a",
+      "page": 127,
+      "location": "Listing 8, ttapevalmask mask-copy source and source stride",
+      "kind": "replace",
+      "before": "USEWORDOP64(mov, ttapevalmask + IMMOFFS, OPDBLARGSZ, inputvalmask, IMMOFFS)",
+      "after": "USEWORDOP64(mov, ttapevalmask + IMMOFFS, OPDBLARGSZ, inputvalmask + IMMOFFS, 0)"
+    },
+    {
+      "id": "M15b",
+      "page": 127,
+      "location": "Listing 8, inpdirmask mask-copy source and source stride",
+      "kind": "replace",
+      "before": "USEWORDOP64(mov, inpdirmask + IMMOFFS, OPDBLARGSZ, inputvalmask, IMMOFFS)",
+      "after": "USEWORDOP64(mov, inpdirmask + IMMOFFS, OPDBLARGSZ, inputvalmask + IMMOFFS, 0)"
+    },
+    {
+      "id": "M16a",
+      "page": 126,
+      "location": "Listing 7, generalized input-node interface used by Listing 8",
+      "kind": "replace",
+      "before": "DEFINPUT(Index, tapeval)",
+      "after": "DEFINPUT(Index, tapeval, backptrval, fwdptrval)"
+    },
+    {
+      "id": "M16b",
+      "page": 126,
+      "location": "Listing 7, generalized input-node neighbor owners",
+      "kind": "insert_after",
+      "before": "DEFDATA32(itape&Index&, tapeval)",
+      "after": "DEFADDR(itapebptr&Index&, backptrval) DEFADDR(itapefptr&Index&, fwdptrval)"
+    },
+    {
+      "id": "M16c",
+      "page": 127,
+      "location": "Listing 8, input-node TRANSFERDATA complete extent",
+      "kind": "replace",
+      "before": "OFFSET curitape, OPDBLARGSZ",
+      "after": "OFFSET curitape, curttapeentry - curitape"
+    },
+    {
+      "id": "M16d",
+      "page": 127,
+      "location": "Listing 8, input-node end / transition entry boundary",
+      "kind": "insert_before",
+      "before": "DEFADDR(curttape, 0)",
+      "after": "curttapeentry:"
+    },
+    {
+      "id": "M17a",
+      "page": 127,
+      "location": "Listing 8, transition TRANSFERDATA destination and complete extent",
+      "kind": "replace",
+      "before": "OFFSET curtape, TSZ",
+      "after": "OFFSET curttapeentry, curttapeend - curttapeentry"
+    },
+    {
+      "id": "M17b",
+      "page": 127,
+      "location": "Listing 8, transition prototype end boundary",
+      "kind": "insert_after",
+      "before": "DEFADDR(usettapeval, 0)",
+      "after": "curttapeend:"
+    },
+    {
+      "id": "M18a",
+      "page": 127,
+      "location": "Listing 8, current transition cursor write",
+      "kind": "replace",
+      "before": "USEWORD((mov [curttapeinit], acmltr), curttape)",
+      "after": "USEWORD((mov [curttapeinit + DATAOFFS], acmltr), curttape)"
+    },
+    {
+      "id": "M18b",
+      "page": 127,
+      "location": "Listing 8, input cursor exchange",
+      "kind": "replace",
+      "before": "xchg acmltr, [curitapeinit]",
+      "after": "xchg acmltr, [curitapeinit + DATAOFFS]",
+      "occurrence": 1,
+      "listing": 8
+    },
+    {
+      "id": "M18c",
+      "page": 127,
+      "location": "Listing 8, input cursor exchange",
+      "kind": "replace",
+      "before": "xchg acmltr, [curitapeinit]",
+      "after": "xchg acmltr, [curitapeinit + DATAOFFS]",
+      "occurrence": 2,
+      "listing": 8
+    },
+    {
+      "id": "M18d",
+      "page": 127,
+      "location": "Listing 8, direction difference source",
+      "kind": "replace",
+      "before": "curitapeinit, PTRSZ32)",
+      "after": "curitapeinit + DATAOFFS, PTRSZ32)"
+    },
+    {
+      "id": "M18e",
+      "page": 127,
+      "location": "Listing 8, head cursor update",
+      "kind": "replace",
+      "before": "inpdir: OP64(xor, curitapeinit, PTRSZ32, CNSTFRC32)",
+      "after": "inpdir: OP64(xor, curitapeinit + DATAOFFS, PTRSZ32, CNSTFRC32)"
+    },
+    {
+      "id": "M18f",
+      "page": 127,
+      "location": "Listing 8, failure comparison cursor operands",
+      "kind": "replace",
+      "before": "USEWORD(COMPARE(acmltr, curttapeinit, ttapefail + IMMOFFS, false, true), itapeptr)",
+      "after": "USEWORD(COMPARE(acmltr, curttapeinit + DATAOFFS, ttapefail + IMMOFFS, false, true), itapeptr + DATAOFFS)"
+    },
+    {
+      "id": "M18g",
+      "page": 127,
+      "location": "Listing 8, failure head reset operands",
+      "kind": "replace",
+      "before": "USEWORD((mov [curitapeinit], acmltr), itapeptr)",
+      "after": "USEWORD((mov [curitapeinit + DATAOFFS], acmltr), itapeptr + DATAOFFS)"
+    },
+    {
+      "id": "M18h",
+      "page": 127,
+      "location": "Listing 8, failure transition reset operands",
+      "kind": "replace",
+      "before": "USEWORD((mov [curttapeinit], acmltr), ttapeptrinit)",
+      "after": "USEWORD((mov [curttapeinit + DATAOFFS], acmltr), ttapeptrinit + DATAOFFS)"
+    },
+    {
+      "id": "M19a",
+      "page": 127,
+      "location": "Listing 8, pending transition pointer copy",
+      "kind": "replace",
+      "before": "USEWORDOP64(mov, ttapeupdate, PTRSZ32, curttapeinit, PTRSZ32)",
+      "after": "USEWORDOP64(mov, ttapeupdate + IMMOFFS, OPDBLARGSZ, curttapeinit + DATAOFFS, PTRSZ32)"
+    },
+    {
+      "id": "M19b",
+      "page": 127,
+      "location": "Listing 8, transition cursor update operands",
+      "kind": "replace",
+      "before": "ttapeupdate: OP64(xor, curttapeinit + IMMOFFS, OPDBLARGSZ, CNSTFRC32)",
+      "after": "ttapeupdate: OP64(xor, curttapeinit + DATAOFFS, PTRSZ32, CNSTFRC32)"
+    },
+    {
+      "id": "M20a",
+      "page": 127,
+      "location": "Listing 9, entry store operand",
+      "kind": "replace",
+      "before": "[acmltrsave], acmltr",
+      "after": "[acmltrsave + DATAOFFS], acmltr"
+    },
+    {
+      "id": "M20b",
+      "page": 127,
+      "location": "Listing 9, first epilogue exchange",
+      "kind": "replace",
+      "before": "xchg acmltr, [acmltrptrsave]",
+      "after": "xchg acmltr, [acmltrptrsave + DATAOFFS]"
+    },
+    {
+      "id": "M20c",
+      "page": 127,
+      "location": "Listing 9, epilogue pointer store",
+      "kind": "replace",
+      "before": "mov [acmltrptrsave], acmltr",
+      "after": "mov [acmltrptrsave + DATAOFFS], acmltr"
+    },
+    {
+      "id": "M20d",
+      "page": 127,
+      "location": "Listing 9, final epilogue exchange",
+      "kind": "replace",
+      "before": "xchg acmltr, [acmltrsave]",
+      "after": "xchg acmltr, [acmltrsave + DATAOFFS]"
+    },
+    {
+      "id": "M20e",
+      "page": 127,
+      "location": "Listing 9, pointer declaration initial value",
+      "kind": "replace",
+      "before": "DEFDATA(acmltrptrsave, OFFSET acmltrsave)",
+      "after": "DEFDATA(acmltrptrsave, OFFSET acmltrsave + DATAOFFS)"
+    }
+  ]
+}

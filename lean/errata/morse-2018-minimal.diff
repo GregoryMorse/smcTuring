@@ -1,0 +1,182 @@
+--- Published article excerpts (whitespace reflowed)
++++ Corrected article excerpts (whitespace reflowed)
+@@ M01: p.124, Listing 2, DEFADDR, third instruction @@
+- mov acmltr, [acmltr]
++ xchg acmltr, [acmltr]
+@@ M02a: p.123, Section I, definition @@
+- always modifies code instructions in memory in every statement
++ writes to code memory in every executed computational instruction
+@@ M02b: p.123, Section II, after first paragraph @@
+  This practical choice is supported by the potential obfuscation uses of such self-modifying code.
++ Unboundedness and Turing-completeness refer to an idealized machine with unbounded memory and addresses; arbitrarily large addresses may be represented by finite variable-length operands. The x86 and x86-64 listings give bounded realizations of this model.
+@@ M03: p.127, Prose after Listing 8, opening clause @@
+- The machine executes every single instruction at least once
++ The machine writes to an instruction field in every executed computational instruction
+@@ M04: p.125, After Listing 2, before comparison paragraph @@
++ OP64 and USEWORDOP64 apply operations to corresponding 32-bit halves. Their MOV, XOR, AND, OR and NOT forms have the corresponding whole-word meaning; in OP64's immediate form, data is replicated in both halves. Independent half-word ADD or SUB gives whole-word arithmetic only when carry or borrow is absent; otherwise it must be propagated. DWORD helpers restore EAX; in 64-bit mode their final RAX is the zero extension of EAX. Full RAX restoration assumes a zero-extended entry RAX.
+  Further operations are needed for the sake of Turing completeness so next comparison is considered.
+@@ M05a: p.128, Listing 10, parameter list @@
+- DoBranch(x, y, not, gt, sign)
++ DoBranch(x, y, target, not, gt, sign)
+@@ M05b: p.129, Listing 10, displacement immediate @@
+- mov [lbl0+IMMOFFS], x-lbl2-OPSZ1-PTRSZ
++ mov [lbl0+IMMOFFS], target-lbl2-OPSZ1-PTRSZ
+@@ M05c: p.128, Listing 10, precondition after caption @@
+  Listing 10. 32-bit Conditional branching
++ x, y, lbl0+IMMOFFS, lbl1+IMMOFFS and lbl2+OPSZ1 occupy pairwise disjoint complete instruction-operand words; the taken and fall-through entries use matching JUMPTARGET continuations. The bracketed CALL retains MASM NEAR-code-label typing.
+@@ M06a: p.125, Listing 3, declared mask parameter @@
+- sbb [maskptr], 0
++ sbb [datamaskptr], 0
+@@ M06b: p.127, Listing 8, operand offset spelling @@
+- inpdir + IMMOFS, OPDBLARGSZ
++ inpdir + IMMOFFS, OPDBLARGSZ
+@@ M06c: p.129, Listing 12, counter initialization offset @@
+- mov [lbl6+IMMOFSS], 32
++ mov [lbl6+IMMOFFS], 32
+@@ M07a: p.129, Listing 11, delta destination @@
+- mov [lbl1]
++ mov [lbl1+IMMOFFS]
+@@ M07b: p.129, Listing 11, exit displacement @@
+- ($-lbl9)-($-lbl3-OPSZ1-PTRSZ)
++ lbl9-lbl3-OPSZ1-PTRSZ
+@@ M07c: p.129, Listing 11, first unnamed continuation @@
+- JUMPTARGET()
++ JUMPTARGET(lblbody)
+@@ M07d: p.129, Listing 11, second unnamed continuation @@
+- JUMPTARGET()
++ JUMPTARGET(lbl9)
+@@ M08a: p.125, Listing 6, NLZ definition @@
+- NLZ(value): Binary Number of Leading Zeros
++ NLZ(value): Binary Number of Trailing Zeros
+@@ M08b: p.125, Listing 6, shift immediately before while @@
+- shl SZW32 ptr [dataptr], NLZ(val) while ((val = (val >> (NLZ(val) + 1))) != 0)
++ shl SZW32 ptr [dataptr], NLZ(val) + 1 while ((val = (val >> (NLZ(val) + 1))) != 0)
+@@ M08c: p.125, Listing 6, shift immediately before loop @@
+- shl SZW32 ptr [dataptr], NLZ(val) loop
++ shl SZW32 ptr [dataptr], NLZ(val) + 1 loop
+@@ M08d: p.125, Listing 6, constant-emitter contract after caption @@
+  Listing 6. Further examples presented to reinforce and strengthen the concept
++ Treat val as an unsigned 32-bit pattern (signed multiplication retains the low 32-bit product); compile-time logical shifts may consume all 32 bits. For val=0 emit mov SZW32 ptr [dataptr], 0; omit an initial shift by zero, and use distinct complete code-operand words for dataptr and the final ADD immediate.
+@@ M09: p.125, Listing 6, DEFZERO complete DWORD immediate @@
+- labelname: xor [labelname + IMMOFFS], 0
++ labelname: xor SZW32 ptr [labelname + IMMOFFS], CNSTFRC32
+@@ M10a: p.125, Listing 5, initial cursor operand @@
+- xchg gsi, [sourceinit]
++ xchg gsi, [source + DATAOFFS]
+@@ M10b: p.125, Listing 5, initial cursor operand @@
+- xchg gdi, [destinit]
++ xchg gdi, [dest + DATAOFFS]
+@@ M10c: p.125, Listing 5, restoring cursor operand @@
+- xchg gsi, [sourceinit]
++ xchg gsi, [source + DATAOFFS]
+@@ M10d: p.125, Listing 5, restoring subtraction cursor operand @@
+- sub [sourceinit], size
++ sub [source + DATAOFFS], size
+@@ M10e: p.125, Listing 5, restoring cursor operand @@
+- xchg gdi, [destinit]
++ xchg gdi, [dest + DATAOFFS]
+@@ M10f: p.125, Listing 5, restoring subtraction cursor operand @@
+- sub [destinit], size
++ sub [dest + DATAOFFS], size
+@@ M10g: p.125, Listing 5, cursor offset and copy preconditions @@
+  Listing 5. Data transfer
++ DATAOFFS is IMMOFFS in 32-bit mode and zero in 64-bit mode. TRANSFERDATA requires DF=0, complete disjoint source/destination regions and cursor words, and representable pointers and subtraction size.
+@@ M10h: p.126, Listing 6, explicit TRANSFERDATA cursor labels @@
+- TRANSFERDATA(codeblueprint, codedest, codesize)
++ TRANSFERDATA(srcptr, OFFSET codeblueprint, dstptr, OFFSET codedest, codesize)
+@@ M11a: p.129, Listing 12, signed divisor initialization @@
+- mov [lbl11+IMMOFFS], acmltr
++ mov [lbl13+IMMOFFS], acmltr
+@@ M11b: p.129, Listing 12, exit displacement @@
+- ($-lbl19)-($-lbl10-OPSZ1-PTRSZ)
++ lbl19-lbl10-OPSZ1-PTRSZ
+@@ M11c: p.129, Listing 12, body continuation label @@
+- JUMPTARGET(lbl10)
++ JUMPTARGET(lbldivbody)
+@@ M11d: p.129, Listing 12, final CALL reset operand @@
+- mov [lbl10+IMMOFFS], 0
++ mov [lbl10+OPSZ1], 0
+@@ M11e: p.129, Listing 12, division contract after caption @@
+  Listing 12. 32-bit Long Division
++ Require y!=0, distinct complete operand and scratch words, and the existing code-backed stack contract. Signed division truncates toward zero and signed remainder has the dividend sign; for a mathematical signed quotient exclude MIN_INT/-1.
+@@ M12a: p.125, Listing 2, DOHALT instruction @@
+- mov [$], 0
++ mov SZW32 ptr [$+IMMOFFS], 0
+@@ M12b: p.125, After Listing 2, terminal-marker contract @@
+  mov [$], 0
++ Observe termination immediately after this marker; host stopping and output handling lie outside the pure computation.
+@@ M13: p.127, Listing 8, input-symbol USEWORD32 source operand @@
+- USEWORD32((mov [inputupdate + REGIMMOFFS], acmltr32) , curinputval)
++ USEWORD32((mov [inputupdate + REGIMMOFFS], acmltr32) , curinputval + IMMOFFS)
+@@ M14: p.127, Listing 8, DWORD scalar owner declaration @@
+- DEFDATA(0, curtinputval)
++ DEFDATA32(curtinputval, 0)
+@@ M15a: p.127, Listing 8, ttapevalmask mask-copy source and source stride @@
+- USEWORDOP64(mov, ttapevalmask + IMMOFFS, OPDBLARGSZ, inputvalmask, IMMOFFS)
++ USEWORDOP64(mov, ttapevalmask + IMMOFFS, OPDBLARGSZ, inputvalmask + IMMOFFS, 0)
+@@ M15b: p.127, Listing 8, inpdirmask mask-copy source and source stride @@
+- USEWORDOP64(mov, inpdirmask + IMMOFFS, OPDBLARGSZ, inputvalmask, IMMOFFS)
++ USEWORDOP64(mov, inpdirmask + IMMOFFS, OPDBLARGSZ, inputvalmask + IMMOFFS, 0)
+@@ M16a: p.126, Listing 7, generalized input-node interface used by Listing 8 @@
+- DEFINPUT(Index, tapeval)
++ DEFINPUT(Index, tapeval, backptrval, fwdptrval)
+@@ M16b: p.126, Listing 7, generalized input-node neighbor owners @@
+  DEFDATA32(itape&Index&, tapeval)
++ DEFADDR(itapebptr&Index&, backptrval) DEFADDR(itapefptr&Index&, fwdptrval)
+@@ M16c: p.127, Listing 8, input-node TRANSFERDATA complete extent @@
+- OFFSET curitape, OPDBLARGSZ
++ OFFSET curitape, curttapeentry - curitape
+@@ M16d: p.127, Listing 8, input-node end / transition entry boundary @@
++ curttapeentry:
+  DEFADDR(curttape, 0)
+@@ M17a: p.127, Listing 8, transition TRANSFERDATA destination and complete extent @@
+- OFFSET curtape, TSZ
++ OFFSET curttapeentry, curttapeend - curttapeentry
+@@ M17b: p.127, Listing 8, transition prototype end boundary @@
+  DEFADDR(usettapeval, 0)
++ curttapeend:
+@@ M18a: p.127, Listing 8, current transition cursor write @@
+- USEWORD((mov [curttapeinit], acmltr), curttape)
++ USEWORD((mov [curttapeinit + DATAOFFS], acmltr), curttape)
+@@ M18b: p.127, Listing 8, input cursor exchange @@
+- xchg acmltr, [curitapeinit]
++ xchg acmltr, [curitapeinit + DATAOFFS]
+@@ M18c: p.127, Listing 8, input cursor exchange @@
+- xchg acmltr, [curitapeinit]
++ xchg acmltr, [curitapeinit + DATAOFFS]
+@@ M18d: p.127, Listing 8, direction difference source @@
+- curitapeinit, PTRSZ32)
++ curitapeinit + DATAOFFS, PTRSZ32)
+@@ M18e: p.127, Listing 8, head cursor update @@
+- inpdir: OP64(xor, curitapeinit, PTRSZ32, CNSTFRC32)
++ inpdir: OP64(xor, curitapeinit + DATAOFFS, PTRSZ32, CNSTFRC32)
+@@ M18f: p.127, Listing 8, failure comparison cursor operands @@
+- USEWORD(COMPARE(acmltr, curttapeinit, ttapefail + IMMOFFS, false, true), itapeptr)
++ USEWORD(COMPARE(acmltr, curttapeinit + DATAOFFS, ttapefail + IMMOFFS, false, true), itapeptr + DATAOFFS)
+@@ M18g: p.127, Listing 8, failure head reset operands @@
+- USEWORD((mov [curitapeinit], acmltr), itapeptr)
++ USEWORD((mov [curitapeinit + DATAOFFS], acmltr), itapeptr + DATAOFFS)
+@@ M18h: p.127, Listing 8, failure transition reset operands @@
+- USEWORD((mov [curttapeinit], acmltr), ttapeptrinit)
++ USEWORD((mov [curttapeinit + DATAOFFS], acmltr), ttapeptrinit + DATAOFFS)
+@@ M19a: p.127, Listing 8, pending transition pointer copy @@
+- USEWORDOP64(mov, ttapeupdate, PTRSZ32, curttapeinit, PTRSZ32)
++ USEWORDOP64(mov, ttapeupdate + IMMOFFS, OPDBLARGSZ, curttapeinit + DATAOFFS, PTRSZ32)
+@@ M19b: p.127, Listing 8, transition cursor update operands @@
+- ttapeupdate: OP64(xor, curttapeinit + IMMOFFS, OPDBLARGSZ, CNSTFRC32)
++ ttapeupdate: OP64(xor, curttapeinit + DATAOFFS, PTRSZ32, CNSTFRC32)
+@@ M20a: p.127, Listing 9, entry store operand @@
+- [acmltrsave], acmltr
++ [acmltrsave + DATAOFFS], acmltr
+@@ M20b: p.127, Listing 9, first epilogue exchange @@
+- xchg acmltr, [acmltrptrsave]
++ xchg acmltr, [acmltrptrsave + DATAOFFS]
+@@ M20c: p.127, Listing 9, epilogue pointer store @@
+- mov [acmltrptrsave], acmltr
++ mov [acmltrptrsave + DATAOFFS], acmltr
+@@ M20d: p.127, Listing 9, final epilogue exchange @@
+- xchg acmltr, [acmltrsave]
++ xchg acmltr, [acmltrsave + DATAOFFS]
+@@ M20e: p.127, Listing 9, pointer declaration initial value @@
+- DEFDATA(acmltrptrsave, OFFSET acmltrsave)
++ DEFDATA(acmltrptrsave, OFFSET acmltrsave + DATAOFFS)

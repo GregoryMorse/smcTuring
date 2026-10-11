@@ -1,0 +1,298 @@
+{
+  "plan_version": 1,
+  "updated": "2026-10-10T23:39:34.086574+00:00",
+  "round_count": 7,
+  "baseline_checkpoint": "7adb8653130107039ba6ff44874e8605edfa43fb",
+  "current_round": 7,
+  "mathematical_proof_complete": true,
+  "release_ci_complete": false,
+  "rounds": [
+    {
+      "id": 1,
+      "deliverable": "Maintained original-graph iteration",
+      "state": "ACCEPTED",
+      "evidence": {
+        "checkpoint": "ff5f00d5a70333a09b921d024d8e7d96648cf415",
+        "event": "agent-turn-complete",
+        "source_inventory_verified_before_current_edits": true,
+        "bundle_sha256": "b5ec350425b99da12f8d89785f41ae7aafc8c5ae8e729c0b12b9d5194a5bcf9f",
+        "linux_modules": 1122,
+        "linux_declarations": 7735,
+        "report_sha256": "0899b356a3381b5741c8de17d77af004de5f44a9bbbc41a1433b17622f6a0d8b",
+        "theorems": [
+          "Listing8OriginalGraphRetarget.all_states",
+          "Listing8JointOriginalGraphRetarget.maintained",
+          "Listing8JointOriginalGraphMain.maintained"
+        ],
+        "independently_verified_and_fetched_by_coordinator": true,
+        "registered_ledger_ids": [
+          "E929",
+          "E930",
+          "E931"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "deliverable": "Complete joint maintained-main invariant",
+      "state": "ACCEPTED",
+      "remaining_acceptance": [],
+      "next_action": "Round3:SAME invariant through original/bootstrap/terminal continuations.",
+      "proof_complete_focused": true,
+      "proof_complete": true,
+      "evidence": {
+        "checkpoint": "5dba3e00abd8de80780162eab5fdcf9d02ae6179",
+        "event": "agent-turn-complete",
+        "inventory_files": 2556,
+        "all_inventory_and_bundle_hashes_verified": true,
+        "linux_modules": 1135,
+        "linux_declarations": 7870,
+        "report_sha256": "589c533e99917917fc00400a852917ecef56867fdc6ee5cf670512d6e2000cfe",
+        "registered_ledger_ids": [
+          "E942",
+          "E943",
+          "E944"
+        ],
+        "summary_theorem": "Listing8JointCopyOwnerLifetimes.complete",
+        "coverage_theorem": "Listing8JointCopyOwnerLifetimes.coverage"
+      }
+    },
+    {
+      "id": 3,
+      "deliverable": "Bootstrap and terminal invariant",
+      "state": "ACCEPTED",
+      "accepted": true,
+      "progress": {
+        "registered_ledger_ids": [
+          "E952",
+          "E953"
+        ],
+        "modules": [
+          "Listing8OriginalResetBinding",
+          "Listing8BoundarySummary"
+        ],
+        "new_positive_facts": 11,
+        "focused_checks": "passed,empty logs",
+        "root_check": "passed,empty log",
+        "summary_theorem": "Listing8BoundarySummary.complete_trace",
+        "coverage_theorem": "Listing8BoundarySummary.coverage",
+        "original_reset_binding": "Listing8OriginalResetBinding.current",
+        "both_acceptance_conditions_proved": true,
+        "both_native_branches_covered": true,
+        "accepted_round2_main_invariant_retained": true,
+        "exact_active_words_and_positive_restorations_retained": true,
+        "same_state_head_output_observations_retained": true,
+        "complete_audit": "passed1144/7945",
+        "publication": "actual agent-turn-complete verified"
+      },
+      "next_action": "Round4:existing Steps/TM induction and full corrected-paper umbrella theorem.",
+      "remaining_acceptance": [],
+      "proof_complete_focused": true,
+      "proof_complete": true,
+      "evidence": {
+        "checkpoint": "f782fd71f27a22ac99c3e22b92b97ed23900c236",
+        "event": "agent-turn-complete",
+        "inventory_files": 2575,
+        "all_inventory_and_bundle_hashes_matched": true,
+        "linux_modules": 1144,
+        "linux_declarations": 7945,
+        "report_sha256": "ee811c5b3881c4365a48669b2591ec6c3df47cde1fbab4348e8f3979664ae9ab",
+        "summary_theorem": "Listing8BoundarySummary.complete_trace"
+      }
+    },
+    {
+      "id": 4,
+      "deliverable": "Whole execution and full paper theorem",
+      "state": "ACCEPTED",
+      "remaining_acceptance": [],
+      "proof_complete": true,
+      "accepted": true,
+      "next_action": "Round5 exact SAME-trace native/head/COFF bindings and final minimal proved errata.",
+      "progress": {
+        "registered_ledger_ids": [
+          "E956",
+          "E957"
+        ],
+        "modules": [
+          "Listing9JointFullExecution",
+          "CorrectedPaper"
+        ],
+        "new_positive_facts": 7,
+        "focused_checks": "passed,empty logs",
+        "root_check": "passed,empty log",
+        "whole_same_prefix_native_theorem": "Listing9JointFullExecution.execute/complete_input",
+        "paper_umbrella": "CorrectedPaper.full_paper",
+        "both_round4_conditions_proved": true,
+        "exact_active_words_copy_lifetimes_positive_restoration_retained": true,
+        "unbounded_and_bounded_claims_separate": true,
+        "complete_audit": "passed1148/7960,source-matched",
+        "publication": "actual agent-turn-complete verified",
+        "linux_report_sha256": "dfde099a08c7a7a9045efc6937b4edbd64835f2490a211e694c71804df549563"
+      },
+      "proof_complete_focused": true,
+      "induction_evidence": {
+        "checkpoint": "e8f0b83f56da134fd9b77e28a399ac2b2e1f5859",
+        "event": "agent-turn-complete",
+        "inventory_files": 2579,
+        "all_inventory_and_bundle_hashes_matched": true,
+        "linux_modules": 1146,
+        "linux_declarations": 7953,
+        "report_sha256": "a70d5a835672312df1477cceeb387443abda57287d515c07f6cf000ae42878a1",
+        "registered_ledger_ids": [
+          "E954",
+          "E955"
+        ]
+      },
+      "evidence": {
+        "checkpoint": "b8490ee87e444f7e1926583c3bed9fd1836e78eb",
+        "event": "agent-turn-complete",
+        "inventory_files": 2583,
+        "all_inventory_and_bundle_hashes_matched": true,
+        "linux_modules": 1148,
+        "linux_declarations": 7960,
+        "report_sha256": "dfde099a08c7a7a9045efc6937b4edbd64835f2490a211e694c71804df549563",
+        "registered_ledger_ids": [
+          "E956",
+          "E957"
+        ],
+        "summary_theorem": "SmcTuring.CorrectedPaper.full_paper",
+        "joint_native_theorem": "SmcTuring.Appendix.Listing9JointFullExecution.complete_input"
+      }
+    },
+    {
+      "id": 5,
+      "deliverable": "Exact appendix/native bindings and final errata",
+      "state": "ACCEPTED",
+      "remaining_acceptance": [],
+      "next_action": "Round6 ONE cold replay and portable pinned proof/native CI.",
+      "accepted": true,
+      "proof_complete_focused": true,
+      "proof_complete": true,
+      "progress": {
+        "registered_ledger_ids": [
+          "E958",
+          "E959",
+          "E960"
+        ],
+        "modules": [
+          "Listing9SameTraceBinding",
+          "PhysicalImageBinding",
+          "Listing9PhysicalBinding"
+        ],
+        "new_positive_facts": 15,
+        "focused_checks": "passed,empty logs",
+        "root_check": "passed,empty log",
+        "summary_theorem": "Listing9PhysicalBinding.full_paper",
+        "same_trace_native_head": "Listing9SameTraceBinding.complete_input",
+        "physical_trace_and_prefixes": "PhysicalImageBinding.realize/at_prefix",
+        "coff_normalization": "PhysicalImageBinding.normalize_targets/normalize_frame",
+        "errata": "unchanged60/128/two pages",
+        "actual_windows_native_or_CI_claimed": false,
+        "complete_audit": "passed1151/7975,source-matched",
+        "publication": "actual agent-turn-complete verified",
+        "linux_report_sha256": "9c52c01a5ac8cc5f950372e88eb0340133332057443bea0f4b168c37c5ca25ef"
+      },
+      "evidence": {
+        "checkpoint": "7ec00bacce255f8265887412c84951f62ab57c08",
+        "event": "agent-turn-complete",
+        "inventory_files": 2591,
+        "all_inventory_and_bundle_hashes_matched": true,
+        "linux_modules": 1151,
+        "linux_declarations": 7975,
+        "report_sha256": "9c52c01a5ac8cc5f950372e88eb0340133332057443bea0f4b168c37c5ca25ef",
+        "registered_ledger_ids": [
+          "E958",
+          "E959",
+          "E960"
+        ],
+        "summary_theorem": "Listing9PhysicalBinding.full_paper",
+        "independently_verified_and_fetched_by_coordinator": true
+      }
+    },
+    {
+      "id": 6,
+      "deliverable": "Cold replay and runnable GitHub validation package",
+      "state": "ACCEPTED",
+      "remaining_acceptance": [],
+      "next_action": "Round7 coordinator review/push/run and actual same-commit CI/native acceptance;no further proof rebuild.",
+      "proof_complete": true,
+      "package_complete": true,
+      "evidence": {
+        "linux_modules": 1151,
+        "linux_declarations": 7975,
+        "source_helper_inputs": 1196,
+        "compiled": 1151,
+        "reused": 0,
+        "force_replay": true,
+        "report_sha256": "7a69e7c85d5a054e265078ee0bee4908a431358903772f2c7a13c2dfdeac610d",
+        "artifact_hashes_verified": 22863,
+        "frozen_source_inputs": 1298,
+        "errata_excerpts": 60,
+        "errata_positive_references": 128,
+        "errata_pages": 2,
+        "package_manifest": "validation/ci-results/portable-source-package.json",
+        "cold_replay": "validation/ci-results/cold-replay.json",
+        "publication": "Actual immutable completed-turn publication verified",
+        "checkpoint": "f828f86c78da2fab712b47ac84a23db15a9b2415",
+        "event": "agent-turn-complete",
+        "inventory_files": 2620,
+        "all_inventory_and_bundle_hashes_verified": true,
+        "bundle_sha256": "315d9552542100281a648f41d5ca4e4fb3afc3823fabf734b28c624dd8bab88e"
+      },
+      "accepted": true
+    },
+    {
+      "id": 7,
+      "deliverable": "Actual CI acceptance and final handoff",
+      "state": "AWAITING_COORDINATOR_RUN",
+      "coordinator_dependency": "Finished package must be pushed/run before CI acceptance can be recorded",
+      "remaining_acceptance": [
+        "Coordinator restore/verify the exact package,commit/push/run the reviewed workflow.",
+        "Actual same-commit Linux proof and Windows baseline/corrected native/MASM/normalized-COFF/configuration comparisons with URL/checks/artifact hashes.",
+        "Accept exact evidence and deliver final handoff;overall completion remains false."
+      ],
+      "next_action": "Coordinator review/push/run .github/workflows/proof-native.yml after collecting the actual round6 bundle."
+    }
+  ],
+  "batch_history": "lean/PROOF_LEDGER.md and validation/remote-evidence/closure-round-history-before-E952-E953.json",
+  "latest_published_checkpoint": {
+    "linux_modules": 1151,
+    "linux_declarations": 7975,
+    "source_helper_inputs": 1196,
+    "compiled": 1151,
+    "reused": 0,
+    "force_replay": true,
+    "report_sha256": "7a69e7c85d5a054e265078ee0bee4908a431358903772f2c7a13c2dfdeac610d",
+    "artifact_hashes_verified": 22863,
+    "frozen_source_inputs": 1298,
+    "errata_excerpts": 60,
+    "errata_positive_references": 128,
+    "errata_pages": 2,
+    "package_manifest": "validation/ci-results/portable-source-package.json",
+    "cold_replay": "validation/ci-results/cold-replay.json",
+    "publication": "Actual immutable completed-turn publication verified",
+    "checkpoint": "f828f86c78da2fab712b47ac84a23db15a9b2415",
+    "event": "agent-turn-complete",
+    "inventory_files": 2620,
+    "all_inventory_and_bundle_hashes_verified": true,
+    "bundle_sha256": "315d9552542100281a648f41d5ca4e4fb3afc3823fabf734b28c624dd8bab88e"
+  },
+  "state": "PUBLIC_CI_PENDING",
+  "palomar_interface": {
+    "protected_comparator_passed": true,
+    "nanoda_passed": true,
+    "lean_kernel_passed": true,
+    "log_sha256": "98a500a79fcee09149537c9bab421b14d8cd93be56be6e82ddf522d1703882b6",
+    "elapsed_seconds": 34.599,
+    "recovery_attempt_memory_peak_bytes": 1345884160
+  },
+  "current_source_audit": {
+    "modules": 1152,
+    "declarations": 7976,
+    "kernel_compiled": 1,
+    "verified_reused": 1151,
+    "report_sha256": "39a231a4fceeeb55c5334261b434fe73aa01aad96e77f0ddc51cbf67e728e262"
+  },
+  "updated_at": "2026-10-11T03:22:26.467822+00:00",
+  "publication_and_workflow_execution_authorized": true
+}

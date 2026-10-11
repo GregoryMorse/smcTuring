@@ -1,0 +1,77 @@
+{
+  "base_agent_checkpoint": "08f0a594f691cb0f131a72c81dbcbd79b5667a20",
+  "coordinator_recovery": true,
+  "new_agent_checkpoint_claimed": false,
+  "mathematical_proof_complete": true,
+  "core_library_modules_unchanged": 1151,
+  "prior_cold_replay": {
+    "modules": 1151,
+    "declarations": 7975,
+    "compiled": 1151,
+    "reused": 0,
+    "report_sha256": "7a69e7c85d5a054e265078ee0bee4908a431358903772f2c7a13c2dfdeac610d"
+  },
+  "current_audit": {
+    "modules": 1152,
+    "declarations": 7976,
+    "kernel_compiled": 1,
+    "verified_reused": 1151,
+    "report_sha256": "39a231a4fceeeb55c5334261b434fe73aa01aad96e77f0ddc51cbf67e728e262"
+  },
+  "selected_interface": {
+    "theorems": 4,
+    "definitions": 4,
+    "challenge_lines": 984,
+    "challenge_bytes": 60700,
+    "intentional_challenge_theorem_holes": 4,
+    "solution_holes": 0,
+    "source_sha256": {
+      "lean/Challenge.lean": "143f5342af4712b6d92b50e67be8ad39a76a947a6fa1d3d2b887dfee19baf93b",
+      "lean/Solution.lean": "45f7c90ee2aa5b8bf6cd7d7e32dd04c4a7a5531d2a53aad8571e5462b12b1cde",
+      "lean/lakefile.toml": "3fb82df493f962708980b23d10e7fe1000b72637703f557ee678f68f0c84a12b",
+      "lean/lakefile.proof.toml": "c477bbf656c35a5a09e0fa49ee01b1896ecc2fd578404de36bd5bb01766a34ef",
+      "lean/comparator.json": "3381a7d6d1320031135f260e3a2a78ac9599f350a5ac423cfe43c3d472c85655",
+      "lean/Audit.lean": "243065619c019a964e97bf3aa4506f52f390481fc3916f66f875a1521bf54cd4"
+    }
+  },
+  "comparison": {
+    "protected_comparator_passed": true,
+    "nanoda_passed": true,
+    "lean_kernel_passed": true,
+    "log_sha256": "98a500a79fcee09149537c9bab421b14d8cd93be56be6e82ddf522d1703882b6",
+    "elapsed_seconds": 34.599,
+    "recovery_attempt_memory_peak_bytes": 1345884160
+  },
+  "errata": {
+    "corrections": "M01-M20",
+    "exact_source_excerpts": 60,
+    "positive_proof_references": 128,
+    "pages": 2,
+    "source_unchanged": true,
+    "canonical_ci_pdf_sha256": "9dc820126a93b9f93c91053ec9cca991670c2ec0b6bef04166f7be73c7e59c57"
+  },
+  "source_rules": {
+    "file_count": 1177,
+    "max_lines": 9672,
+    "bytes": 9766129
+  },
+  "metadata_schema_passed": true,
+  "metadata_sha256": "bd3151ab1e2271147f755c071c95a087cb3ef896cc29ec09cbeddb509be78200",
+  "remaining_gates": {
+    "public_commit": false,
+    "same_commit_linux_windows_native_CI": false,
+    "official_full_palomar_preflight": false,
+    "intake_authorized": false,
+    "registration_authorized": false
+  },
+  "scope": "Selected mathematical result; checked native/COFF theorems are supporting material. Mechanical evidence is not independent human review or registry acceptance.",
+  "license_detection": {
+    "passed": true,
+    "detector": "GitHub license API",
+    "spdx_id": "CC0-1.0",
+    "root_license_git_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "metadata_matches": true,
+    "cited_papers_relicensed": false,
+    "final_palomar_detector_pending": true
+  }
+}

@@ -1,0 +1,8 @@
+.lake/
+.elan/
+.tools/
+*.olean
+*.ilean
+# Keep architecture proof sources; the root ignores x64 build directories.
+!SmcTuring/X64/
+!SmcTuring/X64/*.lean

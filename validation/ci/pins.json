@@ -1,0 +1,30 @@
+{
+  "linux": {
+    "name": "lean-4.35.0-rc3-linux.tar.zst",
+    "browser_download_url": "https://github.com/leanprover/lean4/releases/download/v4.35.0-rc3/lean-4.35.0-rc3-linux.tar.zst",
+    "digest": "sha256:1526de16c0496f16b46a168f26c990af4e3796505273c3342fec17d72d763997"
+  },
+  "windows": {
+    "name": "lean-4.35.0-rc3-windows.zip",
+    "browser_download_url": "https://github.com/leanprover/lean4/releases/download/v4.35.0-rc3/lean-4.35.0-rc3-windows.zip",
+    "digest": "sha256:60dc217df401fda0878efd0d5fdead952e4c7459ecab6d02f8348d7bfa12cf97"
+  },
+  "mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64",
+  "reference_files": [
+    {
+      "path": "validation/.cache/morse-2018.pdf",
+      "packaged_path": "validation/ci/reference/morse-2018.pdf",
+      "sha256": "adf6d155c941770228d416ba16ef6dc4196420739034747e1ba57361bdda1a6e"
+    },
+    {
+      "path": "output/pdf/morse-2018-errata.pdf",
+      "packaged_path": "validation/ci/reference/morse-2018-errata.pdf",
+      "sha256": "9dc820126a93b9f93c91053ec9cca991670c2ec0b6bef04166f7be73c7e59c57"
+    },
+    {
+      "path": "output/pdf/morse-2018-errata.log",
+      "packaged_path": "validation/ci/reference/morse-2018-errata.log",
+      "sha256": "db8477ec34d506e06b211e6c78dc9751934719c501d2e96d2781aac82fe64d28"
+    }
+  ]
+}

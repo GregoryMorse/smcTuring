@@ -3,6 +3,11 @@
 ###############################################################################
 * text=auto
 
+# Preserve proof and validation source bytes for cross-platform evidence hashes.
+lean/** -text
+validation/** -text
+.github/workflows/** -text
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
