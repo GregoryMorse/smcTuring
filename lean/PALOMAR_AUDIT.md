@@ -25,7 +25,7 @@ No new priority, independent human peer review or Palomar endorsement is claimed
 [FINAL_ACCEPTANCE.json](FINAL_ACCEPTANCE.json) provides exact run/source/report
 digests. [The retained mechanical report](acceptance/palomar-mechanical-report.json)
 is the actual official output. [The submission packet](PALOMAR_SUBMISSION.md)
-provides concrete form values and the existing-ID lookup limitation. The user will
+provides concrete form values and the confirmed first-submission route. The user will
 perform intake; editorial registration is a later registry decision.
 
 Earlier policy/source review, eligibility discussion and interrupted-run recovery

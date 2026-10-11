@@ -13,12 +13,14 @@ passes on the immutable source below. Submission/registration has not been perfo
 | Responsible author/maintainer | Gregory Morse |
 | Authorization relationship | I am a responsible author or maintainer |
 | Approval evidence | Blank for the responsible-maintainer route |
-| Existing Palomar ID | Leave blank for a first submission; supply the existing ID if previously registered |
+| Submission type | First submission (confirmed by Gregory Morse, 2026-10-11) |
+| Existing Palomar ID | Blank — first submission |
 | Preliminary override | Disabled |
 
-The automatic identity lookup returned HTTP 403, which does not establish
-whether an existing record exists. Choose the appropriate first-submission or
-existing-record route. No false negative lookup is asserted.
+Gregory Morse confirmed on 2026-10-11 that this is the first Palomar submission
+of this formalization. Select the first-submission route and leave the existing
+Palomar ID blank. The earlier automated lookup returned HTTP 403; the route
+is established by the author's confirmation.
 
 The accepted statement surface selects four theorems:
 
