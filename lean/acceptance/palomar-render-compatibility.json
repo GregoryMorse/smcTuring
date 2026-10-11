@@ -1,5 +1,5 @@
 {
-  "status": "upstream-fix-validated-awaiting-deployment",
+  "status": "supported-dependency-route-identified-awaiting-pin-approval-and-validation",
   "checked_on": "2026-10-11",
   "official_registry_renderer_updated": false,
   "official_resubmission_performed": false,
@@ -91,5 +91,51 @@
   "mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64",
   "project_proof_native_and_errata_sources_unchanged_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
   "dependency_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
-  "new_full_proof_or_native_audit": "not repeated; no source change"
+  "new_full_proof_or_native_audit": "not repeated; no source change",
+  "upstream_pr": {
+    "approval_granted": true,
+    "opened": false,
+    "publication_on_hold": "User requested assessment of a normal supported submission route"
+  },
+  "normal_dependency_alignment": {
+    "compatible_official_mathlib_snapshots": [
+      {
+        "mathlib_revision_or_tag": "c55e6e786f49471c72fbddbec5415808896aec1e",
+        "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+        "plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+        "cli_revision": "843844fa601dd56767b1eb22b7ada5b64d5e567a",
+        "unmodified_merger": "pass"
+      },
+      {
+        "mathlib_revision_or_tag": "5e043698502894993991089b2dd893867c0db5c2",
+        "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+        "plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+        "cli_revision": "843844fa601dd56767b1eb22b7ada5b64d5e567a",
+        "unmodified_merger": "pass"
+      }
+    ],
+    "renderer_code": "unmodified upstream d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "full_proof_verification": "not yet run on these snapshots",
+    "full_html_render": "not yet run on these snapshots",
+    "mathlib_pin_change_approval": "pending; AGENTS.md currently requires the existing revision",
+    "current_project_mathlib_pin_unchanged": true,
+    "nearest_snapshot_complete_tree_comparison": {
+      "complete_git_trees_compared": true,
+      "changed_file_count": 1747,
+      "computability_changes": [
+        "Mathlib/Computability/Primrec/Basic.lean",
+        "Mathlib/Computability/RE.lean",
+        "Mathlib/Computability/Reduce.lean",
+        "Mathlib/Computability/RegularExpressions.lean",
+        "Mathlib/Computability/TuringMachine/PostTuringMachine.lean",
+        "Mathlib/Computability/TuringMachine/StackTuringMachine.lean"
+      ],
+      "config_changes": [
+        "lake-manifest.json",
+        "lakefile.lean"
+      ],
+      "lean_changed_count": 1719
+    },
+    "upstream_patch_not_a_general_prerequisite_for_submission": true
+  }
 }

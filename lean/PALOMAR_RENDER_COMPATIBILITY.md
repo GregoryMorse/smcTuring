@@ -103,16 +103,37 @@ Palomar ran the patch. Its separate repair receipt and workflow identify the
 modified code. A [ready PR description](../validation/ci/palomar-renderer-fix-pr.md)
 accompanies the exact patch; no upstream PR or issue comment has been posted.
 
-**Renderer fix validated; deployment upstream still needed.** Keep the mechanically verified
-submission open. Hash-only retries and the reverted Plausible override do not
-resolve the complete renderer path. The tested narrow remedy preserves the
-Mathlib-compatible pin while accepting the known source-identical pair during
-renderer merging. Palomar must adopt this repair (or an equivalent upstream
-dependency alignment) before an unchanged retry can succeed. The two
-upstream Plausible revisions differ only in CI; changing the mathematics or
-rebuilding the closed proof audit would not address this setup issue.
+### Ordinary dependency alignment is also available
 
-Once Palomar deploys the validated repair, submit the corrected commit and select
+An upstream PR is **not established as a prerequisite for submission**. The
+earlier claim that we needed deployment of the patch was too broad: it applied
+to keeping our exact current Mathlib snapshot unchanged.
+
+Mathlib's official `v4.35.0-rc3` release resolves to
+`c55e6e786f49471c72fbddbec5415808896aec1e`; a later compatible mainline commit is
+`5e043698502894993991089b2dd893867c0db5c2`, immediately before the dependency
+update introducing the mismatch. Both keep Lean `4.35.0-rc3`, pin Plausible
+`fb13df7…` and pass the **unmodified** Palomar manifest merger, including all
+shared dependencies. Using either complete coherent dependency snapshot is
+ordinary version alignment, rather than a renderer exception.
+
+These Mathlib snapshots change more than a dependency manifest. The closest
+compatible commit differs from our current snapshot in 1,747 tracked files,
+including 1,719 Lean files and six computability modules. A compatible merge
+therefore does not establish that all existing proofs compile with it. Fresh
+proof and unmodified renderer verification are needed before integrating or
+submitting that candidate. The current Mathlib pin is retained while approval
+is pending because AGENTS.md explicitly requires it to remain pinned.
+
+The proposed renderer repair is an alternative compatibility improvement that
+retains the exact already-verified Mathlib snapshot. No PR has been opened;
+publication is on hold following the user's request to evaluate the normal
+dependency route. The patch does not alter Lean proofs or proof verification,
+but it is a proposed exception to the renderer's dependency identity check and
+must not be described as an unmodified Palomar run.
+
+Once a supported candidate passes proof and unmodified rendering checks, or
+Palomar deploys a compatible renderer for the existing pins, submit the commit and select
 replacement of the earlier submission after GitHub authentication. Palomar's
 [replacement contract](https://github.com/PalomarRegistry/PalomarServer#the-state-a-submission-holds)
 closes the earlier record and admits the new record in one transaction. A

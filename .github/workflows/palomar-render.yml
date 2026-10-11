@@ -1,5 +1,5 @@
-name: Palomar proposed renderer fix
-run-name: Patched renderer ${{ inputs.commit }}
+name: Palomar Challenge rendering
+run-name: ${{ inputs.apply_upstream_repair && 'Patched' || 'Unmodified' }} renderer ${{ inputs.commit }}
 
 on:
   workflow_dispatch:
@@ -8,6 +8,11 @@ on:
         description: Exact public source commit to render (advisory check only)
         required: true
         type: string
+      apply_upstream_repair:
+        description: Apply the proposed renderer patch (advisory; modifies pipeline code)
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -28,11 +33,13 @@ jobs:
         with:
           python-version: '3.11.10'
       - name: Checkout the proposed repair and regression tests
+        if: inputs.apply_upstream_repair
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           path: repair
           persist-credentials: false
       - name: Test and apply the proposed upstream dependency repair
+        if: inputs.apply_upstream_repair
         run: |
           python repair/validation/ci/test_palomar_renderer_repair.py \
             --pipeline pipeline --manifest repair/lean/lake-manifest.json

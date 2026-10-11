@@ -1,12 +1,14 @@
 # Palomar submission packet
 
-**Upstream renderer fix passes; deployment by Palomar is pending.** The original
+**Normal dependency alignment is being evaluated; no replacement submitted.** The original
 submission passed mechanical verification. The project dependency override was
 reverted. A narrow renderer patch now passes the complete HTML path with the
 original proof and dependency pins; see the
 [successful advisory run](https://github.com/GregoryMorse/smcTuring/actions/runs/38154282274).
-The table records the existing submission. Hold off on replacing it until
-Palomar adopts the fix or an equivalent dependency alignment.
+The table records the existing submission. A compatible official Mathlib
+snapshot also passes the unmodified renderer's merger, so an upstream PR is
+not a necessary prerequisite if that snapshot passes fresh proof/render checks.
+The current Mathlib pin is retained pending approval to change it.
 
 | Form field | Exact value |
 | --- | --- |
@@ -37,7 +39,8 @@ the tested and reverted dependency change. The
 [complete renderer probe](https://github.com/GregoryMorse/smcTuring/actions/runs/38152118403)
 failed during Mathlib cache discovery. It is advisory, not a Palomar registration
 or a new mechanical-verification receipt. Verso's revision requirement conflicts
-with Mathlib's cache manifest check; an upstream compatibility remedy is needed.
+with this Mathlib snapshot's cache manifest check; a coherent dependency
+snapshot is an ordinary alternative to the upstream renderer repair.
 The [proposed renderer patch](../validation/ci/palomar-renderer-plausible.patch)
 retains the submitted Mathlib-compatible pin and accepts only the known
 source-identical Plausible pair. Its complete test passes all eight selected
@@ -90,7 +93,8 @@ The earlier cold proof acceptance source is
 `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`. Dependency configuration has been
 restored after the unsuccessful renderer workaround. All selected proof and
 native algorithm source is identical. Once the renderer compatibility issue is
-resolved in Palomar's deployed renderer, record the exact replacement commit here.
+resolved by verified dependency alignment or compatible deployed rendering,
+record the exact replacement commit here.
 Palomar will verify that newly submitted commit; prior run receipts remain bound
 to their original sources. [Semantic account](PALOMAR_SEMANTICS.md),
 [theorem map](FINAL_THEOREM_MAP.md), [physical contract](PHYSICAL_BINDING_CONTRACT.md),
