@@ -1,15 +1,18 @@
 # Lean formalization of pure infinitely self-modifying code
 
-The corrected mathematical construction is complete. The integrated immutable
-checkpoint `08f0a594f691cb0f131a72c81dbcbd79b5667a20` contains a cold Linux replay
-of 1,151 production modules and 7,975 declarations with zero project-cache
-reuse. Only `propext`, `Classical.choice` and `Quot.sound` occur.
-The new principal statement wrapper also passes protected Comparator, NanoDa
-and Lean's kernel. A current source-bound audit covers 1,152 modules and 7,976
-declarations, compiling only that wrapper and reusing all 1,151 core modules.
-The exact public submission commit and final CI acceptance remain pending.
-See [selected declarations and semantics](PALOMAR_SEMANTICS.md) and
-[acceptance evidence](ACCEPTANCE_EVIDENCE.json).
+The corrected mathematical construction and all seven deliverable rounds are
+complete. The full public cold CI audit checks 1,152 freshly compiled modules
+and 7,976 declarations with zero reuse; only `propext`, `Classical.choice` and
+`Quot.sound` occur. The official full Palomar mechanical preflight passes,
+including protected Comparator, Lean, NanoDa and con-ron. Windows acceptance
+covers all 21 native suites, with six verified prior passes and fifteen new
+checks; its 210-module exporter closure is verified from a fresh Windows build.
+
+The exact audited submission commit is
+`1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`. See [the submission packet](PALOMAR_SUBMISSION.md),
+[final acceptance](FINAL_ACCEPTANCE.json) and [selected semantics](PALOMAR_SEMANTICS.md).
+Later master commits contain CI repairs and closure documentation. Intake and
+editorial registration are left to Gregory Morse.
 
 Gregory Morse's [2018 paper](https://doi.org/10.24425/119359) is the mathematical
 source. The [minimal errata TeX](errata/morse-2018-errata.tex),
@@ -63,7 +66,8 @@ All local workstation verification runs serially through
 `validation/limited_run.py` with its unchanged 1.5 GB allocation guard.
 Full Windows Lean compilation and memory reduction are optional convenience
 checks; actual Windows native/assembler evidence remains an acceptance gate.
-The authorized server retains a 7.5 GB limit and zero swap.
+The authorized server task is retired; source and validation evidence were
+fetched and hash-verified before its folder and temporary session were removed.
 
 [The Palomar audit](PALOMAR_AUDIT.md) separates existing mathematical evidence
 from the small independent Challenge/Solution interface, Comparator, NanoDa,

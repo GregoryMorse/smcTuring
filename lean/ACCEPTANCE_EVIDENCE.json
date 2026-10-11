@@ -12,11 +12,19 @@
     "report_sha256": "7a69e7c85d5a054e265078ee0bee4908a431358903772f2c7a13c2dfdeac610d"
   },
   "current_audit": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38108181056",
+    "original_workflow_conclusion": "failure after successful complete proof audit; errata packaging dependency missing",
     "modules": 1152,
     "declarations": 7976,
-    "kernel_compiled": 1,
-    "verified_reused": 1151,
-    "report_sha256": "39a231a4fceeeb55c5334261b434fe73aa01aad96e77f0ddc51cbf67e728e262"
+    "freshly_compiled": 1152,
+    "reused": 0,
+    "report_sha256": "078d3b80124d05e98ca2dcaa9e52cb105c087e89b4350dc696c9f9187b5baf2d",
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ]
   },
   "selected_interface": {
     "theorems": 4,
@@ -57,13 +65,7 @@
   },
   "metadata_schema_passed": true,
   "metadata_sha256": "bd3151ab1e2271147f755c071c95a087cb3ef896cc29ec09cbeddb509be78200",
-  "remaining_gates": {
-    "public_commit": false,
-    "same_commit_linux_windows_native_CI": false,
-    "official_full_palomar_preflight": false,
-    "intake_authorized": false,
-    "registration_authorized": false
-  },
+  "remaining_gates": {},
   "scope": "Selected mathematical result; checked native/COFF theorems are supporting material. Mechanical evidence is not independent human review or registry acceptance.",
   "license_detection": {
     "passed": true,
@@ -72,6 +74,16 @@
     "root_license_git_blob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
     "metadata_matches": true,
     "cited_papers_relicensed": false,
-    "final_palomar_detector_pending": true
+    "final_palomar_detector_pending": false,
+    "final_palomar_detector_passed": true
+  },
+  "public_submission_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+  "release_ci_complete": true,
+  "overall_complete": true,
+  "official_full_palomar_preflight_passed": true,
+  "final_receipt": "lean/FINAL_ACCEPTANCE.json",
+  "user_handoff": {
+    "submission_performed": false,
+    "registration_performed": false
   }
 }

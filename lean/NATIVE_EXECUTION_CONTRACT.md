@@ -1,3 +1,8 @@
+> Current closure (2026-10-11): all seven rounds are accepted. Complete public
+> proof/native CI and Palomar full mechanical preflight pass. See
+> [closure status](CLOSURE_STATUS.md) and [final acceptance](FINAL_ACCEPTANCE.json).
+> Dated progress comments below are historical and do not reopen closed obligations.
+
 # Native execution and observation contract
 
 ## Current complete round3 boundary scope — E958-E960

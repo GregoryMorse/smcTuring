@@ -9,8 +9,9 @@ The publication-ready [LaTeX errata](errata/morse-2018-errata.tex) gives one pag
 of minimal exact changes and one page of positive justification. The
 [compact diff](errata/morse-2018-minimal.diff) and [edit manifest](errata/edits.json)
 are checked against the published PDF, not inferred from the reconstruction.
-`validation/audit_errata.py` verifies fifteen excerpts and forty-one positive
-proof references. The compiled two-page PDF is in `output/pdf/`.
+`validation/audit_errata.py` verifies 60 exact excerpts and 128 positive
+proof references for M01–M20. The reviewed [two-page PDF](../output/pdf/morse-2018-errata.pdf)
+is published alongside the TeX and minimal diff; the final source-bound CI passes.
 
 Errata policy: record an exact local replacement or insertion promptly, minimize
 changes to the published text/algorithm, and give the corrected contract and its

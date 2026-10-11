@@ -1,11 +1,11 @@
 {
   "plan_version": 1,
-  "updated": "2026-10-10T23:39:34.086574+00:00",
+  "updated": "2026-10-11T06:43:00.453403+00:00",
   "round_count": 7,
   "baseline_checkpoint": "7adb8653130107039ba6ff44874e8605edfa43fb",
   "current_round": 7,
   "mathematical_proof_complete": true,
-  "release_ci_complete": false,
+  "release_ci_complete": true,
   "rounds": [
     {
       "id": 1,
@@ -30,14 +30,17 @@
           "E930",
           "E931"
         ]
-      }
+      },
+      "accepted": true,
+      "remaining_acceptance": [],
+      "next_action": "None; deliverable closed."
     },
     {
       "id": 2,
       "deliverable": "Complete joint maintained-main invariant",
       "state": "ACCEPTED",
       "remaining_acceptance": [],
-      "next_action": "Round3:SAME invariant through original/bootstrap/terminal continuations.",
+      "next_action": "None; deliverable closed.",
       "proof_complete_focused": true,
       "proof_complete": true,
       "evidence": {
@@ -55,7 +58,8 @@
         ],
         "summary_theorem": "Listing8JointCopyOwnerLifetimes.complete",
         "coverage_theorem": "Listing8JointCopyOwnerLifetimes.coverage"
-      }
+      },
+      "accepted": true
     },
     {
       "id": 3,
@@ -85,7 +89,7 @@
         "complete_audit": "passed1144/7945",
         "publication": "actual agent-turn-complete verified"
       },
-      "next_action": "Round4:existing Steps/TM induction and full corrected-paper umbrella theorem.",
+      "next_action": "None; deliverable closed.",
       "remaining_acceptance": [],
       "proof_complete_focused": true,
       "proof_complete": true,
@@ -107,7 +111,7 @@
       "remaining_acceptance": [],
       "proof_complete": true,
       "accepted": true,
-      "next_action": "Round5 exact SAME-trace native/head/COFF bindings and final minimal proved errata.",
+      "next_action": "None; deliverable closed.",
       "progress": {
         "registered_ledger_ids": [
           "E956",
@@ -164,7 +168,7 @@
       "deliverable": "Exact appendix/native bindings and final errata",
       "state": "ACCEPTED",
       "remaining_acceptance": [],
-      "next_action": "Round6 ONE cold replay and portable pinned proof/native CI.",
+      "next_action": "None; deliverable closed.",
       "accepted": true,
       "proof_complete_focused": true,
       "proof_complete": true,
@@ -214,7 +218,7 @@
       "deliverable": "Cold replay and runnable GitHub validation package",
       "state": "ACCEPTED",
       "remaining_acceptance": [],
-      "next_action": "Round7 coordinator review/push/run and actual same-commit CI/native acceptance;no further proof rebuild.",
+      "next_action": "None; deliverable closed.",
       "proof_complete": true,
       "package_complete": true,
       "evidence": {
@@ -244,17 +248,20 @@
     {
       "id": 7,
       "deliverable": "Actual CI acceptance and final handoff",
-      "state": "AWAITING_COORDINATOR_RUN",
-      "coordinator_dependency": "Finished package must be pushed/run before CI acceptance can be recorded",
-      "remaining_acceptance": [
-        "Coordinator restore/verify the exact package,commit/push/run the reviewed workflow.",
-        "Actual same-commit Linux proof and Windows baseline/corrected native/MASM/normalized-COFF/configuration comparisons with URL/checks/artifact hashes.",
-        "Accept exact evidence and deliver final handoff;overall completion remains false."
-      ],
-      "next_action": "Coordinator review/push/run .github/workflows/proof-native.yml after collecting the actual round6 bundle."
+      "state": "ACCEPTED",
+      "remaining_acceptance": [],
+      "next_action": "None; deliverable closed.",
+      "accepted": true,
+      "evidence": {
+        "public_submission_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+        "linux_proof_run": "https://github.com/GregoryMorse/smcTuring/actions/runs/38108181056",
+        "native_acceptance_run": "https://github.com/GregoryMorse/smcTuring/actions/runs/38118165923",
+        "palomar_full_preflight_run": "https://github.com/GregoryMorse/smcTuring/actions/runs/38108849833",
+        "receipt": "lean/FINAL_ACCEPTANCE.json"
+      }
     }
   ],
-  "batch_history": "lean/PROOF_LEDGER.md and validation/remote-evidence/closure-round-history-before-E952-E953.json",
+  "batch_history": "lean/history/PROOF_LEDGER.before-public-closure-20261011.md; retained compact checkpoint archives",
   "latest_published_checkpoint": {
     "linux_modules": 1151,
     "linux_declarations": 7975,
@@ -277,7 +284,7 @@
     "all_inventory_and_bundle_hashes_verified": true,
     "bundle_sha256": "315d9552542100281a648f41d5ca4e4fb3afc3823fabf734b28c624dd8bab88e"
   },
-  "state": "PUBLIC_CI_PENDING",
+  "state": "COMPLETE",
   "palomar_interface": {
     "protected_comparator_passed": true,
     "nanoda_passed": true,
@@ -287,12 +294,23 @@
     "recovery_attempt_memory_peak_bytes": 1345884160
   },
   "current_source_audit": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38108181056",
+    "original_workflow_conclusion": "failure after successful complete proof audit; errata packaging dependency missing",
     "modules": 1152,
     "declarations": 7976,
-    "kernel_compiled": 1,
-    "verified_reused": 1151,
-    "report_sha256": "39a231a4fceeeb55c5334261b434fe73aa01aad96e77f0ddc51cbf67e728e262"
+    "freshly_compiled": 1152,
+    "reused": 0,
+    "report_sha256": "078d3b80124d05e98ca2dcaa9e52cb105c087e89b4350dc696c9f9187b5baf2d",
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ]
   },
-  "updated_at": "2026-10-11T03:22:26.467822+00:00",
-  "publication_and_workflow_execution_authorized": true
+  "updated_at": "2026-10-11T06:43:00.453403+00:00",
+  "publication_and_workflow_execution_authorized": true,
+  "overall_complete": true,
+  "public_submission_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+  "final_receipt": "lean/FINAL_ACCEPTANCE.json"
 }

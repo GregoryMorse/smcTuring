@@ -1,6 +1,6 @@
 # Final corrected-paper theorem map
 
-Mathematical and conditional native bindings are complete. Rounds1–6 accepted; the final cold replay checks1151/7975 with zero reuse. Actual public-commit/native CI and Palomar acceptance remain open in [PALOMAR_AUDIT.md](PALOMAR_AUDIT.md). Overall release completion is false.
+Mathematical and conditional native bindings are complete. All seven rounds are accepted. The public cold CI audit checks 1,152 fresh modules / 7,976 declarations with zero reuse; same-source Windows native CI and the official full Palomar mechanical preflight pass. See [closure status](CLOSURE_STATUS.md) and [final acceptance](FINAL_ACCEPTANCE.json). Intake and editorial registration are left to the user.
 
 | Requirement | Positive theorem / precise scope |
 | --- | --- |

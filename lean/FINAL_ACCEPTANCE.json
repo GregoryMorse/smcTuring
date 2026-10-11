@@ -1,0 +1,286 @@
+{
+  "state": "COMPLETE",
+  "updated_at": "2026-10-11T06:43:00.453403+00:00",
+  "source_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+  "source_url": "https://github.com/GregoryMorse/smcTuring/tree/1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+  "mathematical_proof_complete": true,
+  "release_ci_complete": true,
+  "all_seven_rounds_accepted": true,
+  "linux_proof": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38108181056",
+    "original_workflow_conclusion": "failure after successful complete proof audit; errata packaging dependency missing",
+    "modules": 1152,
+    "declarations": 7976,
+    "freshly_compiled": 1152,
+    "reused": 0,
+    "report_sha256": "078d3b80124d05e98ca2dcaa9e52cb105c087e89b4350dc696c9f9187b5baf2d",
+    "axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ]
+  },
+  "completed_acceptance": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38118165923",
+    "workflow_caller_commit": "248b07675559352462c1863e4e74d50db2dce698",
+    "source_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+    "same_source_linux_and_windows": true,
+    "new_linux_modules_compiled": 0,
+    "unchanged_linux_modules_verified": 1152,
+    "linux_snapshot_sha256": "b006ed556158728cb4bce595b10f2e869af41ced5b71c2f135d30e619afd9f1e",
+    "native_report_sha256": "8283475940a6eb84f9692c7ff6e2bf6e995efbc2f4050ff6c949c9331306bd9b",
+    "exporter_report_sha256": "4faa5d2b3fb4fd389d837c0aa6d5e7b81dc41f6496ca85935dbe48493e591c68",
+    "windows_exporter_modules": 210,
+    "windows_exporter_roots": 23,
+    "native_suites": [
+      {
+        "script": "run_baseline.py",
+        "report": "validation/baseline.json",
+        "sha256": "528fe0f5859be6f4ba77401441ce191323093e7a1dc2f4d7b161790a24c82d81",
+        "passed": true,
+        "origin_run_id": "38117226865",
+        "verified_retained": true
+      },
+      {
+        "script": "run_defaddr.py",
+        "report": "validation/defaddr.json",
+        "sha256": "a687804ed55f810c1fc9c15f1083a4376c0e885b5955128c8a999136f44dc674",
+        "passed": true,
+        "origin_run_id": "38117226865",
+        "verified_retained": true
+      },
+      {
+        "script": "run_pure.py",
+        "report": "validation/pure.json",
+        "sha256": "81e465506cb6b2c470c5abbb95403fea1d72492a058e9a04bb51bf949f29bc92",
+        "passed": true,
+        "origin_run_id": "38117226865",
+        "verified_retained": true
+      },
+      {
+        "script": "audit_encoding.py",
+        "report": "validation/encoding.json",
+        "sha256": "5501d150fac9758db23f8d8818741b1756f2a137dfb3ea30232428a1545f2785",
+        "passed": true,
+        "origin_run_id": "38117226865",
+        "verified_retained": true
+      },
+      {
+        "script": "run_branch.py",
+        "report": "validation/branch.json",
+        "sha256": "2a02e0fa3cfc156f3f0efa7d0518fa92169d0a91c06906d5868e4d5b2e840658",
+        "passed": true,
+        "origin_run_id": "38117226865",
+        "verified_retained": true
+      },
+      {
+        "script": "run_branch_geometries.py",
+        "report": "validation/branch_geometries.json",
+        "sha256": "dfcbb4109187ea51b197843a5a5c1c8708c08d724ed5c3f76b658cbf367f1c85",
+        "passed": true,
+        "origin_run_id": "38117226865",
+        "verified_retained": true
+      },
+      {
+        "script": "run_half_frame.py",
+        "report": "validation/half-frame.json",
+        "sha256": "5149fb5c04b91efbdfb2ccc892f7986a5ed5f8d3f958ef7ea0e8e3be5abb40f8",
+        "passed": true
+      },
+      {
+        "script": "run_multiplication.py",
+        "report": "validation/multiplication.json",
+        "sha256": "86ccb105770edbaab62a9584b6399cb071220b8ef3770cf8b7d170a19a5c1dd4",
+        "passed": true
+      },
+      {
+        "script": "run_constant.py",
+        "report": "validation/constant.json",
+        "sha256": "5bef8a9bdd17e73a33699f2feee3b8bdbf0dd99ce0d2f498806f0faf40db5c61",
+        "passed": true
+      },
+      {
+        "script": "run_zero.py",
+        "report": "validation/zero.json",
+        "sha256": "588b8a18367ff97683b5ef4405f6231e15dcbdba54a3e157933b29335e2730ec",
+        "passed": true
+      },
+      {
+        "script": "run_conversion.py",
+        "report": "validation/conversion.json",
+        "sha256": "1dd57a5185ab0bfbe034e34be6453c4063846dcc29b019eafc004712b037d00b",
+        "passed": true
+      },
+      {
+        "script": "run_template.py",
+        "report": "validation/template.json",
+        "sha256": "887477070e87197641a4062e7831a72317314e0e95595cd4913605aa0e3b7364",
+        "passed": true
+      },
+      {
+        "script": "run_transfer.py",
+        "report": "validation/transfer.json",
+        "sha256": "4c209706293584d0c7879355abb227adfb954180c5ab4465fe6e69e8b6edb0c9",
+        "passed": true
+      },
+      {
+        "script": "run_division.py",
+        "report": "validation/division.json",
+        "sha256": "c93a8ac8bd762e3bbc37749c44c690efd4144779d43407645e16afa23fb7ee0f",
+        "passed": true
+      },
+      {
+        "script": "run_terminal.py",
+        "report": "validation/terminal.json",
+        "sha256": "3734263de53055f5ce1c3dc293d7519248b757e6a6774d8d849b76e254e97442",
+        "passed": true
+      },
+      {
+        "script": "run_accumulator.py",
+        "report": "validation/accumulator.json",
+        "sha256": "6b86f72d5780023a84aa29a88b90768e4fbd29d0e601cb4bb892bb00f38cdd76",
+        "passed": true
+      },
+      {
+        "script": "run_input_operand.py",
+        "report": "validation/input_operand.json",
+        "sha256": "b207215f845cf79678a8241aafafeb876368b4f554b35594e62e719e34d3770c",
+        "passed": true
+      },
+      {
+        "script": "run_dword_owner.py",
+        "report": "validation/dword_owner.json",
+        "sha256": "4958eeca3d2570dc37169eb22450f07ee013af48441db22c284cb4f11b4c5a4a",
+        "passed": true
+      },
+      {
+        "script": "run_dword_comparison.py",
+        "report": "validation/dword_comparison.json",
+        "sha256": "759a2e7de244ad4699638b2ceec062067edfec96ab1e6d2295e34f5273de2caf",
+        "passed": true
+      },
+      {
+        "script": "run_cursor.py",
+        "report": "validation/cursor.json",
+        "sha256": "28feb4b4df630410666f12992ef24006b7205ea4adb69db0653d5b07b39ec55f",
+        "passed": true
+      },
+      {
+        "script": "run_input_update.py",
+        "report": "validation/input_update.json",
+        "sha256": "5bbd6d478521eb9f49b7fd194ce8e5a998b7a5300e254663242ba7c58f128d6d",
+        "passed": true
+      }
+    ],
+    "windows_exporter_origin": {
+      "run_id": "38115827274",
+      "source_commit": "1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4",
+      "report_sha256": "e45782301b7bae44a269d809a5fb33995e61dbd655b8ec710a42267afed8cbd6",
+      "prior_freshly_compiled": 210,
+      "current_freshly_compiled": 0,
+      "verified_reused": 210,
+      "unique_artifact_hashes_verified": 12708
+    },
+    "runtime_baseline_provider": {
+      "source_files_modified": false,
+      "path": "validation/run_baseline.py",
+      "sha256": "bbf5cee6415853f929ec80c63cde57b57b7dd711c586b96bf559677f11c4fb18",
+      "project_requested_toolset": "v145",
+      "runner_override_toolset": "v143"
+    },
+    "runtime_proof_bridge_provider": {
+      "source_files_modified": false,
+      "path": "validation/ci/proof_bridge.py",
+      "sha256": "27759cad50b278d0fcc20dacd737d2beabe17ea99f3319583be6f059442f85c8",
+      "windows_path_aliases_for_identical_checked_files": true
+    },
+    "retained_native_origin": {
+      "run_id": "38117226865",
+      "passed_suites": 6,
+      "new_suites": 15,
+      "exact_source_snapshot_verified": true,
+      "tool_binary_hashes_match": true
+    },
+    "baseline_configurations": [
+      "Debug-Win32",
+      "Debug-x64",
+      "Release-Win32",
+      "Release-x64"
+    ],
+    "baseline_simulator_checks": 30,
+    "full_windows_lean_audit_claimed": false,
+    "native_job_cap_bytes": 1500000000,
+    "frozen_configuration_recovery": {
+      "omitted_library_registrations": [
+        "Challenge",
+        "Solution"
+      ],
+      "all_other_configuration_fields_identical": true,
+      "source_files_modified": false,
+      "direct_compiler_options": {
+        "autoImplicit": false
+      },
+      "runtime_driver_sha256": "5c21b47831ab35f966996d377282ec25a15f453f506f424578f218edc1e788f2"
+    }
+  },
+  "palomar": {
+    "mechanical_status": "pass",
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38108849833",
+    "report_sha256": "5217bb2db7ef01d99c162105a752425ff7c7249eaf39472359217600c41e0943",
+    "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "pipeline_pin_source": ".github/workflows/palomar-full.yml at successful caller 7c375fbf3011e6a2b14741d007f2ae0c65196536",
+    "execution_profile": "palomar-standard-v1",
+    "warnings": [
+      "configured Challenge source exceeds the preferred 32 KiB / 300-line review surface"
+    ],
+    "license": {
+      "declared_identifier": "CC0-1.0",
+      "detected_identifier": "CC0-1.0",
+      "path": "LICENSE.txt",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    "submission_performed": false,
+    "registration_performed": false
+  },
+  "errata": {
+    "path": "output/pdf/morse-2018-errata.pdf",
+    "sha256": "9dc820126a93b9f93c91053ec9cca991670c2ec0b6bef04166f7be73c7e59c57",
+    "pages": 2,
+    "corrections": "M01-M20",
+    "exact_excerpts": 60,
+    "positive_proof_references": 128
+  },
+  "cleanup": {
+    "server_task": "/home/morse/smcTuring-proof-20261006",
+    "server": "157.181.172.78",
+    "task_removed": true,
+    "retired_tmux_smc_closed": true,
+    "local_validation_remote_removed": true,
+    "retained_archives": [
+      {
+        "path": "D:\\Source\\Repos\\smcTuring\\validation\\checkpoint-archive\\08f0a594f691cb0f131a72c81dbcbd79b5667a20.zip",
+        "sha256": "5a4934ee314b36c90dfd09c331f877940790ba27e3d092dd82a5774edc8976dd",
+        "bytes": 18397898
+      },
+      {
+        "path": "D:\\Source\\Repos\\smcTuring\\validation\\checkpoint-archive\\palomar-recovery-20261011-6314636c141c.zip",
+        "sha256": "70acebaaf37ff29a785037b8870f4accbfd0c4785a27afbb36653b6306df462a",
+        "bytes": 21026184
+      },
+      {
+        "path": "D:\\Source\\Repos\\smcTuring\\validation\\checkpoint-archive\\final-server-close-20261011.zip",
+        "sha256": "45883885fdfac69522b259093470fd9d8aab9f76e5a06f7f71cd01ca2838b171",
+        "bytes": 17968587
+      },
+      {
+        "path": "D:\\Source\\Repos\\smcTuring\\validation\\checkpoint-archive\\workstation-validation-before-cleanup-20261011.zip",
+        "sha256": "06f0f24a314cd374e9516979e087905bad3aacd74d1288773d1a005051144ae7",
+        "bytes": 13085641
+      }
+    ]
+  },
+  "limits": "Ideal unbounded mathematical machine; explicitly conditional bounded x86/x64 supporting refinements. No whole CPU/OS or physical RET/stop theorem; no independent human review or registry endorsement.",
+  "post_submission_changes": "Current master adds CI caller/runtime repairs, equivalent proof-cache library registrations, and closure documents. Lean theorem source and native algorithm source remain identical to the checked submission commit."
+}

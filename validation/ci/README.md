@@ -1,7 +1,10 @@
 # Exact-source proof and native CI
 
-The workflow in `.github/workflows/proof-native.yml` is prepared for coordinator
-review and a subsequent push/run. Preparing it is not evidence that GitHub ran it.
+The published workflow performs complete pinned Linux proof and Windows native
+validation. Actual accepted release runs and the strictly source-bound recovery
+are recorded in [FINAL_ACCEPTANCE.json](../../lean/FINAL_ACCEPTANCE.json).
+The original cold proof audit passed before a packaging import failed; recovery
+finished the remaining gates without rebuilding the unchanged 1,152 modules.
 
 ## Scope
 

@@ -1,3 +1,8 @@
+> Current closure (2026-10-11): all seven rounds are accepted. Complete public
+> proof/native CI and Palomar full mechanical preflight pass. See
+> [closure status](CLOSURE_STATUS.md) and [final acceptance](FINAL_ACCEPTANCE.json).
+> Dated progress comments below are historical and do not reopen closed obligations.
+
 # Constructed printed x86 branch
 
 Date: 2026-10-05. E15-E19 supply 64 checked declarations for the reference

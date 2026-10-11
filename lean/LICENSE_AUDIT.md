@@ -5,8 +5,10 @@ the same SPDX identifier from the repository's existing root `LICENSE.txt`.**
 The detected Git blob is `0e259d42c996742e9e3cba14c677129b2c1b6311`.
 Its text matches the local license modulo CRLF, and `formalization.yaml`
 declares exactly `CC0-1.0`. There is one conventional root license file.
-The final Palomar workflow also runs its own license detector on the public
-submission commit; that mechanical result is retained with the CI reports.
+The [successful official Palomar workflow](https://github.com/GregoryMorse/smcTuring/actions/runs/38108849833) independently detected
+`CC0-1.0` on proof commit `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`, matching the declared identifier.
+Its normalized license SHA-256 is
+`a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499`.
 
 Detection evidence: [GitHub license API](https://api.github.com/repos/GregoryMorse/smcTuring/license)
 and [existing root license](https://github.com/GregoryMorse/smcTuring/blob/master/LICENSE.txt).

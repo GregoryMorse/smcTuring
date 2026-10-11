@@ -8,14 +8,14 @@ Run every build/test command serially through `validation/limited_run.py`.
 Windows caps aggregate committed allocation at 1.5 GB; a 25 ms monitor also
 stops the job at a conservative 1.5 GB resident threshold. Direct Lean uses
 `-M768 -j1`. Never retry a capped failure without the guard.
-The final cold Linux replay passes 1,151 production modules and 7,975 declarations
-with zero project-cache reuse and only standard axioms. Mathematical proofs and
-conditional native bindings are complete. Actual final public-commit CI and
-Palomar acceptance remain open; see [the Palomar audit](lean/PALOMAR_AUDIT.md).
-The selected Palomar interface now passes protected Comparator, NanoDa and
-Lean's kernel. Its current source-bound audit checks 1,152 modules and 7,976
-declarations, compiling only the new wrapper and reusing the 1,151 core modules.
-See [current closure status](lean/CLOSURE_STATUS.md).
+The final public cold CI audit passes 1,152 freshly compiled modules and 7,976
+declarations, with zero reuse and only standard axioms. Mathematical proofs and
+conditional native bindings are complete. All 21 Windows native suites and the
+official full Palomar mechanical preflight pass; see
+[final acceptance](lean/FINAL_ACCEPTANCE.json).
+All seven rounds are closed. [The submission packet](lean/PALOMAR_SUBMISSION.md)
+names the exact audited proof commit. Intake/editorial registration is left to
+the user. See [current closure status](lean/CLOSURE_STATUS.md).
 
 
 [![DOI](https://img.shields.io/badge/DOI-10.24425%2F119359-blue)](https://doi.org/10.24425/119359)
@@ -58,7 +58,8 @@ byte kernel and backedge now have checked fixed-allocation, canonical-address an
 effective permission contracts. The full corrected-paper theorem and same-trace
 appendix/native/COFF refinements are checked under the present-object and local
 ISA conditions in [the physical contract](lean/PHYSICAL_BINDING_CONTRACT.md).
-Actual source-bound release CI and Palomar verification remain separate gates.
+Actual source-bound release CI and the full Palomar mechanical preflight pass.
+The [reviewed two-page errata PDF](output/pdf/morse-2018-errata.pdf) is included.
 
 The MOV foundation uses three addressing forms:
 
