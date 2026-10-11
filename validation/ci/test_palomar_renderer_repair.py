@@ -41,7 +41,8 @@ class RepairRegression(unittest.TestCase):
     def setUp(self):
         self.project = json.loads(self.manifest.read_text())
         original = next(p for p in self.project['packages'] if p['name'] == 'plausible')
-        assert original['rev'] == PLAUSIBLE_REVISIONS[0]
+        # Reproduce the known conflict independently of the live project's pin.
+        original['rev'] = original['inputRev'] = PLAUSIBLE_REVISIONS[0]
         alternative = deepcopy(original)
         alternative['rev'] = PLAUSIBLE_REVISIONS[1]
         self.verso = {'packages': [alternative]}

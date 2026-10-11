@@ -10,7 +10,7 @@ finished the remaining gates without rebuilding the unchanged 1,152 modules.
 
 - Linux: pinned Lean 4.35.0-rc3 / commit
   `470d5ce1400764999581fd26d5d72b00d990b0f4`, pinned Mathlib
-  `302343bb9a029d4edab4f736703f0736896c1b64`, every production module and every
+  `5e043698502894993991089b2dd893867c0db5c2`, every production module and every
   registered declaration, complete standard-axiom audit, exact proved errata.
 - Windows: fresh Windows compiler and exporter dependency objects; all existing
   baseline and corrected native validators, actual MSVC/MASM/COFF/loaded-image

@@ -9,7 +9,7 @@
     "browser_download_url": "https://github.com/leanprover/lean4/releases/download/v4.35.0-rc3/lean-4.35.0-rc3-windows.zip",
     "digest": "sha256:60dc217df401fda0878efd0d5fdead952e4c7459ecab6d02f8348d7bfa12cf97"
   },
-  "mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64",
+  "mathlib_revision": "5e043698502894993991089b2dd893867c0db5c2",
   "reference_files": [
     {
       "path": "validation/.cache/morse-2018.pdf",

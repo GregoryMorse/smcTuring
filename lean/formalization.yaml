@@ -68,7 +68,7 @@ related_formalizations:
       for general self-modifying code. This development does not use that
       implementation or claim to replace it; its pure-SMC universality
       construction is a different result.
-  - id: "https://github.com/leanprover-community/mathlib4/tree/302343bb9a029d4edab4f736703f0736896c1b64/Mathlib/Computability"
+  - id: "https://github.com/leanprover-community/mathlib4/tree/5e043698502894993991089b2dd893867c0db5c2/Mathlib/Computability"
     relationship: "builds-on"
     note: >-
       Uses the pinned Mathlib computability/Turing-machine development and proves

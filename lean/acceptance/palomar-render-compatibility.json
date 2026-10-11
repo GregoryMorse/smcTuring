@@ -1,5 +1,5 @@
 {
-  "status": "supported-dependency-route-identified-awaiting-pin-approval-and-validation",
+  "status": "aligned-mathlib-candidate-awaiting-fresh-verification",
   "checked_on": "2026-10-11",
   "official_registry_renderer_updated": false,
   "official_resubmission_performed": false,
@@ -88,14 +88,16 @@
     "note": "Upstream report lists its default 12 GiB per-scope limit; the outer user slice imposes 7.5 GB aggregate."
   },
   "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
-  "mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64",
+  "mathlib_revision": "5e043698502894993991089b2dd893867c0db5c2",
   "project_proof_native_and_errata_sources_unchanged_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
   "dependency_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
   "new_full_proof_or_native_audit": "not repeated; no source change",
   "upstream_pr": {
     "approval_granted": true,
     "opened": false,
-    "publication_on_hold": "User requested assessment of a normal supported submission route"
+    "publication_on_hold": false,
+    "optional_enhancement_not_submission_prerequisite": true,
+    "authorization": "User authorized opening as a solid enhancement, 2026-10-11"
   },
   "normal_dependency_alignment": {
     "compatible_official_mathlib_snapshots": [
@@ -115,10 +117,10 @@
       }
     ],
     "renderer_code": "unmodified upstream d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
-    "full_proof_verification": "not yet run on these snapshots",
-    "full_html_render": "not yet run on these snapshots",
-    "mathlib_pin_change_approval": "pending; AGENTS.md currently requires the existing revision",
-    "current_project_mathlib_pin_unchanged": true,
+    "full_proof_verification": "pending on approved aligned candidate",
+    "full_html_render": "pending; original Palomar renderer, repair disabled",
+    "mathlib_pin_change_approval": "explicit user approval, 2026-10-11",
+    "current_project_mathlib_pin_unchanged": false,
     "nearest_snapshot_complete_tree_comparison": {
       "complete_git_trees_compared": true,
       "changed_file_count": 1747,
@@ -136,6 +138,19 @@
       ],
       "lean_changed_count": 1719
     },
-    "upstream_patch_not_a_general_prerequisite_for_submission": true
-  }
+    "upstream_patch_not_a_general_prerequisite_for_submission": true,
+    "candidate_manifest_check": {
+      "status": "pass",
+      "mathlib_revision": "5e043698502894993991089b2dd893867c0db5c2",
+      "plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+      "manifest_generated_by_pinned_lake": true,
+      "manifest_sha256": "3383fce2cb42a25dd832ae13ed6f9235e755fd8dfbd6a4fdc0f74f3974faa180",
+      "all_transitive_packages_match_upstream_manifest": true,
+      "unmodified_renderer_merger": "pass",
+      "compiler_and_project_proof_sources_unchanged": true,
+      "full_proof_and_render_checks": "pending"
+    },
+    "official_mechanical_verification": "pending on approved aligned candidate"
+  },
+  "previous_mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64"
 }

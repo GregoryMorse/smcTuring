@@ -48,7 +48,8 @@ def main():
     except AssertionError: checks['outside_ci_refused']=True
     else: raise AssertionError('Run this offline gate outside GitHub')
     workflow=(ROOT/'.github/workflows/proof-native.yml').read_text(encoding='utf-8')
-    assert len(re.findall(r'uses: actions/\S+@[0-9a-f]{40}',workflow))==7
+    action_refs=re.findall(r'uses:\s*(actions/\S+)',workflow)
+    assert len(action_refs)>=7 and all(re.fullmatch(r'actions/\S+@[0-9a-f]{40}',ref) for ref in action_refs)
     assert 'needs: linux-proof' in workflow and 'persist-credentials: false' in workflow
     checks['workflow_action_pins']=True
     write(ROOT/'validation/ci-results/package-check.json',dict(passed=True,checks=checks,sources=inputs(),

@@ -1,9 +1,9 @@
 Title: Preserve Mathlib-compatible Plausible pin for source-identical Verso dependency
 
-Publication on hold: the author is evaluating a coherent official Mathlib
-snapshot as an ordinary submission route. This proposed compatibility improvement
-would preserve the current Mathlib pin; it is not claimed to be a prerequisite
-for all submissions. No PR has been opened.
+This is an optional compatibility improvement for existing newer Mathlib pins.
+The author is independently validating a coherent official Mathlib snapshot
+with the unmodified pipeline as the ordinary submission route. This PR is not
+claimed as a prerequisite for submission.
 
 The Lean 4.35.0-rc3 Verso release pins Plausible at `fb13df7…`, while Mathlib
 `302343b…` pins it at `afc2695…`. Their complete tracked trees differ only in

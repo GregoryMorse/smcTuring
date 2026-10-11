@@ -31,7 +31,9 @@ The user authorizes SSH work on the configured hosts 157.181.172.111 or 157.181.
 resource policy above; local checks remain capped at 1.5 GB and serial.
 Create a dedicated task/run directory on the chosen server. Enforce a remote
 allocation limit below 8 GB (prefer a cgroup/systemd limit of 7.5 GB) before
-heavy work. Keep Lean 4.35.0-rc3 and the existing Mathlib revision pinned.
+heavy work. Keep Lean 4.35.0-rc3 and Mathlib revision
+5e043698502894993991089b2dd893867c0db5c2 pinned. This compatible Mathlib
+alignment was explicitly approved by the user on 2026-10-11.
 Fetch changed source, logs, reports and artifact manifests at every completed
 checkpoint, and at failure/termination. Keep remote platform artifacts in a
 separate local evidence directory; do not substitute Linux compiled objects

@@ -1,6 +1,11 @@
 name: Pinned proof and native acceptance
 on:
   workflow_dispatch:
+    inputs:
+      proof_only:
+        description: Verify changed proof dependencies; retain prior unchanged native evidence
+        type: boolean
+        default: false
   push:
     branches: [main, master]
   pull_request:
@@ -42,6 +47,7 @@ jobs:
             validation/errata.json
   windows-native:
     needs: linux-proof
+    if: github.event_name != 'workflow_dispatch' || !inputs.proof_only
     runs-on: windows-2022
     timeout-minutes: 360
     env:

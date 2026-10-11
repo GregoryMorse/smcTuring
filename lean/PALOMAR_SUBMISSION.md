@@ -1,6 +1,6 @@
 # Palomar submission packet
 
-**Normal dependency alignment is being evaluated; no replacement submitted.** The original
+**Compatible Mathlib alignment approved; fresh checks pending.** The original
 submission passed mechanical verification. The project dependency override was
 reverted. A narrow renderer patch now passes the complete HTML path with the
 original proof and dependency pins; see the
@@ -8,7 +8,10 @@ original proof and dependency pins; see the
 The table records the existing submission. A compatible official Mathlib
 snapshot also passes the unmodified renderer's merger, so an upstream PR is
 not a necessary prerequisite if that snapshot passes fresh proof/render checks.
-The current Mathlib pin is retained pending approval to change it.
+The project now pins Mathlib `5e043698502894993991089b2dd893867c0db5c2`, with
+its complete upstream dependency snapshot and Lean `4.35.0-rc3` unchanged.
+Full proof and unmodified renderer verification are pending; the table still
+records the existing submission.
 
 | Form field | Exact value |
 | --- | --- |

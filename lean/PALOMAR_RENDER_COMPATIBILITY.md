@@ -118,17 +118,22 @@ shared dependencies. Using either complete coherent dependency snapshot is
 ordinary version alignment, rather than a renderer exception.
 
 These Mathlib snapshots change more than a dependency manifest. The closest
-compatible commit differs from our current snapshot in 1,747 tracked files,
+compatible commit differs from the previous snapshot in 1,747 tracked files,
 including 1,719 Lean files and six computability modules. A compatible merge
 therefore does not establish that all existing proofs compile with it. Fresh
 proof and unmodified renderer verification are needed before integrating or
-submitting that candidate. The current Mathlib pin is retained while approval
-is pending because AGENTS.md explicitly requires it to remain pinned.
+submitting that candidate. The user approved alignment to
+`5e043698502894993991089b2dd893867c0db5c2`. Both Lake configurations, the
+Lake-generated manifest, CI pins and dependency metadata now record this
+coherent snapshot. AGENTS.md retains the new pin. The unmodified merger and
+upstream manifest equality checks pass; fresh full proof, official mechanical
+and unmodified renderer checks are pending.
 
 The proposed renderer repair is an alternative compatibility improvement that
-retains the exact already-verified Mathlib snapshot. No PR has been opened;
-publication is on hold following the user's request to evaluate the normal
-dependency route. The patch does not alter Lean proofs or proof verification,
+retains the exact previously verified Mathlib snapshot. The user authorized an
+optional upstream PR with the tested reproduction and restrictive regression
+coverage. Our submission route uses aligned dependencies and unmodified
+Palomar code. The patch does not alter Lean proofs or proof verification,
 but it is a proposed exception to the renderer's dependency identity check and
 must not be described as an unmodified Palomar run.
 
