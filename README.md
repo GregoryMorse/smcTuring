@@ -17,6 +17,10 @@ All seven rounds are closed. [The submission packet](lean/PALOMAR_SUBMISSION.md)
 names the exact audited proof commit. Intake/editorial registration is left to
 the user. See [current closure status](lean/CLOSURE_STATUS.md).
 
+Palomar's renderer needs a matching Plausible dependency revision. The
+[renderer compatibility note](lean/PALOMAR_RENDER_COMPATIBILITY.md) documents
+the small source-identical pin adjustment and its focused checks.
+
 
 [![DOI](https://img.shields.io/badge/DOI-10.24425%2F119359-blue)](https://doi.org/10.24425/119359)
 [![IJET](https://img.shields.io/badge/Journal-IJET_Vol._64_No._2_%282018%29-green)](https://ijet.ise.pw.edu.pl/index.php/ijet/article/view/10.24425-119359)

@@ -10,6 +10,15 @@ name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
 rev = "302343bb9a029d4edab4f736703f0736896c1b64"
 
+# Match Palomar's Lean 4.35.0-rc3 Verso release. The alternative Mathlib pin
+# differs only in upstream CI; see PALOMAR_RENDER_COMPATIBILITY.md.
+# Lake resolves direct requirements in reverse order; keep this override last.
+[[require]]
+name = "plausible"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/plausible"
+rev = "fb13df72ecefd8ddbf9291021d7f33a8673eb57b"
+
 [[lean_lib]]
 name = "SmcTuring"
 
