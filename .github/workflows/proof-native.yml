@@ -44,6 +44,8 @@ jobs:
     needs: linux-proof
     runs-on: windows-2022
     timeout-minutes: 360
+    env:
+      SMCTURING_MSBUILD_TOOLSET: v143
     steps:
       - name: Preserve exact source bytes
         shell: pwsh

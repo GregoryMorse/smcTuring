@@ -10,7 +10,7 @@ from pathlib import Path
 import subprocess
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get('SMCTURING_SOURCE_ROOT', Path(__file__).resolve().parents[1])).resolve()
 EXPECTED = "0100_1001_ -> 1101_0000_"
 CONFIGURATIONS = [("Debug", "Win32"), ("Release", "Win32"),
                   ("Debug", "x64"), ("Release", "x64")]
@@ -51,6 +51,12 @@ def main() -> None:
                    "/p:Platform=" + platform,
                    "/p:OutDir=" + str(folder) + os.sep,
                    "/p:IntDir=" + str(folder / "obj") + os.sep]
+        # A runner may use its installed MSVC toolset without retargeting the
+        # original project or changing any C++/MASM source.
+        toolset = os.environ.get('SMCTURING_MSBUILD_TOOLSET')
+        if toolset:
+            assert toolset in {'v143', 'v145'}, 'Unexpected MSVC toolset'
+            command.append('/p:PlatformToolset=' + toolset)
         print("Building " + label, flush=True)
         build = subprocess.run(command, cwd=ROOT, capture_output=True,
                                text=True, errors="replace", timeout=240)

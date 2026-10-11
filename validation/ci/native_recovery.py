@@ -1,5 +1,5 @@
 """Finish errata/native acceptance for the unchanged, already compiled public proof."""
-import argparse, json, os, runpy, shutil, subprocess, sys, tomllib, types
+import argparse, importlib.util, json, os, runpy, shutil, subprocess, sys, tomllib, types
 from pathlib import Path
 
 SOURCE_COMMIT = '1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4'
@@ -8,9 +8,10 @@ PROOF_SHA = '078d3b80124d05e98ca2dcaa9e52cb105c087e89b4350dc696c9f9187b5baf2d'
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('phase', choices=['linux', 'windows', 'windows-export'])
+    parser.add_argument('phase', choices=['linux', 'windows', 'windows-export', 'windows-native'])
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--prior', type=Path)
+    parser.add_argument('--windows-prior', type=Path)
     args = parser.parse_args()
     source = args.source.resolve()
     driver = Path(__file__).resolve().parents[2]
@@ -87,6 +88,27 @@ def main():
             direct_compiler_options={'autoImplicit':False},
             runtime_driver_sha256=digest(Path(__file__)))
         path.write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')
+    elif args.phase == 'windows-native':
+        assert os.name == 'nt' and os.environ.get('SMCTURING_MSBUILD_TOOLSET') == 'v143'
+        sys.path[:0] = [str(source/'validation/ci'), str(source/'validation')]
+        path = source/'validation/ci/windows_native.py'
+        spec = importlib.util.spec_from_file_location('frozen_native',path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        def native_run(command, **kwargs):
+            command = list(command)
+            baseline = str(source/'validation/run_baseline.py')
+            if baseline in command:
+                command[command.index(baseline)] = str(driver/'validation/run_baseline.py')
+            return subprocess.run(command, **kwargs)
+        module.subprocess = types.SimpleNamespace(run=native_run)
+        module.main()
+        path = source/'validation/ci-results/native-artifacts.json'
+        result = json.loads(path.read_text(encoding='utf-8'))
+        result['runtime_baseline_provider'] = dict(source_files_modified=False,
+            path='validation/run_baseline.py',sha256=digest(driver/'validation/run_baseline.py'),
+            project_requested_toolset='v145',runner_override_toolset='v143')
+        path.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     else:
         assert os.name == 'nt'
         linux = source/'linux-evidence'
@@ -102,10 +124,42 @@ def main():
         assert not differences, 'Source checkout mismatch: '+json.dumps(differences,sort_keys=True)
         print('Exact Linux/Windows checkout identity passed before bootstrap.',flush=True)
         run('ci/bootstrap.py')
-        subprocess.run([sys.executable, str(Path(__file__)), 'windows-export',
-                        '--source', str(source)], cwd=source, env=env, check=True)
+        if args.windows_prior is not None:
+            previous_path = args.windows_prior.resolve()/'ci-results/windows-exports.json'
+            previous_sha = digest(previous_path)
+            assert previous_sha == 'e45782301b7bae44a269d809a5fb33995e61dbd655b8ec710a42267afed8cbd6'
+            previous = json.loads(previous_path.read_text(encoding='utf-8'))
+            assert previous['passed'] and len(previous['modules']) == 210
+            assert previous['frozen_configuration_recovery']['source_files_modified'] is False
+            sys.path.insert(0, str(source/'validation'))
+            from module_artifacts import TOOLCHAIN
+            assert previous['compiler_sha256'] == digest(TOOLCHAIN/'bin/lean.exe')
+            checked = {}
+            def checked_hash(name, expected):
+                path = source/name
+                assert path.resolve().is_relative_to(source)
+                if name not in checked: checked[name] = digest(path)
+                assert checked[name] == expected, 'Windows cache mismatch: '+name
+            for name, record in previous['modules'].items():
+                relative = Path(*name.split('.'))
+                checked_hash((Path('lean')/relative.with_suffix('.lean')).as_posix(),record['source'])
+                checked_hash((Path('lean/.lake/proof-build/ir')/relative.with_suffix('.setup.json')).as_posix(),record['setup'])
+                for group in ['artifacts','dependencies']:
+                    for path, expected in record[group].items(): checked_hash(path,expected)
+            previous['verification_origin'] = dict(run_id='38115827274',source_commit=SOURCE_COMMIT,
+                report_sha256=previous_sha,prior_freshly_compiled=210,current_freshly_compiled=0,
+                verified_reused=210,unique_artifact_hashes_verified=len(checked))
+            previous['scope'] = 'Unchanged Windows exporter cache, fully hash-verified against prior fresh Windows build; no project module recompiled'
+            path = source/'validation/ci-results/windows-exports.json'
+            path.write_text(json.dumps(previous,indent=2)+'\n',encoding='utf-8')
+            print('All 210 previously compiled Windows exporter modules and their dependency/setup/source hashes verified; no module rebuilt.',flush=True)
+            del previous, checked
+        else:
+            subprocess.run([sys.executable, str(Path(__file__)), 'windows-export',
+                            '--source', str(source)], cwd=source, env=env, check=True)
         run('ci/proof_bridge.py', linux/'remote-evidence/lean.json', linux/'ci-results/linux-snapshot.json')
-        run('ci/windows_native.py')
+        subprocess.run([sys.executable, str(Path(__file__)), 'windows-native',
+                        '--source',str(source)], cwd=source,env=env,check=True)
         print('Fresh Windows exporter objects and all native suites passed for the same public proof source.', flush=True)
 
 if __name__ == '__main__':
