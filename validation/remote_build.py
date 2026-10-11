@@ -78,7 +78,8 @@ def main():
    cache_env['OPENSSL_CONF']='/dev/null'
    cache_env['CURL_CA_BUNDLE']='/etc/pki/tls/certs/ca-bundle.crt'
   manifest=json.loads((ROOT/"lean/lake-manifest.json").read_text())
-  assert next(p["rev"] for p in manifest["packages"] if p["name"]=="mathlib")=="302343bb9a029d4edab4f736703f0736896c1b64"
+  pins=json.loads((ROOT/"validation/ci/pins.json").read_text(encoding="utf-8"))
+  assert next(p["rev"] for p in manifest["packages"] if p["name"]=="mathlib")==pins["mathlib_revision"]
   os.environ["SMCTURING_LEAN_ROOT"]=str(compiler)
   from remote_artifacts import ArtifactResolver
   from remote_reuse import read_previous,reusable,input_fingerprint

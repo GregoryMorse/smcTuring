@@ -10,7 +10,7 @@ import urllib.error
 import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
-REVISION = "302343bb9a029d4edab4f736703f0736896c1b64"
+REVISION = json.loads((ROOT / "validation/ci/pins.json").read_text(encoding="utf-8"))["mathlib_revision"]
 REPOSITORY = "https://github.com/leanprover-community/mathlib4.git"
 BASE = "https://raw.githubusercontent.com/leanprover-community/mathlib4/" + REVISION + "/"
 DESTINATION = ROOT / "validation/.cache/mathlib-metadata" / REVISION

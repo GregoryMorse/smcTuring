@@ -1,5 +1,5 @@
 """Offline package gate: syntax, pins, registry coverage, closure and fail-closed scope."""
-import ast, json, re
+import ast, json, re, tomllib
 from pathlib import Path
 from common import ROOT, COMMIT, digest, inputs, write
 
@@ -9,6 +9,12 @@ def main():
     for source in scripts: ast.parse(source.read_text(encoding='utf-8'))
     checks['python_syntax']=len(scripts)
     pins=json.loads(Path(__file__).with_name('pins.json').read_text(encoding='utf-8'))
+    manifest=json.loads((ROOT/'lean/lake-manifest.json').read_text(encoding='utf-8'))
+    assert next(p['rev'] for p in manifest['packages'] if p['name']=='mathlib') == pins['mathlib_revision']
+    for name in ['lakefile.toml','lakefile.proof.toml']:
+        config=tomllib.loads((ROOT/'lean'/name).read_text(encoding='utf-8'))
+        assert next(p['rev'] for p in config['require'] if p['name']=='mathlib') == pins['mathlib_revision']
+    checks['mathlib_pins_consistent']=True
     for platform in ['linux','windows']:
         assert pins[platform]['browser_download_url'].startswith('https://github.com/leanprover/lean4/releases/download/v4.35.0-rc3/')
         assert re.fullmatch(r'sha256:[0-9a-f]{64}',pins[platform]['digest'])
