@@ -86,19 +86,33 @@ other revision/fork and altered package configuration or subdirectory. Eight
 focused regression tests pass. The
 [advisory workflow](../.github/workflows/palomar-render.yml) checks the complete
 upstream Git trees before applying it, then runs the complete renderer path.
-Full-render validation is pending. The submitted proof and dependency pins are
+The [complete patched render](https://github.com/GregoryMorse/smcTuring/actions/runs/38154282274)
+**passes**: all 8,998 requested cache archives download, the unchanged Challenge
+builds and renders, all eight selected declaration surfaces pass, and the final
+sanitized Verso HTML bundle is produced. Preparation through rendering takes
+under five minutes. The submitted proof and dependency pins are
 unchanged, as are the renderer's cache, sandbox and declaration checks. This is
 a proposed Palomar code change; it does not update Palomar's deployed service.
 
-**No demonstrated working retry candidate yet.** Keep the mechanically verified
+The artifact records the upstream base renderer SHA-256
+`0cde8c3082a672fe99435ed0bed237b719e8041288e4ffa535cebbfbdb1395b9`
+and patched renderer SHA-256
+`d6881326999ac2af47485eeef9f6b6d50970fe976b116e5912fc2f42f22f93b9`.
+The report's `renderer_commit` is the base revision, not an assertion that
+Palomar ran the patch. Its separate repair receipt and workflow identify the
+modified code. A [ready PR description](../validation/ci/palomar-renderer-fix-pr.md)
+accompanies the exact patch; no upstream PR or issue comment has been posted.
+
+**Renderer fix validated; deployment upstream still needed.** Keep the mechanically verified
 submission open. Hash-only retries and the reverted Plausible override do not
-resolve the complete renderer path. The narrow upstream remedy is to reconcile
-Verso's shared-dependency pin with Mathlib's pin, or support source-identical
-dependencies throughout both renderer merging and cache preparation. The two
+resolve the complete renderer path. The tested narrow remedy preserves the
+Mathlib-compatible pin while accepting the known source-identical pair during
+renderer merging. Palomar must adopt this repair (or an equivalent upstream
+dependency alignment) before an unchanged retry can succeed. The two
 upstream Plausible revisions differ only in CI; changing the mathematics or
 rebuilding the closed proof audit would not address this setup issue.
 
-When a complete renderer probe passes, submit the corrected commit and select
+Once Palomar deploys the validated repair, submit the corrected commit and select
 replacement of the earlier submission after GitHub authentication. Palomar's
 [replacement contract](https://github.com/PalomarRegistry/PalomarServer#the-state-a-submission-holds)
 closes the earlier record and admits the new record in one transaction. A
@@ -110,9 +124,9 @@ The formal proofs, native source, compiler/Mathlib pins and errata remain unchan
 
 Suggested follow-up for issue #131 (not posted by the agent):
 
-> On Lean 4.35.0-rc3, aligning Plausible with Verso clears the manifest conflict,
-> but the complete renderer then fails Mathlib cache discovery. Pinned Mathlib's
-> `checkForManifestMismatch` requires `afc2695…`, whereas Verso requires `fb13df7…`;
-> those revisions differ only in CI. We reverted the override. Could the renderer
-> reconcile these pins? Reproduction:
-> https://github.com/GregoryMorse/smcTuring/actions/runs/38152118403.
+> We have a tested narrow fix for the Lean 4.35.0-rc3 Plausible conflict: retain
+> Mathlib's `afc2695…` pin and allow Verso's source-identical `fb13df7…` during
+> renderer merging. All 28 Lean files and other build inputs match; only a CI
+> workflow differs. The full patched renderer passes, including cache discovery
+> and all selected declarations. Could this repair be adopted? Reproduction:
+> https://github.com/GregoryMorse/smcTuring/actions/runs/38154282274.

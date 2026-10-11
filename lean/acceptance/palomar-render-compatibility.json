@@ -1,56 +1,95 @@
 {
-  "status": "blocked-upstream-renderer-compatibility",
+  "status": "upstream-fix-validated-awaiting-deployment",
   "checked_on": "2026-10-11",
-  "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
-  "verso_commit": "8fc7a297f14d5adc1a551b5b4ecf283c08bd691f",
-  "plausible_previous_revision": "afc2695efcb6855264d85a45632db1ddc56c8774",
-  "plausible_renderer_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
-  "complete_git_trees_compared": true,
-  "upstream_changed_files": [
-    ".github/workflows/lean_action_ci.yml"
-  ],
-  "all_upstream_lean_and_build_inputs_identical": true,
-  "plausible_lean_files": 28,
+  "official_registry_renderer_updated": false,
+  "official_resubmission_performed": false,
+  "original_mechanical_verification": {
+    "source_commit": "e6aaea4723a82ee50385ac4d7991fbde9ba8ae03",
+    "workflow_url": "https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/38141132403",
+    "status": "pass"
+  },
+  "source_equivalence": {
+    "repository": "leanprover-community/plausible",
+    "revisions": [
+      "afc2695efcb6855264d85a45632db1ddc56c8774",
+      "fb13df72ecefd8ddbf9291021d7f33a8673eb57b"
+    ],
+    "complete_git_trees_compared": true,
+    "changed_files": [
+      ".github/workflows/lean_action_ci.yml"
+    ],
+    "identical_lean_files": 28,
+    "all_other_tracked_inputs_identical": true
+  },
+  "rejected_project_pin_override": {
+    "source_commit": "7b0206dd6f1f97b832ab07aef4603b2c30e1cee1",
+    "manifest_sha256": "903b0d18f24d6a575b3fb3f1d52820c58db3b30353e81de5a5aa24e074c0461f",
+    "focused_merger_status": "pass",
+    "lake_dependency_update": {
+      "status": "pass",
+      "command": "lake --keep-toolchain update plausible",
+      "plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+      "all_other_dependency_entries_unchanged": true,
+      "manifest_generated_by_pinned_lake": true,
+      "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+      "mathlib_post_update_cache_disabled": true,
+      "project_proofs_built": false,
+      "memory_report": "validation/checkpoint-archive/lake-plausible-pin-final-memory-20261011.json"
+    },
+    "full_html_render": {
+      "status": "error",
+      "stage": "workspace",
+      "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38152118403",
+      "error": "Mathlib cache discovery was incomplete (0 of 0 keys); cache command exited 1",
+      "proof_or_challenge_render_started": false,
+      "advisory_not_registry_acceptance": true
+    },
+    "cache_constraint_diagnosis": {
+      "method": "Pinned source and manifests inspected; report truncates cache stdout",
+      "source": "https://github.com/leanprover-community/mathlib4/blob/302343bb9a029d4edab4f736703f0736896c1b64/Cache/Requests.lean#L1066-L1127",
+      "renderer_requires_plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
+      "mathlib_cache_requires_plausible_revision": "afc2695efcb6855264d85a45632db1ddc56c8774",
+      "revision_equality_required_by_both": true,
+      "source_identical_revision_override_is_not_complete_workaround": true
+    },
+    "reverted": true
+  },
+  "proposed_upstream_repair": {
+    "source_commit": "238ce4bf97d9aee768d46b30056e000852ce659d",
+    "upstream_base_revision": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "verso_commit": "8fc7a297f14d5adc1a551b5b4ecf283c08bd691f",
+    "upstream_base_renderer_sha256": "0cde8c3082a672fe99435ed0bed237b719e8041288e4ffa535cebbfbdb1395b9",
+    "patched_renderer_sha256": "d6881326999ac2af47485eeef9f6b6d50970fe976b116e5912fc2f42f22f93b9",
+    "patch_path": "validation/ci/palomar-renderer-plausible.patch",
+    "patch_sha256": "30f6855ebd99cb961b7cbfc6cc8cc1b281075f2c309c6e0fd71dc23474f86ec4",
+    "focused_regression_tests": {
+      "passed": 8,
+      "failed": 0
+    },
+    "complete_renderer_status": "pass",
+    "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38154282274",
+    "prepared_at": "2026-10-11T16:09:52Z",
+    "rendered_at": "2026-10-11T16:14:19Z",
+    "mathlib_cache": {
+      "bytes": 454012230,
+      "downloaded": 8998,
+      "requested": 8998
+    },
+    "selected_declarations_checked": 8,
+    "format": "verso-html",
+    "entrypoint": "Challenge/index.html",
+    "artifact_tree_sha256": "1a5ee39474685259fd2d0b02d8b43b0c143a2adb6361d64276a961c3f6dd24d6",
+    "render_report_sha256": "72caf21f398da1abc103f296472f0a168733e844becccf5a0922d9e9a0b668b0",
+    "repair_report_sha256": "b5c89172be348ef6f317090d3ee5fca22f603c0842a1b6f21083de508871fcc9",
+    "cache_and_sandbox_checks_unchanged": true,
+    "advisory_not_registry_acceptance": true,
+    "report_renderer_commit_is_upstream_base": true,
+    "remote_aggregate_user_slice_memory_limit_bytes": 7500000000,
+    "note": "Upstream report lists its default 12 GiB per-scope limit; the outer user slice imposes 7.5 GB aggregate."
+  },
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "mathlib_revision": "302343bb9a029d4edab4f736703f0736896c1b64",
   "project_proof_native_and_errata_sources_unchanged_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
-  "original_conflict_reproduced": "Verso dependency conflicts with submitted package 'plausible'",
-  "corrected_merge_package_count": 13,
-  "manifest_sha256": "903b0d18f24d6a575b3fb3f1d52820c58db3b30353e81de5a5aa24e074c0461f",
-  "full_html_render": {
-    "status": "error",
-    "stage": "workspace",
-    "workflow_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38152118403",
-    "error": "Mathlib cache discovery was incomplete (0 of 0 keys); cache command exited 1",
-    "proof_or_challenge_render_started": false,
-    "advisory_not_registry_acceptance": true
-  },
-  "new_mechanical_verification": "not-run",
-  "original_merger_helpers_executed": [
-    "lake_package_name",
-    "github_repository",
-    "manifest_package_key",
-    "merge_renderer_manifest"
-  ],
-  "exception_class_for_pure_function_check": "RuntimeError; exception classification not tested",
-  "lake_dependency_update": {
-    "status": "pass",
-    "command": "lake --keep-toolchain update plausible",
-    "plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
-    "all_other_dependency_entries_unchanged": true,
-    "manifest_generated_by_pinned_lake": true,
-    "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
-    "mathlib_post_update_cache_disabled": true,
-    "project_proofs_built": false,
-    "memory_report": "validation/checkpoint-archive/lake-plausible-pin-final-memory-20261011.json"
-  },
-  "tested_source_commit": "7b0206dd6f1f97b832ab07aef4603b2c30e1cee1",
-  "cache_constraint_diagnosis": {
-    "method": "Pinned source and manifests inspected; report truncates cache stdout",
-    "source": "https://github.com/leanprover-community/mathlib4/blob/302343bb9a029d4edab4f736703f0736896c1b64/Cache/Requests.lean#L1066-L1127",
-    "renderer_requires_plausible_revision": "fb13df72ecefd8ddbf9291021d7f33a8673eb57b",
-    "mathlib_cache_requires_plausible_revision": "afc2695efcb6855264d85a45632db1ddc56c8774",
-    "revision_equality_required_by_both": true,
-    "source_identical_revision_override_is_not_complete_workaround": true
-  },
-  "workaround_reverted": true,
-  "dependency_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a"
+  "dependency_configuration_restored_from": "90a87ada9e63fa2f6f508d0356cd44ec01f7fd8a",
+  "new_full_proof_or_native_audit": "not repeated; no source change"
 }
