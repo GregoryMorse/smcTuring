@@ -38,7 +38,7 @@ and unbounded code changes in the ideal unbounded machine model. Native x86/x64
 and COFF refinements state the finite-address, permission and instruction-fetch
 assumptions explicitly. See the [theorem map](lean/FINAL_THEOREM_MAP.md),
 [physical contract](lean/PHYSICAL_BINDING_CONTRACT.md) and
-[verification evidence](lean/FINAL_ACCEPTANCE.json).
+[verification evidence](lean/acceptance/semantic-revision.json).
 
 The paper corrections are available as a [two-page errata PDF](output/pdf/morse-2018-errata.pdf),
 [LaTeX source](lean/errata/morse-2018-errata.tex) and

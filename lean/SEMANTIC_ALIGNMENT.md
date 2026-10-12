@@ -97,8 +97,9 @@ Lean remains `4.35.0-rc3`, compiler commit
 cannot certify the strengthened definitions in this revision.
 
 Affected-module checks use source-bound artifact reuse and a fresh selected
-axiom audit. The final candidate must separately pass the full proof audit,
-unmodified Palomar mechanical preflight and unmodified Challenge rendering.
+axiom audit. The [frozen candidate acceptance](acceptance/semantic-revision.json) passes
+the full proof/native audit, unmodified Palomar mechanical preflight and
+unmodified Challenge rendering.
 The Challenge includes the actual stopping and ownership predicates and must
 stay below the hard 1,000-line / 100 KiB limits. Mechanical and semantic claims
 are reported separately; no registry acceptance is inferred from CI success.

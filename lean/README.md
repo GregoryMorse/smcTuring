@@ -4,7 +4,8 @@ This development formalizes the corrected mathematical construction and its
 conditional native realization. [Selected semantics](PALOMAR_SEMANTICS.md)
 defines the registry scope. [The submission packet](PALOMAR_SUBMISSION.md)
 binds each acceptance result to its tested commit; the current semantic revision
-is tracked separately in [its ledger](SEMANTIC_REVISION_LEDGER.md).
+is complete, with [source-bound acceptance](acceptance/semantic-revision.json)
+and [its ledger](SEMANTIC_REVISION_LEDGER.md).
 Mechanical verification and statement-to-source agreement are distinct checks.
 
 Gregory Morse's [2018 paper](https://doi.org/10.24425/119359) is the mathematical

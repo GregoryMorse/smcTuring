@@ -2,7 +2,7 @@
 
 **Full corrected-paper formalization and release validation complete, 2026-10-11.**
 This historical acceptance applies to the original definitions. The 2026-10-12
-strengthening and its remaining release checks are tracked in
+strengthening and its completed release checks are recorded in
 [SEMANTIC_REVISION_LEDGER.md](SEMANTIC_REVISION_LEDGER.md). The complete development ledger, including its original IDs, dependency
 tables and dated intermediate states, is preserved in
 [the historical ledger](history/PROOF_LEDGER.before-public-closure-20261011.md). Historical
@@ -12,7 +12,7 @@ tables and dated intermediate states, is preserved in
 | --- | --- | --- |
 | Original source baseline | CHECKED | Four configurations and 30 simulator checks in final native CI |
 | Corrected DEFADDR boundary equivalence and purity | CHECKED | `SmcTuring.Defaddr`; original/corrected x86/x64 tests |
-| Stephen Dolan MOV foundation | CHECKED | `Dolan.Four.four_register_mov_simulation` |
+| Stephen Dolan MOV foundation | CHECKED | `Dolan.Four.four_register_mov_certified_simulation` |
 | Pure SMC simulation, halt/divergence and unbounded changed fields | CHECKED | `CorrectedPaper.full_paper` |
 | Effective interpreter and tape/head observations | CHECKED | `CorrectedPaper.observations`, effective terminal construction |
 | Complete printed Listing 8/9 same-prefix executable/owner invariant | CHECKED | `Listing9JointFullExecution.complete_input` |

@@ -3,14 +3,18 @@
 **Complete. All seven deliverable rounds are accepted; the proof, minimal errata,
 native validation and Palomar full mechanical preflight have passed.**
 
-These are historical receipts. The current stronger mathematical statement
-requires the acceptance recorded in [the semantic revision ledger](SEMANTIC_REVISION_LEDGER.md).
+The stronger semantic revision is also **complete, 2026-10-12**, with
+[full source-bound acceptance](acceptance/semantic-revision.json) at
+`16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`: 1,154 fresh modules, 7,995
+declarations, all 21 native suites, protected verification and rendering pass.
+All five [revision rows](SEMANTIC_REVISION_LEDGER.md) are closed. The receipts
+below preserve the original 2026-10-11 acceptance history.
 Use the current [submission packet](PALOMAR_SUBMISSION.md), not the earlier
 immutable proof commit `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4` from
 [GregoryMorse/smcTuring](https://github.com/GregoryMorse/smcTuring/tree/1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4).
 [The submission packet](PALOMAR_SUBMISSION.md) contains the exact form values.
-Later master commits contain CI repairs and closure records; the accepted theorem
-and native algorithm source is unchanged.
+The original closure receipts below retain their historical source bindings;
+the later semantic revision is certified separately above.
 
 | Deliverable | Result | Actual evidence |
 | --- | --- | --- |

@@ -10,7 +10,7 @@ verified public commit. Intake remains Gregory Morse's action.
 | Form field | Value |
 | --- | --- |
 | Repository | `GregoryMorse/smcTuring` |
-| Commit | The exact candidate recorded in the semantic revision acceptance receipt |
+| Commit | `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0` |
 | Project directory | `lean` |
 | Comparator configuration | `lean/comparator.json` |
 | Formalization metadata | `lean/formalization.yaml` |
@@ -66,9 +66,10 @@ Suggested submission notes:
 > Codex made substantial proof/tooling contributions under the author's direction.
 > No new priority, independent human review or registry endorsement is claimed.
 
-The final acceptance must cover the exact revised candidate with a full
-kernel/standard-axiom audit, protected unmodified Palomar preflight and
-unmodified Challenge rendering. The Challenge remains subject to the hard
+The [revision acceptance receipt](acceptance/semantic-revision.json) records
+the passing full audit (1,154 fresh modules and 7,995 declarations), all 21
+Windows native suites, protected unmodified Palomar preflight and unmodified
+Challenge rendering for the exact commit above. The Challenge remains subject to the hard
 1,000-line / 100 KiB limit. The preferred smaller-surface warning is disclosed.
 
 The [21-suite native acceptance](https://github.com/GregoryMorse/smcTuring/actions/runs/38118165923)

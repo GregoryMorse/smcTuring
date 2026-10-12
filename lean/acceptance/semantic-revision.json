@@ -1,0 +1,211 @@
+{
+  "state": "COMPLETE",
+  "checked_at": "2026-10-12T11:39:16.120032+00:00",
+  "source_commit": "16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0",
+  "source_url": "https://github.com/GregoryMorse/smcTuring/tree/16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0",
+  "scope": "Stronger semantic revision; complete proof and native CI, protected Palomar verification and unmodified rendering. Registry semantic review remains external.",
+  "corrections": {
+    "dependency_account": "Current Mathlib pin distinguished from historical acceptance.",
+    "four_mov": "Positive deliberate invalid-zero-load certificate iff the source TM halts, matching disclosed Dolan stopping semantics.",
+    "unbounded_fields": "Every counted changed field has its owning STORE fetched immediately on the same trace."
+  },
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib_commit": "5e043698502894993991089b2dd893867c0db5c2",
+  "source_binding": {
+    "verified_source_files": 1330,
+    "linux_snapshot_sha256": "36a276c0dd134fea68c2da307718198e5c440b3f2f301108719d24270c0b987e",
+    "local_crlf_checkouts_verified_against_candidate_git_blobs": [
+      "smcTuring/dword_owner_smc.inc",
+      "smcTuring/listing5_smc.inc",
+      "smcTuring/listing6_conversion.inc",
+      "smcTuring/listing6_smc.inc",
+      "smcTuring/main.cpp",
+      "smcTuring/smcTuring.vcxproj",
+      "smcTuring/smcTuring.vcxproj.filters",
+      "smcTuring/terminal_smc.inc",
+      "smcTuring/tm.asm"
+    ]
+  },
+  "proof_native": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38228012700",
+    "modules": 1154,
+    "freshly_compiled": 1154,
+    "reused": 0,
+    "declarations": 7995,
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "proof_report_sha256": "9df60a26ac1bf780ab1b3169884cc49c33e446c6d3f078bb28fc3fd5e84d9f43",
+    "axiom_audit_sha256": "3d89faa34cb44c709c23af956706c65268f977f2ca8801611602e01374032990",
+    "windows_exporter_modules": 210,
+    "windows_exporter_roots": 23,
+    "windows_exporter_report_sha256": "b3a8e3330952e845c08b32462e81382a96ddf793a5192409cf34aa99d504836b",
+    "native_report_sha256": "04d19d3f7ce2371418a8a391fe5bae0412d6f59d122d321776814dae7db70f5c",
+    "native_suites": 21,
+    "baseline_configurations": 4,
+    "baseline_simulator_checks": 30,
+    "native_job_cap_bytes": 1500000000,
+    "remote_memory_limit_bytes": 7499997184,
+    "native_suite_receipts": [
+      {
+        "script": "run_baseline.py",
+        "report": "validation/baseline.json",
+        "sha256": "532aea8081023fb537985c0f15c96ef3ce3b53065727fadb8e5d2cc8b95093f2",
+        "passed": true
+      },
+      {
+        "script": "run_defaddr.py",
+        "report": "validation/defaddr.json",
+        "sha256": "0c681b5cc78f7bd1f75353bb7e3a7ec9f2cf8b1c00846bbd5c6557c56f541d34",
+        "passed": true
+      },
+      {
+        "script": "run_pure.py",
+        "report": "validation/pure.json",
+        "sha256": "49d9de13ad2572c398ff7eb6d0aad82b5bd0a43dcc9659f27ebe76fee5615ff1",
+        "passed": true
+      },
+      {
+        "script": "audit_encoding.py",
+        "report": "validation/encoding.json",
+        "sha256": "eb3784ee5ba453299d4de2160539d3287c482d47c1e6dd7fcbfcccc429fa8610",
+        "passed": true
+      },
+      {
+        "script": "run_branch.py",
+        "report": "validation/branch.json",
+        "sha256": "155ffa6c6e3fb87d4e76bd4fac10207c804322ed8d1d5b5b516dc0b969ff3f62",
+        "passed": true
+      },
+      {
+        "script": "run_branch_geometries.py",
+        "report": "validation/branch_geometries.json",
+        "sha256": "e3e4e92ac65cf46ed05a2afea136e2ff7851933b394aa2aea04b65817175618f",
+        "passed": true
+      },
+      {
+        "script": "run_half_frame.py",
+        "report": "validation/half-frame.json",
+        "sha256": "add3cb21b457eda97ca188f9058a0714f0e6f47870c1f62ad878ec07ae9fd150",
+        "passed": true
+      },
+      {
+        "script": "run_multiplication.py",
+        "report": "validation/multiplication.json",
+        "sha256": "5500f913830145cbf8be87c21d072e65c8b7a829664c4f53b414f9e9e043f7c1",
+        "passed": true
+      },
+      {
+        "script": "run_constant.py",
+        "report": "validation/constant.json",
+        "sha256": "f6d76a100cbd758bb32033b69fd0a8477098d0987a3e450e9d9da778a2627f30",
+        "passed": true
+      },
+      {
+        "script": "run_zero.py",
+        "report": "validation/zero.json",
+        "sha256": "608714932e6e779f2cd01aef18096ac19afd137299aaf2926d9051367ecb65b1",
+        "passed": true
+      },
+      {
+        "script": "run_conversion.py",
+        "report": "validation/conversion.json",
+        "sha256": "48423c4062872b8b9daf4dca4bc69c7eb50cd629bbcfc66d1d25121ff0236015",
+        "passed": true
+      },
+      {
+        "script": "run_template.py",
+        "report": "validation/template.json",
+        "sha256": "c975f7f1438d950465503512a344e500bb80be07a59af2c2201b3e7050dae447",
+        "passed": true
+      },
+      {
+        "script": "run_transfer.py",
+        "report": "validation/transfer.json",
+        "sha256": "662d863df345f5d13e982c5299687647a64804dd295e2995c44fd574ca61b320",
+        "passed": true
+      },
+      {
+        "script": "run_division.py",
+        "report": "validation/division.json",
+        "sha256": "1d72a7d57c06809402b9c09b416dffd80dae10aa86226f956c238e1e3f73bec5",
+        "passed": true
+      },
+      {
+        "script": "run_terminal.py",
+        "report": "validation/terminal.json",
+        "sha256": "93ca19e87ab0b92c4d8da991461c4df582281040a45df25ed4844da14af7175c",
+        "passed": true
+      },
+      {
+        "script": "run_accumulator.py",
+        "report": "validation/accumulator.json",
+        "sha256": "2bdeedd4c8dd2f5988ad8b03a57c21d4685268ecceb4a45297976ee117ec7bda",
+        "passed": true
+      },
+      {
+        "script": "run_input_operand.py",
+        "report": "validation/input_operand.json",
+        "sha256": "85fbd9090bb4bfbfae725fe4bb2d793c0c6bb2946d90c64e9c0436df72177fa8",
+        "passed": true
+      },
+      {
+        "script": "run_dword_owner.py",
+        "report": "validation/dword_owner.json",
+        "sha256": "3e4fe71524c6ba31333f97d55e262dca2832ac7ee79631f054d30083d7922dbc",
+        "passed": true
+      },
+      {
+        "script": "run_dword_comparison.py",
+        "report": "validation/dword_comparison.json",
+        "sha256": "63e371674cc680eb5862dc9b0fcdc509ba986553d51502a3ab67c1fcf8462f10",
+        "passed": true
+      },
+      {
+        "script": "run_cursor.py",
+        "report": "validation/cursor.json",
+        "sha256": "10034da08efb65683331a36b6c5526b36eea3d385bf9db298525f15f6a1c5b92",
+        "passed": true
+      },
+      {
+        "script": "run_input_update.py",
+        "report": "validation/input_update.json",
+        "sha256": "8e67cc54bed87d08dd6315e4ff2c2363fe2ec7795c7f4332a9b422ace745667a",
+        "passed": true
+      }
+    ]
+  },
+  "palomar_mechanical": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38228020935",
+    "report_sha256": "b92bf53fbcb7451970bb7df0260077b529e0397f9e9fca48606ce8068fca870f",
+    "challenge_sha256": "752e54f8a3defbbb494591aac5c1107ba51a2f6671b1a28e5b5619b872de87c3",
+    "challenge_lines": 997,
+    "challenge_bytes": 61802,
+    "selected_theorems": 4,
+    "selected_definitions": 4,
+    "kernel_names": [
+      "Lean",
+      "nanoda",
+      "con-ron"
+    ],
+    "unmodified": true,
+    "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44"
+  },
+  "palomar_render": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38228023840",
+    "report_sha256": "87f10fed669795c7939673dc8f5bcfc98034777cb6b8232f558ec1e7bad724cb",
+    "artifact_tree_sha256": "119d356d5a3428580e302e49e96b6ad03cc35fec086fb11617c91f546e5bdd55",
+    "unmodified": true,
+    "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "verso_commit": "8fc7a297f14d5adc1a551b5b4ecf283c08bd691f"
+  },
+  "palomar_registered": false,
+  "private_intake_link_published": false,
+  "submission_action": "Author submits this exact tested commit; existing Palomar ID remains blank."
+}
