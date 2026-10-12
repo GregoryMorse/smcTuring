@@ -71,6 +71,12 @@ one infinite pure trace; actual changes occur at times `5 * n`. Owners fetched
 at `5 * n + 1` belong to distinct fields beyond every finite address bound.
 All write footprints, including CALL's stack write, are code-backed.
 
+`Effective.fixed_headers_code_correct` proves that the primitive-recursive
+encoded decoder is this exact image, including the new storage EXCHANGE,
+stack-reset instructions and CALL target. `fixed_headers_code_primrec` and the
+effective interpreter's terminal simulation are checked for the updated layout.
+The generated unbounded storage family is not an oracle for fetch.
+
 The unbounded template family and memory have a finite computable description;
 they are an ideal unbounded image, not a finite physical executable with
 infinitely many preallocated instructions. The initializer is the elementary
