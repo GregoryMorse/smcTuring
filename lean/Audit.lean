@@ -9670,3 +9670,23 @@ import Solution
 #print axioms SmcTuring.Appendix.Listing9PhysicalBinding.full_paper
 
 #print axioms PalomarSMC.mathematical_result
+
+#print axioms SmcTuring.Dolan.Mov.guard_prefix_zero
+#print axioms SmcTuring.Dolan.Four.zero_trap_halts
+#print axioms SmcTuring.Dolan.Four.kernel_zero_trap_decomposition
+#print axioms SmcTuring.Dolan.Four.sentinel_reaches_zero
+#print axioms SmcTuring.Dolan.Four.tm_halt_zero_trap
+#print axioms SmcTuring.Dolan.Four.zero_trap_halting_iff
+#print axioms SmcTuring.Dolan.Four.four_register_mov_certified_simulation
+#print axioms SmcTuring.SMC.Concrete.active_headers
+#print axioms SmcTuring.SMC.Concrete.active_invariant
+#print axioms SmcTuring.SMC.Concrete.active_fetch_exchange
+#print axioms SmcTuring.SMC.Concrete.active_fetch_owner
+#print axioms SmcTuring.SMC.Concrete.active_block
+#print axioms SmcTuring.SMC.Concrete.active_run_blocks
+#print axioms SmcTuring.SMC.Concrete.active_runs_forever
+#print axioms SmcTuring.SMC.Concrete.active_pure
+#print axioms SmcTuring.SMC.Concrete.active_run_middle
+#print axioms SmcTuring.SMC.Concrete.active_field_changes
+#print axioms SmcTuring.SMC.Concrete.active_unbounded_fields
+#print axioms SmcTuring.SMC.Concrete.active_infinitely_changes

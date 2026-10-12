@@ -40,7 +40,10 @@ sources:
       Cambridge Computer Laboratory (2013), Sections 2-6. MOV simulation
       uses a static body, four registers and one unconditional loop backedge.
       It is a foundation rather than a pure-SMC construction. The disclosed
-      mathematical address model returns zero for invalid reads.
+      mathematical address model traps on invalid dereferences, following
+      Section 5's intentional read from invalid address zero. A positive
+      trace certificate reaches that specific zero-address MOV load exactly
+      when the source machine halts; invalid reads do not return zero.
   - title: "Certified Self-Modifying Code"
     authors: ["Hongxu Cai", "Zhong Shao", "Alexander Vaynberg"]
     type: "paper"
@@ -125,7 +128,11 @@ fidelity:
     and the precise x64 AX-restoration boundary. Each has exact source excerpts
     and positive proof references; see ERRATA.md and ../validation/audit_errata.py.
     Dolan's MOV result retains its unconditional loop backedge and is separate
-    from pure SMC. Physical ISA/OS behavior outside the disclosed contract is
+    from pure SMC. The distinct-field witness uses a computably specified
+    unbounded storage region of the same image and immediately executes each
+    changed operand's owner; it is separate from the initialized TM trace.
+    MOV stopping is certified as the deliberate invalid-zero-address load,
+    using the normalized valid-cell/offset encoding. Physical ISA/OS behavior outside the disclosed contract is
     not formalized. No further source mismatch is claimed absent after an
     unspecified universal review; the scoped alignment evidence is recorded
     in FINAL_THEOREM_MAP.md and the Palomar semantic audit.
@@ -133,18 +140,18 @@ review:
   status: "agent-reviewed"
   reviewers: ["OpenAI Codex (automated source and proof audit)"]
   notes: >-
-    Before submission, the agent checked source alignment, exact corrections,
-    standard-axiom closure and checkpoint provenance. One cold Linux replay
-    checked 1151 production modules and 7975 declarations at checkpoint
-    08f0a594f691cb0f131a72c81dbcbd79b5667a20. This is not independent human
-    mathematical review. Protected Comparator, NanoDa and Lean kernel replay
-    subsequently accepted the selected four theorem and four definition names;
-    the comparison log has SHA-256
-    98a500a79fcee09149537c9bab421b14d8cd93be56be6e82ddf522d1703882b6.
-    The principal wrapper uses the existing individual mathematical proofs.
+    The current definition-level audit is SEMANTIC_ALIGNMENT.md: each selected
+    surface is mapped to its positive proof, source account and model boundary.
+    The executed-owner and deliberate zero-trap certificates passed a targeted
+    kernel/standard-axiom audit. Historical complete acceptance and protected
+    comparison apply to their original source definitions, not automatically
+    to the stronger revision. Exact current release checks are bound separately
+    in SEMANTIC_REVISION_LEDGER.md. This is automated agent review, not
+    independent human mathematical review. The principal wrapper uses the
+    individual mathematical proofs.
     The four deliberate Challenge theorem holes are excluded from the zero
     Solution/development hole count. Official full public-commit preflight,
-    native release CI and Palomar editorial review remain separate pending gates.
+    native release CI and Palomar editorial review remain separate gates.
 acknowledgements: >-
   Stephen Dolan for the MOV construction; the Lean and Mathlib contributors
   for the proof assistant and computability library; Codex for agent assistance.

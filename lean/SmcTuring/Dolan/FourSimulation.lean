@@ -96,7 +96,8 @@ theorem kernel_length : kernelProgram.length = 2252 := by decide
 
 /-- Dolan's computational result in the disclosed model: exactly four
 registers, the three MOV forms, one static body and one unconditional backedge,
-invalid-zero halting, and unbounded words/memory. The initial memory is generated
+invalid-address fault stopping, and unbounded words/memory. The stronger
+FourStopping theorem identifies the deliberate zero-address load. Initial memory is generated
 from the finite TM table and input, without any oracle for future execution. -/
 theorem four_register_mov_simulation : ∃ program : List Instruction,
     ∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),

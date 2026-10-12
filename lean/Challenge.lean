@@ -18,7 +18,7 @@ outside this selected registry statement. See PALOMAR_AUDIT.md for scope.
 All four intentional theorem holes belong to Challenge; Solution proves them.
 The four compared result definitions have their intended values here.
 No future-run certificate, simulation oracle or custom axiom is assumed.
-No submission or registration has been performed.
+No registration or independent human review is claimed.
 -/
 set_option maxHeartbeats 2000000
 namespace SmcTuring
@@ -696,15 +696,22 @@ lookup. None of its headers depends on the input TM or its future execution. -/
   else if pc < 224 then (guardProgram false)[pc - 184]?
   else if pc < 264 then (guardProgram true)[pc - 224]?
   else kernelProgram[pc - 264]?
-/-- Storage-only template headers have negative PCs: even magnitudes own
-nonnegative data fields; odd magnitudes own inactive metadata slots. -/
+/-- Uniform storage blocks have sequential headers and explicit CALLs.
+The distinct-field witness executes each changed operand's owning store. -/
 @[expose] def storageHeader (pc : Int) : Option Header := let magnitude := (-pc).toNat
-  if magnitude % 2 = 0 then some (.store (.operand (((magnitude / 2 - 1 : Nat) : Int))))
+  if magnitude % 8 = 0 then some (.store (.operand (((magnitude / 8 - 1 : Nat) : Int))))
   else
     let index := (magnitude - 1) / 2
-    if 25 ≤ index ∧ index < 38 then some (.store (.operand (metaField index))) else none
+    if 25 ≤ index ∧ index < 38 then some (.store (.operand (metaField index)))
+    else if 320 ≤ magnitude then match magnitude % 8 with
+      | 1 => some (.exchange (.fixed (((magnitude / 8 - 1 : Nat) : Int))))
+      | 5 => some (.call (.fixed (-8 * (((magnitude / 8 : Nat) : Int) + 2) - 1)))
+      | 6 => some (.storeStack topField)
+      | 7 => some (.exchangeStack topField)
+      | _ => none
+    else none
 @[expose] def headers (pc : Int) : Option (Header × Int) := (if 0 ≤ pc then controlHeader pc.toNat else storageHeader pc).map (fun header => (header, pc + 1))
-@[expose] def owner (field : Int) : Int := if 0 ≤ field then -2 * (field + 1)
+@[expose] def owner (field : Int) : Int := if 0 ≤ field then -8 * (field + 1)
   else
     let index := (-field - 1).toNat
     if index < 23 then readerPC index + 3
@@ -828,7 +835,8 @@ open Dolan
     (execute 1 instruction next s).memory field ≠ s.memory field
 /-- Actual fetched changes occur in fields beyond every finite address bound.
 This is stronger than infinitely many changes in a fixed finite set of fields. -/
-@[expose] def UnboundedChangedFields (start : State) : Prop := ∀ bound : Nat, ∃ field time, (bound : Int) < field ∧ image.codeField field ∧ FieldChangeAt start time field
+@[expose] def UnboundedChangedFields (start : State) : Prop := ∀ bound : Nat, ∃ field time, (bound : Int) < field ∧ image.codeField field ∧ FieldChangeAt start time field ∧
+  ∃ s next, runImage 1 image (time + 1) start = some s ∧ s.pc = image.templatePC field ∧ fetch image s = some (.store (s.memory field), next)
 end SmcTuring.SMC.Concrete
 namespace SmcTuring.SMC.Concrete
 open Dolan
@@ -919,12 +927,16 @@ namespace SmcTuring.Dolan.Four
   | n + 1, s => (run program s).bind (repeatRun program n)
 @[expose] def LoopHalts (program : List Instruction) (s : State) : Prop := ∃ n finish, repeatRun program n s = some finish ∧ run program finish = none
 @[expose] def LoopDiverges (program : List Instruction) (s : State) : Prop := ∀ n, ∃ finish, repeatRun program n s = some finish
+@[expose] def ZeroTrapHalts (program : List Instruction) (start : State) : Prop := ∃ passes boundary before suffix trap,
+  repeatRun program passes start = some boundary ∧ program = before ++ (.load .a .a .b :: suffix) ∧ run before boundary = some trap ∧
+  trap.registers .a = .offset false ∧ trap.registers .b = .offset false ∧ execute (.load .a .a .b) trap = none
 end SmcTuring.Dolan.Four
 namespace SmcTuring.CorrectedPaper
 open SMC SMC.Effective Turing
 /-- Unbounded integer-address semantics for the paper's mathematical claim.
 The fixed pure image simulates every finite source TM,including divergence
-and infinitely many actual fetched code changes. -/
+and infinitely many changes caused by fetched instructions. The distinct-field
+witness fetches each changed field's owning store on the very next step. -/
 @[expose] def Unbounded : Prop := (∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),
     (Concrete.ReachesTerminal (Concrete.initialTMState machine input) ↔ TM.Halts machine (TM.initialConfiguration machine input)) ∧
     (Concrete.RunsForever (Concrete.initialTMState machine input) ↔ TM.Diverges machine (TM.initialConfiguration machine input)) ∧
@@ -932,13 +944,14 @@ and infinitely many actual fetched code changes. -/
     (TM.Diverges machine (TM.initialConfiguration machine input) → Concrete.InfinitelyChanges (Concrete.initialTMState machine input))) ∧
   ∃ start : SMC.State,Concrete.RunsForever start ∧ Concrete.PureComputation start ∧
     Concrete.InfinitelyChanges start ∧ Concrete.UnboundedChangedFields start
-/-- Dolan foundation:four registers,three MOV forms,static body and an
-unconditional backedge,in the disclosed unbounded invalid-zero model. -/
-@[expose] def FourMov : Prop := ∃ program : List Dolan.Four.Instruction,
+/-- Four MOV registers, one backedge and a certified invalid-zero-address
+trap exactly when the source TM halts (Dolan Section 5). Invalid loads stop. -/
+@[expose] def FourMov : Prop := ∃ program : List Dolan.Four.Instruction, program.length = 2252 ∧
     ∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),
       let configuration := TM.initialConfiguration machine input
       let initial := Dolan.Four.initialState (Dolan.Mov.initialKernelState machine configuration)
       (Dolan.Four.LoopHalts program initial ↔ TM.Halts machine configuration) ∧
+      (Dolan.Four.ZeroTrapHalts program initial ↔ TM.Halts machine configuration) ∧
       (Dolan.Four.LoopDiverges program initial ↔ TM.Diverges machine configuration)
 /-- An effective finite-alphabet interpreter receives the encoded finite
 machine/input only. It preserves halt/divergence,purity and terminal journals. -/

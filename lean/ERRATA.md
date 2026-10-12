@@ -289,8 +289,11 @@ code-backed loop and finite-input initializer in the unbounded word model.
 equivalence and reachable instruction-level code-write purity.
 `ConcreteChanges.pure_infinitely_smc_universality` proves actual changes at
 arbitrarily late instruction times for every nonhalting initialized TM.
-`ConcreteFreshFields.pure_unbounded_smc_witness` separately proves a pure
-infinite run changing owned fields beyond every finite address bound.
+`ConcreteFreshFields.walker_unbounded_fields` proves the earlier tape walker's
+owned-field property. The stronger current theorem
+`ConcreteActiveFields.pure_unbounded_smc_witness` separately proves a pure
+infinite run changing fields beyond every finite address bound and fetching
+each changed field's owning STORE immediately afterward on that same trace.
 `ConcreteTerminalTape.terminal_output_reflects` recovers the complete halted
 tape and head. These are disclosed adaptations of the published construction.
 They do not identify finite x86/x64 memory with an infinite tape; byte/CPU

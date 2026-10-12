@@ -11,7 +11,7 @@ Paper: [author's PDF](https://www.cl.cam.ac.uk/~sd601/papers/mov.pdf),
 
 ## Main theorem
 
-[`SmcTuring.Dolan.Four.four_register_mov_simulation`](SmcTuring/Dolan/FourSimulation.lean)
+[`SmcTuring.Dolan.Four.four_register_mov_certified_simulation`](SmcTuring/Dolan/FourStopping.lean)
 constructs one fixed program with exactly four available registers and the
 three instruction forms: immediate load, indexed load and indexed store.
 For every finite Turing machine and finite input, its generated initial state
@@ -19,6 +19,7 @@ satisfies both:
 
 ```text
 MOV loop halts     ↔ source Turing machine halts
+certified zero trap ↔ source Turing machine halts
 MOV loop diverges  ↔ source Turing machine diverges
 ```
 
@@ -26,7 +27,10 @@ The body is independent of the simulated machine and input, which are encoded
 in initial data memory. Repetition supplies one unconditional backedge. The
 code remains static. The abstract model has unbounded memory and addresses;
 an invalid dereference traps, including attempting to use offset zero as a
-cell address. Initialization is defined from the machine and input without
+cell address. Section 5 of the source explicitly stops by reading invalid
+address zero. Invalid reads do not successfully return zero. `ZeroTrapHalts`
+constructs the successful compiled prefix ending immediately before the actual
+load with zero base and zero offset, and proves that load traps. Initialization is defined from the machine and input without
 an oracle for future execution.
 
 The intermediate theorem
@@ -46,7 +50,7 @@ not an instruction-count claim about the paper's printed listings.
 | Section 5: tape push/pop, match, symbol update, state/candidate selection | [TapeEncoding.lean](SmcTuring/Dolan/TapeEncoding.lean): `move_program_correct`; [Matcher.lean](SmcTuring/Dolan/Matcher.lean): `match_candidate_correct`; [Kernel.lean](SmcTuring/Dolan/Kernel.lean): `kernel_candidate_correct` |
 | Section 5: full execution and correct stopping/nontermination | [Simulation.lean](SmcTuring/Dolan/Simulation.lean): `simulate_run`, `kernel_halting_iff`, `kernel_divergence_iff`, `fixed_mov_simulation`; [Progress.lean](SmcTuring/Dolan/Progress.lean): finite scan progress |
 | Section 6: scratch-ring register reduction | [FourRegisters.lean](SmcTuring/Dolan/FourRegisters.lean), [FourCompile.lean](SmcTuring/Dolan/FourCompile.lean): instruction/block compilation, memory/register coherence and fault preservation |
-| Section 6: complete four-register simulator | [FourSimulation.lean](SmcTuring/Dolan/FourSimulation.lean): `compiled_halting_iff`, `compiled_divergence_iff`, `four_register_mov_simulation` |
+| Sections 5–6: complete four-register simulator and deliberate stopping | [FourSimulation.lean](SmcTuring/Dolan/FourSimulation.lean): compiler halt/divergence preservation; [FourStopping.lean](SmcTuring/Dolan/FourStopping.lean): `zero_trap_halting_iff`, `four_register_mov_certified_simulation` |
 
 ## Exact scope and source corrections
 
@@ -68,6 +72,11 @@ assembly is not claimed to execute correctly byte for byte. Section 7's
 historical discussion and hardware design suggestions are outside the theorem.
 Finite x86 hardware is not claimed to have unbounded storage.
 
+The word encoding distinguishes valid `.address 0` scratch storage from the
+invalid pointer `.offset false`. Valid cell `c` can be normalized to the even
+positive numeric address `2 * (c + 1)`; the two offsets are zero and one. The
+ring compiler shifts heap cells by 13 and preserves the invalid-zero tag.
+
 ## Verification and reuse
 
 These modules were included in the complete cold proof audit at the immutable
@@ -77,7 +86,7 @@ See [FINAL_ACCEPTANCE.json](FINAL_ACCEPTANCE.json) for the passing audit, source
 hashes and standard-axiom account. Lean is pinned to 4.35.0-rc3; the manifest
 pins Mathlib and the other dependencies.
 
-To use the four-register result, import `SmcTuring.Dolan.FourSimulation` from
+To use the certified four-register result, import `SmcTuring.Dolan.FourStopping` from
 the pinned project. The proof does not require importing the SMC/native result
 modules. See [the Lean README](README.md#reproduction-and-acceptance) for the
 existing build and reproduction policy.

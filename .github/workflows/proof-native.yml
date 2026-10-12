@@ -8,7 +8,27 @@ on:
         default: false
   push:
     branches: [main, master]
+    paths:
+      - 'lean/**/*.lean'
+      - 'lean/lean-toolchain'
+      - 'lean/lake*.toml'
+      - 'lean/lake-manifest.json'
+      - 'lean/errata/**'
+      - 'smcTuring/**'
+      - 'validation/**'
+      - '!validation/**/*.md'
+      - '.github/workflows/**'
   pull_request:
+    paths:
+      - 'lean/**/*.lean'
+      - 'lean/lean-toolchain'
+      - 'lean/lake*.toml'
+      - 'lean/lake-manifest.json'
+      - 'lean/errata/**'
+      - 'smcTuring/**'
+      - 'validation/**'
+      - '!validation/**/*.md'
+      - '.github/workflows/**'
 permissions:
   contents: read
 jobs:

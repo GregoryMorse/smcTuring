@@ -109,20 +109,29 @@ lookup. None of its headers depends on the input TM or its future execution. -/
   else if pc < 264 then (guardProgram true)[pc - 224]?
   else kernelProgram[pc - 264]?
 
-/-- Storage-only template headers have negative PCs: even magnitudes own
-nonnegative data fields; odd magnitudes own inactive metadata slots. -/
+/-- Data owners have eight-slot negative-PC blocks. The additional headers
+execute each fresh operand and use an explicit code-writing CALL to advance.
+The fixed metadata owners remain disjoint from this unbounded traversal. -/
 @[expose] def storageHeader (pc : Int) : Option Header :=
   let magnitude := (-pc).toNat
-  if magnitude % 2 = 0 then some (.store (.operand (((magnitude / 2 - 1 : Nat) : Int))))
+  if magnitude % 8 = 0 then some (.store (.operand (((magnitude / 8 - 1 : Nat) : Int))))
   else
     let index := (magnitude - 1) / 2
-    if 25 ≤ index ∧ index < 38 then some (.store (.operand (metaField index))) else none
+    if 25 ≤ index ∧ index < 38 then some (.store (.operand (metaField index)))
+    else if 320 ≤ magnitude then
+      match magnitude % 8 with
+      | 1 => some (.exchange (.fixed (((magnitude / 8 - 1 : Nat) : Int))))
+      | 5 => some (.call (.fixed (-8 * (((magnitude / 8 : Nat) : Int) + 2) - 1)))
+      | 6 => some (.storeStack topField)
+      | 7 => some (.exchangeStack topField)
+      | _ => none
+    else none
 
 @[expose] def headers (pc : Int) : Option (Header × Int) :=
   (if 0 ≤ pc then controlHeader pc.toNat else storageHeader pc).map (fun header => (header, pc + 1))
 
 @[expose] def owner (field : Int) : Int :=
-  if 0 ≤ field then -2 * (field + 1)
+  if 0 ≤ field then -8 * (field + 1)
   else
     let index := (-field - 1).toNat
     if index < 23 then readerPC index + 3
@@ -168,9 +177,9 @@ theorem guard_header (sense : Bool) (index : Nat) (small : index < 37) :
 
 theorem data_owner (field : Int) (nonnegative : 0 ≤ field) :
     headers (owner field) = some (.store (.operand field), owner field + 1) := by
-  have negative : ¬ 0 ≤ -2 * (field + 1) := by omega
-  have magnitude : (-(-2 * (field + 1))).toNat = 2 * (field.toNat + 1) := by omega
-  have index : (2 * (field.toNat + 1)) / 2 - 1 = field.toNat := by omega
+  have negative : ¬ 0 ≤ -8 * (field + 1) := by omega
+  have magnitude : (-(-8 * (field + 1))).toNat = 8 * (field.toNat + 1) := by omega
+  have index : (8 * (field.toNat + 1)) / 8 - 1 = field.toNat := by omega
   simp [owner, nonnegative, headers, negative, storageHeader, magnitude, Int.toNat_of_nonneg nonnegative]
 
 theorem metadata_owner (index : Nat) (bounded : index < 38) :
@@ -195,7 +204,7 @@ theorem metadata_owner (index : Nat) (bounded : index < 38) :
           captureLabel] using actual
     · have natNonnegative : 0 ≤ (index : Int) := by omega
       have magnitude : (-(-(2 * (index : Int) + 1))).toNat = 2 * index + 1 := by omega
-      have odd : (2 * index + 1) % 2 ≠ 0 := by omega
+      have odd : (2 * index + 1) % 8 ≠ 0 := by omega
       have divided : (2 * index + 1 - 1) / 2 = index := by omega
       have low : 25 ≤ index := by omega
       rw [owner, ite_eq_right negative, coordinate, ite_eq_right active, ite_eq_right capture]

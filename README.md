@@ -59,11 +59,13 @@ This repository also contains a complete Lean proof of the central
 Turing-completeness result of Stephen Dolan's 2013 paper, including the
 four-register reduction. One fixed MOV body with an unconditional loop backedge
 simulates every finite Turing machine and finite input, preserving halting and
-divergence in the disclosed unbounded abstract machine model.
+divergence in the disclosed unbounded abstract machine model. Its stronger
+stopping certificate reaches the deliberate invalid-zero-address MOV load
+exactly when the source machine halts, following Dolan's Section 5.
 
 Start with the [Dolan formalization guide](lean/DOLAN_FORMALIZATION.md).
 The standalone result is
-[`SmcTuring.Dolan.Four.four_register_mov_simulation`](lean/SmcTuring/Dolan/FourSimulation.lean).
+[`SmcTuring.Dolan.Four.four_register_mov_certified_simulation`](lean/SmcTuring/Dolan/FourStopping.lean).
 The guide maps the paper's construction to the checked source and explains the
 local source corrections, two-sided tape initialization and sentinel guard.
 Dolan is explicitly credited as a formalized source in

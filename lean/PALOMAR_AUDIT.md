@@ -1,8 +1,11 @@
-# Palomar submission audit — mechanical readiness passed
+# Palomar submission audit
 
-Audit date: 2026-10-11. **Ready for user submission.** Exact source commit:
-`1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`. The previously published mathematical result is formalized with
-minimal positively proved corrections. No intake or registration has been performed.
+The 2026-10-12 semantic revision strengthens executed field ownership and
+certified MOV stopping, and corrects the dependency description. Its
+[ledger](SEMANTIC_REVISION_LEDGER.md) and [definition-level alignment](SEMANTIC_ALIGNMENT.md)
+govern the current candidate. The earlier mechanical passes below are historical
+receipts for `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`; they do not certify
+the strengthened statement. No registration is claimed.
 
 | Gate | Result | Evidence |
 | --- | --- | --- |
@@ -14,7 +17,7 @@ minimal positively proved corrections. No intake or registration has been perfor
 | Metadata, taxonomy, provenance and source rules | PASS | Official preflight; known source-based formalization with disclosed AI role |
 | Minimal errata | PASS | M01–M20, 60 exact excerpts, 128 positive proof references, reviewed two-page PDF |
 | Windows native supporting evidence | PASS | [Actual acceptance](https://github.com/GregoryMorse/smcTuring/actions/runs/38118165923); 21 suites, four baseline configurations |
-| Semantic fidelity and model boundaries | CHECKED | [Individual semantic accounts](PALOMAR_SEMANTICS.md), [theorem map](FINAL_THEOREM_MAP.md), [physical contract](PHYSICAL_BINDING_CONTRACT.md) |
+| Earlier semantic account | SUPERSEDED | Current [definition-level audit](SEMANTIC_ALIGNMENT.md) explicitly distinguishes trapping zero-address reads and executed owners from dormant template placement. |
 
 The preferred Challenge size warning remains disclosed: 984 lines / 60,700 bytes
 exceeds the preferred 300-line / 32 KiB surface, while satisfying the 1,000-line

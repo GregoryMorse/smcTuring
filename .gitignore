@@ -38,6 +38,7 @@ ipch/
 lean/.elan/
 lean/.lake/
 lean/tmpcheck/
+lean/RevisionAudit.lean
 validation/.build/
 validation/.cache/
 validation/remote/

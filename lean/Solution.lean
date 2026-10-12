@@ -6,10 +6,10 @@ namespace PalomarSMC
 theorem mathematical_result : SmcTuring.CorrectedPaper.Unbounded ∧
     SmcTuring.CorrectedPaper.FourMov ∧ SmcTuring.CorrectedPaper.EffectiveInterpreter ∧
     SmcTuring.CorrectedPaper.Observations := by
-  refine ⟨?_, SmcTuring.Dolan.Four.four_register_mov_simulation,
+  refine ⟨?_, SmcTuring.Dolan.Four.four_register_mov_certified_simulation,
     SmcTuring.SMC.Effective.terminal_search_pure_smc,
     SmcTuring.CorrectedPaper.observations⟩
   exact ⟨SmcTuring.SMC.Concrete.pure_infinitely_smc_universality,
-    ⟨SmcTuring.SMC.Concrete.initialTMState SmcTuring.SMC.Concrete.walkerMachine [],
+    ⟨SmcTuring.SMC.Concrete.activeInitial,
       SmcTuring.SMC.Concrete.pure_unbounded_smc_witness⟩⟩
 end PalomarSMC

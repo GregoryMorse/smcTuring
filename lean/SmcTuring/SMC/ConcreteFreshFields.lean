@@ -12,9 +12,15 @@ open Dolan
     fetch image s = some (instruction, next) ∧
     (execute 1 instruction next s).memory field ≠ s.memory field
 
-/-- Actual fetched changes occur in fields beyond every finite address bound.
-This is stronger than infinitely many changes in a fixed finite set of fields. -/
+/-- Each counted field changes on this trace and its owning storage instruction
+is fetched on the very next step, decoding the changed word as its operand. -/
 @[expose] def UnboundedChangedFields (start : State) : Prop :=
+  ∀ bound : Nat, ∃ field time, (bound : Int) < field ∧ image.codeField field ∧ FieldChangeAt start time field ∧
+    ∃ s next, runImage 1 image (time + 1) start = some s ∧ s.pc = image.templatePC field ∧
+      fetch image s = some (.store (s.memory field), next)
+
+/-- A supporting tape-link result; it alone does not require owner execution. -/
+@[expose] def UnboundedOwnedFields (start : State) : Prop :=
   ∀ bound : Nat, ∃ field time, (bound : Int) < field ∧ image.codeField field ∧ FieldChangeAt start time field
 
 theorem field_change_is_code_change (start : State) (time : Nat) (field : Int)
@@ -81,7 +87,7 @@ theorem walker_field_bound (bound : Nat) :
 /-- For every address bound, the walker changes a distinct tape-link operand
 beyond that bound. Boundary differences are traced back to actual fetched
 instructions changing that particular field. -/
-theorem walker_unbounded_fields : UnboundedChangedFields (initialTMState walkerMachine []) := by
+theorem walker_unbounded_fields : UnboundedOwnedFields (initialTMState walkerMachine []) := by
   intro bound
   let position : Int := ((bound + 1 : Nat) : Int)
   let field := heapField dataLayout.data ((Table.tapeLayout 1 1).cell position, true)
@@ -114,12 +120,5 @@ theorem walker_unbounded_fields : UnboundedChangedFields (initialTMState walkerM
   have positive := walker_field_bound bound
   change (bound : Int) < field at positive
   omega
-
-theorem pure_unbounded_smc_witness :
-    RunsForever (initialTMState walkerMachine []) ∧ PureComputation (initialTMState walkerMachine []) ∧
-      InfinitelyChanges (initialTMState walkerMachine []) ∧ UnboundedChangedFields (initialTMState walkerMachine []) := by
-  have computation := pure_infinitely_smc_universality 1 1 walkerMachine []
-  exact ⟨computation.2.1.mpr walker_diverges, computation.2.2.1,
-    computation.2.2.2 walker_diverges, walker_unbounded_fields⟩
 
 end SmcTuring.SMC.Concrete

@@ -1,18 +1,11 @@
 # Lean formalization of pure infinitely self-modifying code
 
-The corrected mathematical construction and all seven deliverable rounds are
-complete. The full public cold CI audit checks 1,152 freshly compiled modules
-and 7,976 declarations with zero reuse; only `propext`, `Classical.choice` and
-`Quot.sound` occur. The official full Palomar mechanical preflight passes,
-including protected Comparator, Lean, NanoDa and con-ron. Windows acceptance
-covers all 21 native suites, with six verified prior passes and fifteen new
-checks; its 210-module exporter closure is verified from a fresh Windows build.
-
-The exact audited submission commit is
-`1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`. See [the submission packet](PALOMAR_SUBMISSION.md),
-[final acceptance](FINAL_ACCEPTANCE.json) and [selected semantics](PALOMAR_SEMANTICS.md).
-Later master commits contain CI repairs and closure documentation. Intake and
-editorial registration are left to Gregory Morse.
+This development formalizes the corrected mathematical construction and its
+conditional native realization. [Selected semantics](PALOMAR_SEMANTICS.md)
+defines the registry scope. [The submission packet](PALOMAR_SUBMISSION.md)
+binds each acceptance result to its tested commit; the current semantic revision
+is tracked separately in [its ledger](SEMANTIC_REVISION_LEDGER.md).
+Mechanical verification and statement-to-source agreement are distinct checks.
 
 Gregory Morse's [2018 paper](https://doi.org/10.24425/119359) is the mathematical
 source. The [minimal errata TeX](errata/morse-2018-errata.tex),
@@ -30,11 +23,17 @@ and logical tape/head observations. The unbounded model uses integer addresses
 and values; it can be understood as an ideal RAM machine with arbitrarily large
 address encodings. The constructed image and initializer do not receive future
 execution answers as inputs. Infinite changes and unbounded distinct changed
-fields are separate statements, the latter witnessed by the constructed walker.
+fields are separate statements. The latter has a computably initialized
+five-instruction traversal in the same image: every counted field changes,
+then its owning STORE is fetched on the very next step and reads the changed
+operand. A dormant storage template cannot satisfy this property.
 
 Stephen Dolan's *mov is Turing-complete* is a separately credited foundation:
 one fixed four-register program using three MOV forms and an unconditional
-loop backedge simulates each finite machine. That static program is different
+loop backedge simulates each finite machine. Invalid dereferences stop execution,
+as in Dolan's Section 5. A stronger certificate reaches the deliberate load from
+invalid address zero exactly when the source TM halts; invalid loads do not
+return zero. That static program is different
 from the paper's pure instruction-modifying construction. The
 [Dolan formalization guide](DOLAN_FORMALIZATION.md) provides the standalone
 theorem, source map and precise normalization/adaptation account.
@@ -57,9 +56,14 @@ Dated earlier progress notes are historical, not new open proof obligations.
 ## Reproduction and acceptance
 
 Lean is pinned to `leanprover/lean4:v4.35.0-rc3`, compiler commit
-`470d5ce1400764999581fd26d5d72b00d990b0f4`; Mathlib is pinned to
-`302343bb9a029d4edab4f736703f0736896c1b64`. The committed manifest fixes
-all dependency revisions. See [CI instructions](../validation/ci/README.md)
+`470d5ce1400764999581fd26d5d72b00d990b0f4`; the current Mathlib pin is
+`5e043698502894993991089b2dd893867c0db5c2`. The earlier acceptance source
+`1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4` used
+`302343bb9a029d4edab4f736703f0736896c1b64`. The aligned submission source
+`a97fbd690b4051463a3b3fe86b5823823aa91bac` uses the current pin and passed
+a separate cold proof audit and mechanical preflight, recorded in
+[the alignment receipt](acceptance/palomar-render-compatibility.json).
+The committed manifest fixes all dependency revisions. See [CI instructions](../validation/ci/README.md)
 and the workflow in `.github/workflows/proof-native.yml` at repository root.
 It performs fresh Linux proof checking and Windows baseline/corrected native,
 MASM and normalized-object checks at the same source commit.
@@ -68,14 +72,14 @@ All local workstation verification runs serially through
 `validation/limited_run.py` with its unchanged 1.5 GB allocation guard.
 Full Windows Lean compilation and memory reduction are optional convenience
 checks; actual Windows native/assembler evidence remains an acceptance gate.
-The authorized server task is retired; source and validation evidence were
-fetched and hash-verified before its folder and temporary session were removed.
+Remote proof checkpoints are fetched to the local evidence archive at each
+completed or failed check. Linux objects are kept separate from Windows objects.
 
 [The Palomar audit](PALOMAR_AUDIT.md) separates existing mathematical evidence
 from the small independent Challenge/Solution interface, Comparator, NanoDa,
 official full reusable workflow, public snapshot and editorial review.
 Only explicitly selected Comparator declarations can become registered claims.
-No Palomar submission, registration or endorsement is claimed.
+No Palomar registration or endorsement is claimed.
 
 ## Provenance and audience
 

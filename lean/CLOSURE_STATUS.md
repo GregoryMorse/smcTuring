@@ -3,7 +3,10 @@
 **Complete. All seven deliverable rounds are accepted; the proof, minimal errata,
 native validation and Palomar full mechanical preflight have passed.**
 
-Submit immutable proof commit `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4` from
+These are historical receipts. The current stronger mathematical statement
+requires the acceptance recorded in [the semantic revision ledger](SEMANTIC_REVISION_LEDGER.md).
+Use the current [submission packet](PALOMAR_SUBMISSION.md), not the earlier
+immutable proof commit `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4` from
 [GregoryMorse/smcTuring](https://github.com/GregoryMorse/smcTuring/tree/1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4).
 [The submission packet](PALOMAR_SUBMISSION.md) contains the exact form values.
 Later master commits contain CI repairs and closure records; the accepted theorem

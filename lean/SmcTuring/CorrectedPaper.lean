@@ -1,8 +1,8 @@
 module
 public import SmcTuring.Appendix.Listing9JointFullExecution
 public import SmcTuring.SMC.ComputableFiniteTM0
-public import SmcTuring.SMC.ConcreteFreshFields
-public import SmcTuring.Dolan.FourSimulation
+public import SmcTuring.SMC.ConcreteActiveFields
+public import SmcTuring.Dolan.FourStopping
 
 public section
 namespace SmcTuring.CorrectedPaper
@@ -11,7 +11,9 @@ set_option maxHeartbeats 2000000
 
 /-- Unbounded integer-address semantics for the paper's mathematical claim.
 The fixed pure image simulates every finite source TM,including divergence
-and infinitely many actual fetched code changes. -/
+and infinitely many changes caused by fetched instructions. The additional
+distinct-field witness fetches each changed field's owning store immediately
+after changing that field, so unused templates cannot satisfy that clause. -/
 @[expose] def Unbounded : Prop :=
   (∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),
     (Concrete.ReachesTerminal (Concrete.initialTMState machine input) ↔ TM.Halts machine (TM.initialConfiguration machine input)) ∧
@@ -21,14 +23,18 @@ and infinitely many actual fetched code changes. -/
   ∃ start : SMC.State,Concrete.RunsForever start ∧ Concrete.PureComputation start ∧
     Concrete.InfinitelyChanges start ∧ Concrete.UnboundedChangedFields start
 
-/-- Dolan foundation:four registers,three MOV forms,static body and an
-unconditional backedge,in the disclosed unbounded invalid-zero model. -/
+/-- Dolan foundation: four registers, three MOV forms, a fixed body and one
+unconditional backedge. Invalid dereferences stop execution. Each simulated
+halt has a certificate reaching the deliberate zero-address load, as in
+Section 5 of Dolan's paper; invalid loads do not return zero. -/
 @[expose] def FourMov : Prop :=
   ∃ program : List Dolan.Four.Instruction,
+    program.length = 2252 ∧
     ∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),
       let configuration := TM.initialConfiguration machine input
       let initial := Dolan.Four.initialState (Dolan.Mov.initialKernelState machine configuration)
       (Dolan.Four.LoopHalts program initial ↔ TM.Halts machine configuration) ∧
+      (Dolan.Four.ZeroTrapHalts program initial ↔ TM.Halts machine configuration) ∧
       (Dolan.Four.LoopDiverges program initial ↔ TM.Diverges machine configuration)
 
 /-- An effective finite-alphabet interpreter receives the encoded finite
@@ -127,9 +133,9 @@ this theorem does not assert hardware RET/OS execution or CI acceptance. -/
 @[expose] def Statement : Prop := Unbounded ∧ FourMov ∧ EffectiveInterpreter ∧ Observations ∧ BoundedAppendix
 
 theorem full_paper : Statement := by
-  refine ⟨⟨Concrete.pure_infinitely_smc_universality,?_⟩,Dolan.Four.four_register_mov_simulation,
+  refine ⟨⟨Concrete.pure_infinitely_smc_universality,?_⟩,Dolan.Four.four_register_mov_certified_simulation,
     Effective.terminal_search_pure_smc,observations,?_⟩
-  · exact ⟨Concrete.initialTMState Concrete.walkerMachine [],Concrete.pure_unbounded_smc_witness⟩
+  · exact ⟨Concrete.activeInitial,Concrete.pure_unbounded_smc_witness⟩
   · intro alphabet states machine capacity input finish count actual halted mode start capacityBytes reach memory seed
     exact bounded_appendix machine capacity input finish count actual halted mode start capacityBytes reach memory seed
 

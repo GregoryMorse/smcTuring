@@ -57,7 +57,7 @@ jobs:
           python -m scripts.render_challenge prepare \
             --repository "$SOURCE_REPOSITORY" \
             --commit "$SOURCE_COMMIT" \
-            --challenge-sha256 143f5342af4712b6d92b50e67be8ad39a76a947a6fa1d3d2b887dfee19baf93b \
+            --challenge-sha256 752e54f8a3defbbb494591aac5c1107ba51a2f6671b1a28e5b5619b872de87c3 \
             --project-path lean \
             --challenge-path lean/Challenge.lean \
             --solution-path lean/Solution.lean \

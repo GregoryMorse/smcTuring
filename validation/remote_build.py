@@ -22,10 +22,24 @@ def run(command,cwd=None,env=None):
  print("RUN "+repr(command),flush=True)
  subprocess.run(command,cwd=cwd or ROOT/"lean",env=env,check=True)
 def main():
+ global EVIDENCE
  parser=argparse.ArgumentParser(description=__doc__)
  parser.add_argument('--force',action='store_true',help='Cold project replay; ignore verified module reuse')
  parser.add_argument('--refresh-dependencies',action='store_true',help='Explicitly refresh the pinned Mathlib cache')
+ parser.add_argument('--target',action='append',default=[],help='Revision-only root module; partial evidence is isolated from release evidence')
+ parser.add_argument('--audit-declaration',action='append',default=[],help='Fully qualified declaration to audit for a revision-only target')
  args=parser.parse_args()
+ if args.target:
+  assert args.audit_declaration,'A revision check must audit its changed results'
+  assert all(re.fullmatch(r'SmcTuring\.[A-Za-z0-9_.]+',name) for name in args.target+args.audit_declaration)
+  EVIDENCE=EVIDENCE/'semantic-revision';EVIDENCE.mkdir(parents=True,exist_ok=True)
+  audit_name='RevisionAudit'
+  audit_source=ROOT/'lean/RevisionAudit.lean'
+  audit_source.write_text('module\n'+''.join('public import '+name+'\n' for name in args.target)+
+   '\npublic section\n'+''.join('#print axioms '+name+'\n' for name in args.audit_declaration),encoding='utf-8')
+ else:
+  assert not args.audit_declaration,'Declaration selection requires a revision-only target'
+  audit_name='Audit';audit_source=ROOT/'lean/Audit.lean'
  group=next(line.split("::",1)[1] for line in Path("/proc/self/cgroup").read_text().splitlines() if line.startswith("0::"))
  cgroup=Path("/sys/fs/cgroup")/group.lstrip("/")
  cap=int((cgroup/"memory.max").read_text().strip())
@@ -153,20 +167,23 @@ def main():
    if not hit or len(done)%64==0:
     checkpoint("build-progress",dict(modules=done,source_hashes=sources,compiled=len(done),
      kernel_compiled=compiled[0],verified_reused=reused[0],passed=False))
-  compile_module("SmcTuring")
-  if (project/"Solution.lean").is_file():compile_module("Solution")
+  if args.target:
+   for target in args.target:compile_module(target)
+  else:
+   compile_module("SmcTuring")
+   if (project/"Solution.lean").is_file():compile_module("Solution")
   checkpoint("build-progress",dict(modules=done,source_hashes=sources,compiled=len(done),
    kernel_compiled=compiled[0],verified_reused=reused[0],passed=False))
-  maps,levels=select("Audit")
+  maps,levels=select(audit_name)
   setup=EVIDENCE/"audit-setup.json"
-  setup.write_text(json.dumps(dict(name="Audit",package="smcTuring",isModule=True,
+  setup.write_text(json.dumps(dict(name=audit_name,package="smcTuring",isModule=True,
    options={"autoImplicit":False},importArts=maps,dynlibs=[],plugins=[]),sort_keys=True),encoding="utf-8")
-  command=[str(compiler/"bin/lean"),"-M6000","-j8","Audit.lean","--setup",str(setup)]
+  command=[str(compiler/"bin/lean"),"-M6000","-j8",audit_source.name,"--setup",str(setup)]
   result=subprocess.run(command,cwd=project,env=env,capture_output=True,text=True,encoding="utf-8")
   output=result.stdout+result.stderr
   (EVIDENCE/"axiom-audit.log").write_text(output,encoding="utf-8")
   assert result.returncode==0,output
-  expected=re.findall(r"^#print axioms (\S+)",(project/"Audit.lean").read_text(),re.M)
+  expected=re.findall(r"^#print axioms (\S+)",audit_source.read_text(),re.M)
   pattern=r"^'([^'\r\n]+)' (?:(?:depends on axioms:\s*\[([^\]]*)\])|(?:does not depend on any axioms))"
   declarations=[]
   for match in re.finditer(pattern,output,re.M):
@@ -180,7 +197,9 @@ def main():
    if path==project/"Challenge.lean":continue
    assert not re.search(r"\b(sorry|admit|axiom|native_decide|Lean\.ofReduceBool)\b",path.read_text()),path
   for name,expected_hash in sources.items():assert digest(ROOT/name)==expected_hash,"Source changed during verification: "+name
-  checkpoint("lean",dict(passed=True,scope="Complete uploaded SmcTuring library and requested axiom audit; native Windows tests remain separate",
+  scope=('Revision-only selected modules and declarations; not release acceptance' if args.target else
+   'Complete uploaded SmcTuring library and requested axiom audit; native Windows tests remain separate')
+  checkpoint("lean",dict(passed=True,scope=scope,revision_only=bool(args.target),selected_roots=args.target,
    toolchain=CHAIN,commit=COMMIT,version=version,sources=sources,modules=done,
    imported_artifacts=artifacts,declarations=declarations,audit_command=command,
    audit_sha256=digest(EVIDENCE/"axiom-audit.log"),cache_context=context,
