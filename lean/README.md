@@ -4,8 +4,9 @@ This development formalizes the corrected mathematical construction and its
 conditional native realization. [Selected semantics](PALOMAR_SEMANTICS.md)
 defines the registry scope. [The submission packet](PALOMAR_SUBMISSION.md)
 binds each acceptance result to its tested commit; the current semantic revision
-is complete, with [source-bound acceptance](acceptance/semantic-revision.json)
-and [its ledger](SEMANTIC_REVISION_LEDGER.md).
+has historical [source-bound acceptance](acceptance/semantic-revision.json).
+The new explicit-initialization and reached-output strengthening is tracked in
+[its ledger](EXECUTION_REVISION_LEDGER.md).
 Mechanical verification and statement-to-source agreement are distinct checks.
 
 Gregory Morse's [2018 paper](https://doi.org/10.24425/119359) is the mathematical
@@ -20,12 +21,15 @@ The original C++/ASM comparison simulators remain available for baseline testing
 `SmcTuring.CorrectedPaper.full_paper` combines pure-SMC simulation of each finite
 source Turing machine, halting/divergence equivalence, instruction-level code
 writes, a concrete unbounded distinct-field witness, an effective interpreter,
-and logical tape/head observations. The unbounded model uses integer addresses
+and logical tape/head observations. The interpreter journal is on a halted
+configuration reached from its numbered machine's encoded input. The unbounded model uses integer addresses
 and values; it can be understood as an ideal RAM machine with arbitrarily large
 address encodings. The constructed image and initializer do not receive future
 execution answers as inputs. Infinite changes and unbounded distinct changed
 fields are separate statements. The latter has a computably initialized
-five-instruction traversal in the same image: every counted field changes,
+five-instruction traversal in the same image, starting from the literal
+identity-memory initializer with a selected primitive-recursiveness proof.
+Every counted field changes,
 then its owning STORE is fetched on the very next step and reads the changed
 operand. A dormant storage template cannot satisfy this property.
 

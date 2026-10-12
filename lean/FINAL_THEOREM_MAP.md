@@ -8,7 +8,7 @@ remains bound to its original unchanged native source.
 
 | Requirement | Positive theorem / precise scope |
 | --- | --- |
-| Unbounded pure SMC universality, halting/divergence, infinite actual changes and distinct unbounded fields | `CorrectedPaper.full_paper`, reusing `Concrete.pure_infinitely_smc_universality` and `ConcreteActiveFields.pure_unbounded_smc_witness`; every counted distinct field changes and its owning STORE is fetched on the next step of the same trace. |
+| Unbounded pure SMC universality, halting/divergence, infinite actual changes and distinct unbounded fields | `CorrectedPaper.full_paper`, reusing `Concrete.pure_infinitely_smc_universality` and `Concrete.computably_initialized_unbounded_smc_witness`; the selected literal identity-memory initializer is primitive recursive, and every counted distinct field changes and its owning STORE is fetched on the next step of the same trace. |
 | Dolan MOV foundation | `Dolan.Four.four_register_mov_certified_simulation`: four registers, three MOV forms, a fixed 2,252-MOV body and unconditional backedge. Halt equivalence includes a positive certificate for the intended invalid-zero-address load; invalid reads trap, as in Dolan Section 5. |
 | Effective interpreter and terminal journals | Same umbrella,`Effective.terminal_search_pure_smc`;finite encoded machine/input,positive journal/tape representation. |
 | All-integer tape and logical head observations | `CorrectedPaper.observations`;one actual pure trace. |

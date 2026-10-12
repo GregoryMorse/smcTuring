@@ -8,9 +8,9 @@ Acceptance runs and exact source bindings are recorded separately.
 | Selected surface | Definition-level obligation | Positive proof and description |
 | --- | --- | --- |
 | `CorrectedPaper.Unbounded`: TM simulation | Every finite machine/input has halt and divergence equivalences, reachable instruction-level code-write purity, and arbitrarily late actual changes on divergence. | `Concrete.pure_infinitely_smc_universality`; the fixed control graph, initial representation and finite scans are constructed from source data. |
-| `CorrectedPaper.Unbounded`: distinct fields | Beyond every address bound, an actual changed field has a reached owner PC at the next instruction time, and fetch decodes that field's current word as the owning STORE operand. | `Concrete.active_unbounded_fields` and `pure_unbounded_smc_witness`; the same infinite trace is also pure and total. This is stronger than the retained `UnboundedOwnedFields` supporting property. |
+| `CorrectedPaper.Unbounded`: distinct fields | The named fixed-register `activeInitial`, with identity integer memory and an explicit `Primrec` conjunct, runs forever purely. Beyond every address bound, a changed field has its owner fetched on the next step, decoding its changed operand. | `Concrete.computably_initialized_unbounded_smc_witness` and `active_initial_memory_primrec`; no unrestricted function-valued initial witness is quantified. This is stronger than the retained `UnboundedOwnedFields` supporting property. |
 | `CorrectedPaper.FourMov` | One static 2,252-MOV body has four available registers, halt/divergence equivalences, and an explicit deliberate zero-trap equivalence for every finite machine/input. | `Four.four_register_mov_certified_simulation`, `zero_trap_halting_iff`. The successful prefix and exact trapping load are conclusions, not supplied execution assumptions. |
-| `CorrectedPaper.EffectiveInterpreter` | A finite numbered interpreter receives only encoded finite machine/input; terminal output has a positive journal and tape representation. | `Effective.terminal_search_pure_smc`; initializer definitions are retained, rather than replaced with abstract oracle assumptions. |
+| `CorrectedPaper.EffectiveInterpreter` | A finite numbered interpreter receives only encoded finite machine/input. Each terminal journal is on a configuration reached by `TM0.step numbered` from `TM0.init` on that exact encoding, and the configuration is halted. | `Effective.terminal_search_pure_smc` exposes both `StateTransition.Reaches` and the halt equation. `JournalOutput`, `MathlibTM0.Rep` and terminal SMC `TapeWords` share that same reached configuration. |
 | `CorrectedPaper.Observations` | Every finite actual source run has a boundary on its own initialized pure trace, with the entire integer-indexed tape and head represented. | `CorrectedPaper.observations`, `Concrete.tm_run_correct`; the reached states and trace witnesses are conclusions. |
 | `Encoding.zigzag_injective` | The explicit integer-to-natural encoding is injective. | Existing direct proof; unchanged definition and description. |
 | `Concrete.data_owner`, `metadata_owner` | Each qualifying field has a header decoding that mutable field as the STORE operand. | Constructive placement proofs. Placement alone is not claimed to establish execution; the distinct-field predicate additionally requires execution on its trace. |
@@ -80,11 +80,48 @@ The generated unbounded storage family is not an oracle for fetch.
 The unbounded template family and memory have a finite computable description;
 they are an ideal unbounded image, not a finite physical executable with
 infinitely many preallocated instructions. The initializer is the elementary
-rule `memory p = p`, except at one fixed stack-reset field. No future execution
-information is encoded in this rule. Bounded x86/x64 realization remains a
+rule `memory p = p` at every integer address. The registers are literal constants.
+The selected `Unbounded` statement names this exact initializer and includes
+`Primrec activeInitial.memory`; it does not quantify an arbitrary initial state.
+No future execution information is accepted by the initializer. Bounded x86/x64 realization remains a
 separate conditional result. The older tape walker proves an owned-field
 property and remains supporting material; it is not the witness for the new
 executed-owner claim.
+
+## Reached terminal journal
+
+The selected terminal clause exposes `StateTransition.Reaches (TM0.step numbered)`
+from `TM0.init ((searchTape input).map symbols)` to `library`, together with
+`TM0.step numbered library = none`. This is the interpreter chosen before the
+input, with the same finite descriptor encoding used by `numberedInitial`.
+`JournalOutput` reads this configuration's `Tape.right₀`; `MathlibTM0.Rep`
+connects it to the source configuration whose full tape is represented in the
+actual SMC terminal `finish`. An unexecuted compatible configuration cannot
+satisfy the reachability clause.
+
+The proof of `standard_terminal_output` reflects the actual SMC terminal run
+to a halted compiled source run, then uses `StateTransition.tr_eval_rev` to
+obtain the library configuration's partial evaluation. `mem_eval` yields its
+reachability and halt equation. The numbered interpreter's output contract
+then identifies the returned `terminalSearch` journal on that configuration.
+Reachability is a conclusion; no future configuration is supplied as a premise.
+
+## Quantifier and execution audit
+
+| Claim | Explicit initialization | Actual execution and observation |
+| --- | --- | --- |
+| Universal SMC simulation | `initialTMState machine input` is the fixed finite-table/input initializer, not an arbitrary tape function. | Halt/divergence equivalences and pure prefix runs use this same state. Divergence gives arbitrarily late actual changes. |
+| Distinct-field trace | Literal `activeInitial` and `Primrec activeInitial.memory` occur in the selected statement. | Every counted field changes and its owner is fetched at `time + 1` on this trace. |
+| Four MOV foundation | `initialState (initialKernelState machine (initialConfiguration machine input))` receives finite source data. | Positive loop-prefix and deliberate zero-load trap certificate iff source halts; divergence preserved. |
+| Interpreter | One finite numbered table is chosen before `input`; its finite tape is `searchTape input` mapped by the chosen alphabet equivalence. | Terminal configuration is reached by that table on that tape and is halted. The same configuration supplies the encoded journal and represented SMC tape. |
+| Source observations | `initialTMState machine input`, with a premise giving the actual finite source run. | `TMTraceSpec.executed` is a conclusion on that initialized trace; complete tape and logical head are observed at its boundary. |
+| Owner declarations | Fixed arithmetic storage placement for data and metadata. | These prove ownership only. The distinct-field clause separately requires owner execution; general purity does not claim every owner is fetched. |
+
+The theoretical image is unbounded and generated by fixed arithmetic/list
+algorithms. Native proofs retain finite capacity and local machine-contract
+conditions. Neither finite physical unboundedness nor whole-CPU verification
+is part of the principal claim. These boundaries agree across Challenge,
+development definitions, metadata and the submission account.
 
 ## Reproduction and release checks
 
@@ -97,9 +134,9 @@ Lean remains `4.35.0-rc3`, compiler commit
 cannot certify the strengthened definitions in this revision.
 
 Affected-module checks use source-bound artifact reuse and a fresh selected
-axiom audit. The [frozen candidate acceptance](acceptance/semantic-revision.json) passes
-the full proof/native audit, unmodified Palomar mechanical preflight and
-unmodified Challenge rendering.
+axiom audit. The [earlier candidate acceptance](acceptance/semantic-revision.json) is
+historical. Current explicit-initializer and reached-output checks are bound
+separately in [EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md).
 The Challenge includes the actual stopping and ownership predicates and must
 stay below the hard 1,000-line / 100 KiB limits. Mechanical and semantic claims
 are reported separately; no registry acceptance is inferred from CI success.

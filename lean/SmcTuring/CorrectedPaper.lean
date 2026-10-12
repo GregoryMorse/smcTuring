@@ -1,7 +1,7 @@
 module
 public import SmcTuring.Appendix.Listing9JointFullExecution
 public import SmcTuring.SMC.ComputableFiniteTM0
-public import SmcTuring.SMC.ConcreteActiveFields
+public import SmcTuring.SMC.ComputableActiveFields
 public import SmcTuring.Dolan.FourStopping
 
 public section
@@ -13,15 +13,17 @@ set_option maxHeartbeats 2000000
 The fixed pure image simulates every finite source TM,including divergence
 and infinitely many changes caused by fetched instructions. The additional
 distinct-field witness fetches each changed field's owning store immediately
-after changing that field, so unused templates cannot satisfy that clause. -/
+after changing that field. Its literal identity-memory initializer and
+primitive-recursiveness are part of the statement, excluding oracle memory. -/
 @[expose] def Unbounded : Prop :=
   (∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),
     (Concrete.ReachesTerminal (Concrete.initialTMState machine input) ↔ TM.Halts machine (TM.initialConfiguration machine input)) ∧
     (Concrete.RunsForever (Concrete.initialTMState machine input) ↔ TM.Diverges machine (TM.initialConfiguration machine input)) ∧
     Concrete.PureComputation (Concrete.initialTMState machine input) ∧
     (TM.Diverges machine (TM.initialConfiguration machine input) → Concrete.InfinitelyChanges (Concrete.initialTMState machine input))) ∧
-  ∃ start : SMC.State,Concrete.RunsForever start ∧ Concrete.PureComputation start ∧
-    Concrete.InfinitelyChanges start ∧ Concrete.UnboundedChangedFields start
+  Primrec Concrete.activeInitial.memory ∧ Concrete.RunsForever Concrete.activeInitial ∧
+    Concrete.PureComputation Concrete.activeInitial ∧
+    Concrete.InfinitelyChanges Concrete.activeInitial ∧ Concrete.UnboundedChangedFields Concrete.activeInitial
 
 /-- Dolan foundation: four registers, three MOV forms, a fixed body and one
 unconditional backedge. Invalid dereferences stop execution. Each simulated
@@ -38,7 +40,8 @@ Section 5 of Dolan's paper; invalid loads do not return zero. -/
       (Dolan.Four.LoopDiverges program initial ↔ TM.Diverges machine configuration)
 
 /-- An effective finite-alphabet interpreter receives the encoded finite
-machine/input only. It preserves halt/divergence,purity and terminal journals. -/
+machine/input only. Each terminal journal is on a halted configuration actually
+reached by this numbered interpreter on the same encoded input. -/
 @[expose] def EffectiveInterpreter : Prop := ∀ (alphabet states : Nat),
 
     ∃ (alphabetCount labelCount : Nat) (symbols : InterpreterAlphabet ≃ Fin alphabetCount)
@@ -60,6 +63,9 @@ machine/input only. It preserves halt/divergence,purity and terminal journals. -
             ∃ (journal : StateCode) (library : TM0.Cfg (Fin alphabetCount) (Fin labelCount))
               (source : TM.Configuration alphabetCount (2 * labelCount)),
               journal ∈ terminalSearch input.1 input.2 ∧
+              StateTransition.Reaches (TM0.step numbered)
+                (TM0.init ((searchTape input).map symbols)) library ∧
+              TM0.step numbered library = none ∧
               JournalOutput symbols rfl journal library.Tape.right₀ ∧
               MathlibTM0.Rep library source ∧ Concrete.TapeWords source finish
 
@@ -135,7 +141,7 @@ this theorem does not assert hardware RET/OS execution or CI acceptance. -/
 theorem full_paper : Statement := by
   refine ⟨⟨Concrete.pure_infinitely_smc_universality,?_⟩,Dolan.Four.four_register_mov_certified_simulation,
     Effective.terminal_search_pure_smc,observations,?_⟩
-  · exact ⟨Concrete.activeInitial,Concrete.pure_unbounded_smc_witness⟩
+  · exact Concrete.computably_initialized_unbounded_smc_witness
   · intro alphabet states machine capacity input finish count actual halted mode start capacityBytes reach memory seed
     exact bounded_appendix machine capacity input finish count actual halted mode start capacityBytes reach memory seed
 

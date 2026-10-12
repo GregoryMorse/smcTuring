@@ -9690,3 +9690,5 @@ import Solution
 #print axioms SmcTuring.SMC.Concrete.active_field_changes
 #print axioms SmcTuring.SMC.Concrete.active_unbounded_fields
 #print axioms SmcTuring.SMC.Concrete.active_infinitely_changes
+#print axioms SmcTuring.SMC.Concrete.active_initial_memory_primrec
+#print axioms SmcTuring.SMC.Concrete.computably_initialized_unbounded_smc_witness

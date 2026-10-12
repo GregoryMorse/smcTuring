@@ -9,9 +9,11 @@ instructions per visited cell: exchange, owning store, two stack-reset MOVs,
 and an explicit CALL. Sequential headers always have next PC = PC + 1. -/
 @[expose] def activeField (index : Nat) : Int := (index : Int) + 40
 
+/-- Closed initializer: fixed registers and the identity integer-memory function.
+No externally supplied memory function or future execution data is accepted. -/
 @[expose] def activeInitial : State :=
   { acc := 39, stack := 0, pc := owner 40 - 1, carry := false
-    memory := fun field => if field = topField then returnField + 1 else field }
+    memory := fun field => field }
 
 @[expose] def activeAdvance (field : Int) (s : State) : State :=
   let exchanged := execute 1 (.exchange field) (owner field) s
@@ -83,7 +85,7 @@ theorem active_invariant (n : Nat) :
   induction n with
   | zero =>
     refine ⟨rfl, rfl, ?_, ?_⟩
-    · simp [activeBoundary, activeInitial]
+    · simp [activeBoundary, activeInitial, topField, returnField, metaField]
     · intro field high
       have separate : field ≠ topField := by simp [activeField, topField, metaField] at high ⊢; omega
       simp [activeBoundary, activeInitial, separate]

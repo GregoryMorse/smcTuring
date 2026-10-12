@@ -106,6 +106,8 @@ theorem standard_terminal_output (machine : Turing.TM0.Machine (Fin alphabet) (F
     (reached : SMC.runImage 1 SMC.Concrete.image count (SMC.Concrete.initialTMState (compile machine) input) = some finish)
     (terminal : finish.pc = SMC.Concrete.terminalPC) :
     ∃ (library : Turing.TM0.Cfg (Fin alphabet) (Fin states)) (source : TM.Configuration alphabet (2 * states)),
+      StateTransition.Reaches (Turing.TM0.step machine) (Turing.TM0.init input) library ∧
+      Turing.TM0.step machine library = none ∧
       library.Tape.right₀ ∈ Turing.TM0.eval machine input ∧ Rep library source ∧
       SMC.Concrete.TapeWords source finish ∧
       ∀ position : Int,
@@ -120,7 +122,9 @@ theorem standard_terminal_output (machine : Turing.TM0.Machine (Fin alphabet) (F
     StateTransition.mem_eval.mpr ⟨source_run_reaches _ steps _ source completed, halted⟩
   rcases StateTransition.tr_eval_rev (compiler_respects machine) (initial_rep machine input) sourceResult with
     ⟨library, rep, evaluated⟩
-  refine ⟨library, source, (Part.mem_map_iff _).mpr ⟨library, evaluated, rfl⟩, rep, words, ?_⟩
+  rcases StateTransition.mem_eval.mp evaluated with ⟨libraryReached, libraryHalted⟩
+  refine ⟨library, source, libraryReached, libraryHalted,
+    (Part.mem_map_iff _).mpr ⟨library, evaluated, rfl⟩, rep, words, ?_⟩
   intro position
   rw [words.2 (source.head + position), rep.2 position]
 

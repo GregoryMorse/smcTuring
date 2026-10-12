@@ -10,6 +10,5 @@ theorem mathematical_result : SmcTuring.CorrectedPaper.Unbounded ∧
     SmcTuring.SMC.Effective.terminal_search_pure_smc,
     SmcTuring.CorrectedPaper.observations⟩
   exact ⟨SmcTuring.SMC.Concrete.pure_infinitely_smc_universality,
-    ⟨SmcTuring.SMC.Concrete.activeInitial,
-      SmcTuring.SMC.Concrete.pure_unbounded_smc_witness⟩⟩
+    SmcTuring.SMC.Concrete.computably_initialized_unbounded_smc_witness⟩
 end PalomarSMC

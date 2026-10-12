@@ -5,8 +5,9 @@ certified MOV stopping, and corrects the dependency description. Its
 [ledger](SEMANTIC_REVISION_LEDGER.md) and [definition-level alignment](SEMANTIC_ALIGNMENT.md)
 govern the current candidate. The [revision acceptance](acceptance/semantic-revision.json)
 records passing full proof/native CI, protected verification and unmodified
-rendering at `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`. All requested
-corrections have positive evidence; Palomar must assess the new submission.
+rendering at `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`. The subsequent review identified omitted initializer and interpreter
+reachability constraints. These are strengthened in Lean; current acceptance
+is governed by [EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md).
 The earlier mechanical passes below are historical
 receipts for `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`; they do not certify
 the strengthened statement. No registration is claimed.

@@ -7,7 +7,10 @@ project:
     from Gregory Morse's 2018 paper. An unbounded integer-address machine
     simulates finite Turing machines, preserves halting and divergence, writes
     code at every computational instruction, and admits a run changing unboundedly
-    many fetched code fields. The development includes a four-register MOV
+    many fetched code fields from a literal identity-memory initializer whose
+    memory is proved primitive recursive. Terminal interpreter journals occur
+    on reached halted configurations of the numbered interpreter on the encoded
+    finite input. The development includes a four-register MOV
     foundation, effective finite-machine interpretation, tape and head observations,
     and conditional bounded x86/x64 instruction, relocation and native-trace
     refinements. Finite hardware is not claimed to have unbounded memory.
@@ -130,7 +133,11 @@ fidelity:
     Dolan's MOV result retains its unconditional loop backedge and is separate
     from pure SMC. The distinct-field witness uses a computably specified
     unbounded storage region of the same image and immediately executes each
-    changed operand's owner; it is separate from the initialized TM trace.
+    changed operand's owner. The selected statement names its exact fixed-register
+    identity-memory initializer and requires primitive-recursive memory; this
+    trace is separate from the initialized TM trace. The interpreter output
+    clause requires the numbered machine to reach the same halted configuration
+    whose tape contains the terminal journal, starting from the encoded input.
     MOV stopping is certified as the deliberate invalid-zero-address load,
     using the normalized valid-cell/offset encoding. Physical ISA/OS behavior outside the disclosed contract is
     not formalized. No further source mismatch is claimed absent after an
@@ -142,11 +149,13 @@ review:
   notes: >-
     The current definition-level audit is SEMANTIC_ALIGNMENT.md: each selected
     surface is mapped to its positive proof, source account and model boundary.
-    The executed-owner and deliberate zero-trap certificates passed a targeted
-    kernel/standard-axiom audit. Historical complete acceptance and protected
+    The literal initializer, primitive-recursive memory, reached halted journal
+    configuration, executed-owner and deliberate zero-trap certificates have
+    positive Lean proofs; affected clauses are checked by targeted
+    kernel/standard-axiom audits. Historical complete acceptance and protected
     comparison apply to their original source definitions, not automatically
     to the stronger revision. Exact current release checks are bound separately
-    in SEMANTIC_REVISION_LEDGER.md. This is automated agent review, not
+    in EXECUTION_REVISION_LEDGER.md. This is automated agent review, not
     independent human mathematical review. The principal wrapper uses the
     individual mathematical proofs.
     The four deliberate Challenge theorem holes are excluded from the zero

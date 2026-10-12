@@ -1,9 +1,11 @@
 # Closure status — 2026-10-11
 
-**Complete. All seven deliverable rounds are accepted; the proof, minimal errata,
+**Original closure complete. All seven deliverable rounds were accepted; the proof, minimal errata,
 native validation and Palomar full mechanical preflight have passed.**
 
-The stronger semantic revision is also **complete, 2026-10-12**, with
+The current initialization/execution strengthening is tracked in
+[EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md); it requires its
+own acceptance. The earlier semantic revision completed on 2026-10-12, with
 [full source-bound acceptance](acceptance/semantic-revision.json) at
 `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`: 1,154 fresh modules, 7,995
 declarations, all 21 native suites, protected verification and rendering pass.

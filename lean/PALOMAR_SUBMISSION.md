@@ -1,6 +1,11 @@
 ﻿# Palomar submission packet
 
-The semantic revision corrects the dependency account and strengthens both
+**Revision required.** The latest review requires explicit computable witness
+initialization and actual numbered-interpreter reachability for journal output.
+The candidate below is historical. Use the new tested candidate only after
+[the execution revision ledger](EXECUTION_REVISION_LEDGER.md) is complete.
+
+The earlier semantic revision corrects the dependency account and strengthens both
 MOV stopping and unbounded executed-field ownership. Use the candidate and
 completed check bindings recorded in [SEMANTIC_REVISION_LEDGER.md](SEMANTIC_REVISION_LEDGER.md).
 Earlier candidate `a97fbd690b4051463a3b3fe86b5823823aa91bac` is historical;

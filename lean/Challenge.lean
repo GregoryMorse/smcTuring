@@ -8,17 +8,13 @@ public section
 # Corrected Morse/Dolan principal mathematical result
 The statement selects finite-TM halt/divergence simulation, instruction-level
 pure code writes, unbounded fetched-code changes, the four-register MOV
-foundation, a finite effective interpreter, and SAME-trace tape/head observations.
-Its definitions retain the development's names and exact mathematical meanings.
+foundation, reached interpreter journal output, and SAME-trace tape/head observations.
+The distinct-field trace has a literal primitive-recursive identity-memory initializer.
 Gregory Morse (2018), DOI 10.24425/119359, is adapted with proved M01–M20 errata;
 Stephen Dolan's 2013 MOV paper supplies the foundation. Mathlib supplies TM0.
-Codex assisted development; no independent human review or new novelty is claimed.
-The checked conditional native/x86/x64/COFF theorems are supporting material,
-outside this selected registry statement. See PALOMAR_AUDIT.md for scope.
-All four intentional theorem holes belong to Challenge; Solution proves them.
-The four compared result definitions have their intended values here.
-No future-run certificate, simulation oracle or custom axiom is assumed.
-No registration or independent human review is claimed.
+Codex assisted development. Native/x86/x64/COFF proofs are supporting material.
+Four intentional Challenge theorem holes are proved in Solution.
+No future-run oracle, custom axiom, independent human review or registration is claimed.
 -/
 set_option maxHeartbeats 2000000
 namespace SmcTuring
@@ -837,6 +833,9 @@ open Dolan
 This is stronger than infinitely many changes in a fixed finite set of fields. -/
 @[expose] def UnboundedChangedFields (start : State) : Prop := ∀ bound : Nat, ∃ field time, (bound : Int) < field ∧ image.codeField field ∧ FieldChangeAt start time field ∧
   ∃ s next, runImage 1 image (time + 1) start = some s ∧ s.pc = image.templatePC field ∧ fetch image s = some (.store (s.memory field), next)
+/-- Closed initializer with fixed registers and primitive-recursive identity memory. -/
+@[expose] def activeInitial : State :=
+  { acc := 39, stack := 0, pc := owner 40 - 1, carry := false, memory := fun field => field }
 end SmcTuring.SMC.Concrete
 namespace SmcTuring.SMC.Concrete
 open Dolan
@@ -934,16 +933,17 @@ end SmcTuring.Dolan.Four
 namespace SmcTuring.CorrectedPaper
 open SMC SMC.Effective Turing
 /-- Unbounded integer-address semantics for the paper's mathematical claim.
-The fixed pure image simulates every finite source TM,including divergence
-and infinitely many changes caused by fetched instructions. The distinct-field
-witness fetches each changed field's owning store on the very next step. -/
+The fixed pure image simulates every finite source TM. The distinct-field
+trace starts from the literal primitive-recursive identity-memory initializer
+and fetches each changed field's owning store on the very next step. -/
 @[expose] def Unbounded : Prop := (∀ (alphabet states : Nat) (machine : TM.Machine alphabet states) (input : List (Fin alphabet)),
     (Concrete.ReachesTerminal (Concrete.initialTMState machine input) ↔ TM.Halts machine (TM.initialConfiguration machine input)) ∧
     (Concrete.RunsForever (Concrete.initialTMState machine input) ↔ TM.Diverges machine (TM.initialConfiguration machine input)) ∧
     Concrete.PureComputation (Concrete.initialTMState machine input) ∧
     (TM.Diverges machine (TM.initialConfiguration machine input) → Concrete.InfinitelyChanges (Concrete.initialTMState machine input))) ∧
-  ∃ start : SMC.State,Concrete.RunsForever start ∧ Concrete.PureComputation start ∧
-    Concrete.InfinitelyChanges start ∧ Concrete.UnboundedChangedFields start
+  Primrec Concrete.activeInitial.memory ∧ Concrete.RunsForever Concrete.activeInitial ∧
+    Concrete.PureComputation Concrete.activeInitial ∧
+    Concrete.InfinitelyChanges Concrete.activeInitial ∧ Concrete.UnboundedChangedFields Concrete.activeInitial
 /-- Four MOV registers, one backedge and a certified invalid-zero-address
 trap exactly when the source TM halts (Dolan Section 5). Invalid loads stop. -/
 @[expose] def FourMov : Prop := ∃ program : List Dolan.Four.Instruction, program.length = 2252 ∧
@@ -954,7 +954,7 @@ trap exactly when the source TM halts (Dolan Section 5). Invalid loads stop. -/
       (Dolan.Four.ZeroTrapHalts program initial ↔ TM.Halts machine configuration) ∧
       (Dolan.Four.LoopDiverges program initial ↔ TM.Diverges machine configuration)
 /-- An effective finite-alphabet interpreter receives the encoded finite
-machine/input only. It preserves halt/divergence,purity and terminal journals. -/
+machine/input only. Its terminal journal is on a reached halted configuration. -/
 @[expose] def EffectiveInterpreter : Prop := ∀ (alphabet states : Nat),
     ∃ (alphabetCount labelCount : Nat) (symbols : InterpreterAlphabet ≃ Fin alphabetCount)
       (start : Fin labelCount),
@@ -975,6 +975,9 @@ machine/input only. It preserves halt/divergence,purity and terminal journals. -
             ∃ (journal : StateCode) (library : TM0.Cfg (Fin alphabetCount) (Fin labelCount))
               (source : TM.Configuration alphabetCount (2 * labelCount)),
               journal ∈ terminalSearch input.1 input.2 ∧
+              StateTransition.Reaches (TM0.step numbered)
+                (TM0.init ((searchTape input).map symbols)) library ∧
+              TM0.step numbered library = none ∧
               JournalOutput symbols rfl journal library.Tape.right₀ ∧
               MathlibTM0.Rep library source ∧ Concrete.TapeWords source finish
 /-- Every finite source configuration is observed on the SAME pure trace:

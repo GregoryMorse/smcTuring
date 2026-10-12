@@ -95,6 +95,9 @@ theorem terminal_search_pure_smc (alphabet states : Nat) :
             ∃ (journal : StateCode) (library : TM0.Cfg (Fin alphabetCount) (Fin labelCount))
               (source : TM.Configuration alphabetCount (2 * labelCount)),
               journal ∈ terminalSearch input.1 input.2 ∧
+              StateTransition.Reaches (TM0.step numbered)
+                (TM0.init ((searchTape input).map symbols)) library ∧
+              TM0.step numbered library = none ∧
               JournalOutput symbols rfl journal library.Tape.right₀ ∧
               MathlibTM0.Rep library source ∧ Concrete.TapeWords source finish := by
   obtain ⟨alphabetCount, labelCount, symbols, start, numbered, contract⟩ := terminal_search_numbered_tm0 alphabet states
@@ -110,8 +113,9 @@ theorem terminal_search_pure_smc (alphabet states : Nat) :
     (fun diverges => simulated.2.2.2 ((not_congr computed.1).mpr (divergence.mp diverges))), ?_⟩
   intro count finish reached terminal
   rcases MathlibTM0.standard_terminal_output numbered ((searchTape input).map symbols) count finish reached terminal with
-    ⟨library, source, output, represented, words, _⟩
+    ⟨library, source, libraryReached, libraryHalted, output, represented, words, _⟩
   rcases computed.2 library.Tape.right₀ output with ⟨journal, returned, journalOutput⟩
-  exact ⟨journal, library, source, returned, journalOutput, represented, words⟩
+  exact ⟨journal, library, source, returned, libraryReached, libraryHalted,
+    journalOutput, represented, words⟩
 
 end SmcTuring.SMC.Effective

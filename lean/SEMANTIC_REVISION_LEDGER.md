@@ -1,7 +1,11 @@
 # Semantic consistency revision — complete
 
-All five revision obligations are **COMPLETE**. Submit the exact tested public
-commit `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`; the
+This receipt is historical for `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`.
+The subsequent initialization/execution strengthening and current release
+state are tracked in [EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md).
+
+All five earlier revision obligations are **COMPLETE**. Their tested public
+commit is `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`; the
 [acceptance receipt](acceptance/semantic-revision.json) binds its source and reports.
 This closes repository work. Palomar's new semantic review remains a registry decision.
 
