@@ -136,7 +136,8 @@ cannot certify the strengthened definitions in this revision.
 Affected-module checks use source-bound artifact reuse and a fresh selected
 axiom audit. The [earlier candidate acceptance](acceptance/semantic-revision.json) is
 historical. Current explicit-initializer and reached-output checks are bound
-separately in [EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md).
+in the completed [EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md)
+and [source-bound acceptance](acceptance/execution-revision.json).
 The Challenge includes the actual stopping and ownership predicates and must
 stay below the hard 1,000-line / 100 KiB limits. Mechanical and semantic claims
 are reported separately; no registry acceptance is inferred from CI success.

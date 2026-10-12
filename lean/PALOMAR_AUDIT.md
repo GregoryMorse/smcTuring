@@ -1,40 +1,45 @@
 # Palomar submission audit
 
-The 2026-10-12 semantic revision strengthens executed field ownership and
-certified MOV stopping, and corrects the dependency description. Its
-[ledger](SEMANTIC_REVISION_LEDGER.md) and [definition-level alignment](SEMANTIC_ALIGNMENT.md)
-govern the current candidate. The [revision acceptance](acceptance/semantic-revision.json)
-records passing full proof/native CI, protected verification and unmodified
-rendering at `16bd686e33c2ceff4bd3efe6c0d6e91f4e67ffc0`. The subsequent review identified omitted initializer and interpreter
-reachability constraints. These are strengthened in Lean; current acceptance
-is governed by [EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md).
-The earlier mechanical passes below are historical
-receipts for `1ab379c2288ef5952c6e1bbdb8d655d31e5fbbd4`; they do not certify
-the strengthened statement. No registration is claimed.
+**Ready with the disclosed preferred-size warning.** Exact tested public source:
+`51198ac6ad1d1b4b2ad6e3751583e3c6d1c56b71`.
+The [acceptance receipt](acceptance/execution-revision.json) records source and
+report hashes; the [submission packet](PALOMAR_SUBMISSION.md) gives the form values.
+The [definition-level alignment](SEMANTIC_ALIGNMENT.md) and
+[closed execution revision ledger](EXECUTION_REVISION_LEDGER.md) cover both
+requested stronger corrections. Earlier receipts retain their historical bindings.
 
 | Gate | Result | Evidence |
 | --- | --- | --- |
 | Public immutable source and pinned dependencies | PASS | Public commit above; Lean 4.35.0-rc3 / `470d5ce1400764999581fd26d5d72b00d990b0f4`, pinned Mathlib |
-| Complete proof/standard-axiom audit | PASS | 1,152 fresh modules, 7,976 declarations, zero reuse |
+| Complete proof/standard-axiom audit | PASS | [Full CI](https://github.com/GregoryMorse/smcTuring/actions/runs/38281964773): 1,155 fresh modules, 7,997 declarations, zero reuse |
 | Selected statement and exact comparison | PASS | Four theorems/four definitions; official protected kernels accept |
-| Official full preflight | PASS | [Actual report](https://github.com/GregoryMorse/smcTuring/actions/runs/38108849833); status `pass`, no errors |
+| Official full preflight | PASS | [Actual report](https://github.com/GregoryMorse/smcTuring/actions/runs/38281992323); status `pass`, no errors; Lean/Nanoda/con-ron checks |
+| Unmodified Challenge rendering | PASS | [38281996012](https://github.com/GregoryMorse/smcTuring/actions/runs/38281996012): matching source and Challenge hash |
 | License | PASS | Declared/detected CC0-1.0 match; [license account](LICENSE_AUDIT.md) |
 | Metadata, taxonomy, provenance and source rules | PASS | Official preflight; known source-based formalization with disclosed AI role |
 | Minimal errata | PASS | M01–M20, 60 exact excerpts, 128 positive proof references, reviewed two-page PDF |
-| Windows native supporting evidence | PASS | [Actual acceptance](https://github.com/GregoryMorse/smcTuring/actions/runs/38118165923); 21 suites, four baseline configurations |
+| Windows native supporting evidence | PASS | Full CI above: 210 exporter modules, 23 roots, 21 suites and 30 checks in four baseline configurations |
 | Earlier semantic account | SUPERSEDED | Current [definition-level audit](SEMANTIC_ALIGNMENT.md) explicitly distinguishes trapping zero-address reads and executed owners from dormant template placement. |
 
-The preferred Challenge size warning remains disclosed: 984 lines / 60,700 bytes
+The preferred Challenge size warning remains disclosed: 1,000 lines / 62,027 bytes
 exceeds the preferred 300-line / 32 KiB surface, while satisfying the 1,000-line
 hard limit. The official full verifier accepts it. The selected record is the
 principal mathematical result; native/COFF proofs remain supporting material.
 No new priority, independent human peer review or Palomar endorsement is claimed.
 
-[FINAL_ACCEPTANCE.json](FINAL_ACCEPTANCE.json) provides exact run/source/report
-digests. [The retained mechanical report](acceptance/palomar-mechanical-report.json)
-is the actual official output. [The submission packet](PALOMAR_SUBMISSION.md)
-provides concrete form values and the confirmed first-submission route. The user will
-perform intake; editorial registration is a later registry decision.
+`Unbounded` names the literal fixed-register, identity-memory initializer and
+requires its primitive recursiveness. `EffectiveInterpreter` requires its
+journal-bearing halted configuration to be reached by the same numbered
+machine on the encoded input. The earlier executed-owner and deliberate
+invalid-zero-load corrections remain in force.
+
+The supplied submission auditor found no static errors and one preferred-size
+warning. Its mandatory mechanical items are resolved by the protected full
+report; the statement audit is recorded separately in the alignment above.
+Live policy and intake guidance were refreshed on 2026-10-12. All reports,
+logs and manifests have been fetched locally. No progressed proof work remains
+only on the server. The user performs replacement intake with existing
+Palomar ID blank; no submission or registration action is claimed.
 
 Earlier policy/source review, eligibility discussion and interrupted-run recovery
 details are preserved in [the dated audit](history/PALOMAR_AUDIT.before-public-closure-20261011.md). Its old

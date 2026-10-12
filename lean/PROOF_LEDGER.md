@@ -4,8 +4,9 @@
 This historical acceptance applies to the original definitions. The 2026-10-12
 earlier strengthening and release checks are recorded in
 [SEMANTIC_REVISION_LEDGER.md](SEMANTIC_REVISION_LEDGER.md). The current
-explicit-initialization/reached-output revision is tracked in
-[EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md). The complete development ledger, including its original IDs, dependency
+explicit-initialization/reached-output revision is complete in
+[EXECUTION_REVISION_LEDGER.md](EXECUTION_REVISION_LEDGER.md), with
+[source-bound acceptance](acceptance/execution-revision.json). The complete development ledger, including its original IDs, dependency
 tables and dated intermediate states, is preserved in
 [the historical ledger](history/PROOF_LEDGER.before-public-closure-20261011.md). Historical
 `IN_PROGRESS` entries describe those dates; they are not current obligations.

@@ -1,0 +1,213 @@
+{
+  "state": "COMPLETE",
+  "checked_at": "2026-10-12T19:43:40.837951+00:00",
+  "source_commit": "51198ac6ad1d1b4b2ad6e3751583e3c6d1c56b71",
+  "source_url": "https://github.com/GregoryMorse/smcTuring/tree/51198ac6ad1d1b4b2ad6e3751583e3c6d1c56b71",
+  "scope": "Explicit-initializer and reached-interpreter-output revision; complete proof and native CI, protected Palomar verification and unmodified rendering. Registry semantic review remains external.",
+  "corrections": {
+    "explicit_initializer": "Unbounded names activeInitial with fixed registers and identity memory, and requires Primrec activeInitial.memory.",
+    "reached_interpreter_journal": "EffectiveInterpreter requires the numbered machine to reach the same halted configuration whose tape supplies JournalOutput.",
+    "dependency_account": "Current Mathlib pin distinguished from historical acceptance.",
+    "four_mov": "Positive deliberate invalid-zero-load certificate iff the source TM halts, matching disclosed Dolan stopping semantics.",
+    "unbounded_fields": "Every counted changed field has its owning STORE fetched immediately on the same trace."
+  },
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib_commit": "5e043698502894993991089b2dd893867c0db5c2",
+  "source_binding": {
+    "verified_source_files": 1331,
+    "linux_snapshot_sha256": "6883571615dd4855546351382136fb2f619e61abfcf2e53423388f9b9b2c86d7",
+    "local_crlf_checkouts_verified_against_candidate_git_blobs": [
+      "smcTuring/dword_owner_smc.inc",
+      "smcTuring/listing5_smc.inc",
+      "smcTuring/listing6_conversion.inc",
+      "smcTuring/listing6_smc.inc",
+      "smcTuring/main.cpp",
+      "smcTuring/smcTuring.vcxproj",
+      "smcTuring/smcTuring.vcxproj.filters",
+      "smcTuring/terminal_smc.inc",
+      "smcTuring/tm.asm"
+    ]
+  },
+  "proof_native": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38281964773",
+    "modules": 1155,
+    "freshly_compiled": 1155,
+    "reused": 0,
+    "declarations": 7997,
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "proof_report_sha256": "09671f3d754b89bac4dc637759310067a5985a6867a8e69b7ce6a9e1c4360b0f",
+    "axiom_audit_sha256": "17d837884fb60231f8dff45ad531f31765256d351e7dde69463809ac0c29d25b",
+    "windows_exporter_modules": 210,
+    "windows_exporter_roots": 23,
+    "windows_exporter_report_sha256": "b3a8e3330952e845c08b32462e81382a96ddf793a5192409cf34aa99d504836b",
+    "native_report_sha256": "9826ca1ed8f70b06e6c3ef4ebe0c0aafaa00e95bcb04ec97899d6b96def09862",
+    "native_suites": 21,
+    "baseline_configurations": 4,
+    "baseline_simulator_checks": 30,
+    "native_job_cap_bytes": 1500000000,
+    "remote_memory_limit_bytes": 7499997184,
+    "native_suite_receipts": [
+      {
+        "script": "run_baseline.py",
+        "report": "validation/baseline.json",
+        "sha256": "4a8b93ca3980865daa44a152f40bea9a94c7e0693d9a95f393c2b521f14b5648",
+        "passed": true
+      },
+      {
+        "script": "run_defaddr.py",
+        "report": "validation/defaddr.json",
+        "sha256": "bbfb348e018a9431ccd03960a02b891a355a36d79d75f5d52418635e70c5875a",
+        "passed": true
+      },
+      {
+        "script": "run_pure.py",
+        "report": "validation/pure.json",
+        "sha256": "31b426f22c28b87f96577b0e9c534648e28f0a4721de637a2cdb2a738812aa36",
+        "passed": true
+      },
+      {
+        "script": "audit_encoding.py",
+        "report": "validation/encoding.json",
+        "sha256": "0e7b706207813feb0d19fe04bb1575eeb6e069e3c506f25274d2ea2e731fab63",
+        "passed": true
+      },
+      {
+        "script": "run_branch.py",
+        "report": "validation/branch.json",
+        "sha256": "1134c4109986b0a9eb7da1319ddd432cddb7295c64bc01304a139d6cedaf0914",
+        "passed": true
+      },
+      {
+        "script": "run_branch_geometries.py",
+        "report": "validation/branch_geometries.json",
+        "sha256": "5d122de5bca7adc844a83220d22648a0fe05ab52781d69e5bcceeb47c05406de",
+        "passed": true
+      },
+      {
+        "script": "run_half_frame.py",
+        "report": "validation/half-frame.json",
+        "sha256": "e0dfb7684ab263ff78ec3a7b19f342cb827820ceb5f40a478babcf0d7b6f2ae8",
+        "passed": true
+      },
+      {
+        "script": "run_multiplication.py",
+        "report": "validation/multiplication.json",
+        "sha256": "0383f040ecd32e71b16bf1872487723002e6e32442c7c76ffd760deb1c3f07a5",
+        "passed": true
+      },
+      {
+        "script": "run_constant.py",
+        "report": "validation/constant.json",
+        "sha256": "2bfb831eb6cc761b3ed4e5369b3671061aabf663895310508ed59447a7f4e3f0",
+        "passed": true
+      },
+      {
+        "script": "run_zero.py",
+        "report": "validation/zero.json",
+        "sha256": "bcf5594817b2cc2707c207305a4ef4a033a05b557b7282a265c6e006b8a28252",
+        "passed": true
+      },
+      {
+        "script": "run_conversion.py",
+        "report": "validation/conversion.json",
+        "sha256": "dea959e08112f39d5bb778effa80a48e9b347be96e6043c7ce44f9e6bd1c1cf3",
+        "passed": true
+      },
+      {
+        "script": "run_template.py",
+        "report": "validation/template.json",
+        "sha256": "11d78663914770657f8b384d801d34feba57cbf33cc2cdf7ee75341199d24012",
+        "passed": true
+      },
+      {
+        "script": "run_transfer.py",
+        "report": "validation/transfer.json",
+        "sha256": "b3315eca8b02f4b5cea5c1c7def5ecb23cf10ca5a60f0bbc35664a7f9fb2203c",
+        "passed": true
+      },
+      {
+        "script": "run_division.py",
+        "report": "validation/division.json",
+        "sha256": "df438616e475bf29ab9b28b8ba793ca24d2698191679773ca1ee5691039bd161",
+        "passed": true
+      },
+      {
+        "script": "run_terminal.py",
+        "report": "validation/terminal.json",
+        "sha256": "02b89d812fcf45790ef48f3a31f3826ffa01b6b6a4632e2d1e9800cb2e2c7ad7",
+        "passed": true
+      },
+      {
+        "script": "run_accumulator.py",
+        "report": "validation/accumulator.json",
+        "sha256": "5e15e62ff48d446d7987131e9e3473b66d38d3998e8840fdca871621090cdea5",
+        "passed": true
+      },
+      {
+        "script": "run_input_operand.py",
+        "report": "validation/input_operand.json",
+        "sha256": "2fc0c21a3106e237321e80ef4c92ba18ab5fd1843a91b92735d8d16c7cd43fae",
+        "passed": true
+      },
+      {
+        "script": "run_dword_owner.py",
+        "report": "validation/dword_owner.json",
+        "sha256": "23c35d677b8b5aab948330a225a0612a4bc93abf7482657041a1a92ffe4b30dd",
+        "passed": true
+      },
+      {
+        "script": "run_dword_comparison.py",
+        "report": "validation/dword_comparison.json",
+        "sha256": "91da7f4bbbdb5dfe758a11f77bb7949258e6b1021398034bac5c56e2c5c784ef",
+        "passed": true
+      },
+      {
+        "script": "run_cursor.py",
+        "report": "validation/cursor.json",
+        "sha256": "3afec2cefd77d36cee6c21621ff09271252d38e26e7718c02d8a591887be1438",
+        "passed": true
+      },
+      {
+        "script": "run_input_update.py",
+        "report": "validation/input_update.json",
+        "sha256": "dfb972585623804d5eeb1d397c85b195658bed2b8663b9ccd12e0a4cb6898d56",
+        "passed": true
+      }
+    ]
+  },
+  "palomar_mechanical": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38281992323",
+    "report_sha256": "3d11e44614988824b061bf0d4c5584277aa38ccfd584e25c81e3b21529f6c1f6",
+    "challenge_sha256": "632e9295bc01b3c1070a1225c771bfaf744086e58d13f7af977a112537402eb6",
+    "challenge_lines": 1000,
+    "challenge_bytes": 62027,
+    "selected_theorems": 4,
+    "selected_definitions": 4,
+    "kernel_names": [
+      "Lean",
+      "nanoda",
+      "con-ron"
+    ],
+    "unmodified": true,
+    "pipeline_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44"
+  },
+  "palomar_render": {
+    "passed": true,
+    "run_url": "https://github.com/GregoryMorse/smcTuring/actions/runs/38281996012",
+    "report_sha256": "8df780da99eacfea21078ce6b902358b7f7b8ad244beebd11aa6e0687d75a386",
+    "artifact_tree_sha256": "d99fed67dd512ab19285a8394ad46ec0144833a7419b6ba326dc4bdcd03a28e8",
+    "unmodified": true,
+    "renderer_commit": "d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44",
+    "verso_commit": "8fc7a297f14d5adc1a551b5b4ecf283c08bd691f"
+  },
+  "palomar_registered": false,
+  "private_intake_link_published": false,
+  "submission_action": "Author submits this exact tested commit; existing Palomar ID remains blank."
+}
