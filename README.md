@@ -40,6 +40,8 @@ assumptions explicitly. See the [theorem map](lean/FINAL_THEOREM_MAP.md),
 [physical contract](lean/PHYSICAL_BINDING_CONTRACT.md) and
 [verification evidence](lean/acceptance/execution-revision.json).
 
+Registered as [PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1).
+
 The paper corrections are available as a [two-page errata PDF](output/pdf/morse-2018-errata.pdf),
 [LaTeX source](lean/errata/morse-2018-errata.tex) and
 [minimal diff](lean/errata/morse-2018-minimal.diff). For builds and checks, see the

@@ -55,10 +55,12 @@ The principal record covers mathematical claims; native/COFF proofs are supporti
 material. No full Windows Lean audit, whole CPU/OS verification, physical RET/stop
 theorem or finite-hardware unboundedness is claimed.
 
-Palomar intake and editorial registration have not been performed. Gregory Morse
-will submit the prepared packet. These are user/editorial actions, not unfinished
-proof obligations. The sole mechanical warning is the Challenge's preferred review
-size: 984 lines / 60,700 bytes, within the 1,000-line hard limit.
+Gregory Morse completed intake and registration on 2026-10-13 as
+[PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1),
+with the tested source confirmed in the
+[registration receipt](acceptance/palomar-registration.json).
+The sole mechanical warning is the Challenge's preferred review size:
+1,000 lines / 62,027 bytes, within the hard limits.
 
 The latest completed server-agent checkpoint remains `08f0a594f691cb0f131a72c81dbcbd79b5667a20`.
 The later OOM-terminated attempt was recovered and verified by the coordinator;

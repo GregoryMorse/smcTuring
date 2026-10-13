@@ -1,4 +1,10 @@
-# Palomar submission packet
+# Palomar registration and submitted packet
+
+Registered on 2026-10-13 as
+[PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1).
+The [registration receipt](acceptance/palomar-registration.json) confirms the
+registered source is the exact tested commit below. These form values document
+the completed intake; any future version should use the registered Palomar ID.
 
 The explicit-initialization and reached-output revision is complete. All
 selected definitions, positive proofs and descriptions agree under the
@@ -15,7 +21,7 @@ the exact public commit below. Earlier candidates are historical.
 | Formalization metadata | `lean/formalization.yaml` |
 | Responsible author/maintainer | Gregory Morse |
 | Authorization relationship | I am a responsible author or maintainer |
-| Existing Palomar ID | Blank — this result has not been registered |
+| Existing Palomar ID at this intake | Blank — first registration |
 | Preliminary override | Disabled |
 
 The selected `Unbounded` clause names the literal fixed-register,
@@ -41,7 +47,7 @@ and native CI, protected unmodified Palomar verification, and unmodified
 Challenge rendering. The Challenge is 1,000 lines / 62,027 bytes, within
 hard limits; the preferred smaller-surface warning remains disclosed.
 
-Suggested submission notes:
+Prepared submission notes (historical):
 
 > Formalization of Morse's IJET 2018 pure-SMC construction with minimal
 > positively proved M01–M20 errata and Dolan's credited MOV foundation.
@@ -52,5 +58,5 @@ Suggested submission notes:
 > the author's direction; no independent human review or registration is claimed.
 
 The formalization license is CC0-1.0; cited papers retain their source terms.
-Gregory Morse performs replacement intake. Palomar's semantic/editorial review
-is a separate registry decision. Private access links remain untracked.
+Gregory Morse completed intake and registration. The public registry reports
+trust level `high`. Private access links remain untracked.

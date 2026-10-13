@@ -1,0 +1,38 @@
+{
+  "state": "REGISTERED",
+  "id": "PALOMAR-2026-10-13-000008",
+  "version": 1,
+  "entry_url": "https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1",
+  "record_url": "https://data.palomar-registry.org/entries/PALOMAR-2026-10-13-000008-v1.json",
+  "published_at": "2026-10-13T03:47:10Z",
+  "verified_at": "2026-10-13T04:42:58.556181+00:00",
+  "source": {
+    "commit": "51198ac6ad1d1b4b2ad6e3751583e3c6d1c56b71",
+    "project_path": "lean",
+    "repository": "GregoryMorse/smcTuring"
+  },
+  "title": "Pure infinitely self-modifying code: a Lean formalization with minimal errata",
+  "trust": {
+    "level": "high"
+  },
+  "formalization": {
+    "theorem_names": [
+      "PalomarSMC.mathematical_result",
+      "SmcTuring.Dolan.Encoding.zigzag_injective",
+      "SmcTuring.SMC.Concrete.data_owner",
+      "SmcTuring.SMC.Concrete.metadata_owner"
+    ]
+  },
+  "preservation": {
+    "repositories": [
+      {
+        "commit": "51198ac6ad1d1b4b2ad6e3751583e3c6d1c56b71",
+        "fork_repository": "PalomarArchive/GregoryMorse--smcTuring--3626828fc241",
+        "source_repository": "GregoryMorse/smcTuring"
+      }
+    ]
+  },
+  "public_record_sha256": "fb5e9bd27e0a9f442ee4b1d20e5b48335088336d4ab2dc7a166bf01dac608cd5",
+  "preflight_receipt": "execution-revision.json",
+  "private_access_link_published": false
+}

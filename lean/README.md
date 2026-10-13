@@ -9,6 +9,11 @@ output, with [source-bound acceptance](acceptance/execution-revision.json) and
 [its closed ledger](EXECUTION_REVISION_LEDGER.md).
 Mechanical verification and statement-to-source agreement are distinct checks.
 
+Registered on 2026-10-13 as
+[PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1);
+the [registration receipt](acceptance/palomar-registration.json) binds the public
+record to the tested source commit.
+
 Gregory Morse's [2018 paper](https://doi.org/10.24425/119359) is the mathematical
 source. The [minimal errata TeX](errata/morse-2018-errata.tex),
 [exact excerpt diff](errata/morse-2018-minimal.diff) and
@@ -84,7 +89,8 @@ completed or failed check. Linux objects are kept separate from Windows objects.
 from the small independent Challenge/Solution interface, Comparator, NanoDa,
 official full reusable workflow, public snapshot and editorial review.
 Only explicitly selected Comparator declarations can become registered claims.
-No Palomar registration or endorsement is claimed.
+The public Palomar registration is linked above; no independent human peer
+review is claimed.
 
 ## Provenance and audience
 

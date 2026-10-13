@@ -13,5 +13,8 @@ give actual validation evidence and precise model limits. The original detailed
 plan/audit is retained in [history](history/COMPLETION_AUDIT.before-public-closure-20261011.md); its dated
 intermediate gaps are closed by the final umbrella theorems.
 
-No new proof work or memory-only refactor is pending. Palomar submission and
-editorial registration are left to Gregory Morse; they are not claimed here.
+No new proof work or memory-only refactor is pending. Gregory Morse completed
+Palomar registration on 2026-10-13:
+[PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1).
+The [registration receipt](acceptance/palomar-registration.json) records the
+confirmed public source binding.

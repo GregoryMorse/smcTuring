@@ -44,4 +44,7 @@ successful checkpoints. The final complete replay above ran once on the
 frozen candidate. Reports and manifests have been fetched locally.
 The new constraints are formalization statement corrections; the published
 minimal paper errata and native C++/ASM source did not change.
-Palomar intake and semantic/editorial review remain author/registry actions.
+Gregory Morse completed intake and registration as
+[PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1).
+The [registration receipt](acceptance/palomar-registration.json) confirms the
+same tested source.

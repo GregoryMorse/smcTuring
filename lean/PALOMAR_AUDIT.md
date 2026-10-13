@@ -1,6 +1,8 @@
 # Palomar submission audit
 
-**Ready with the disclosed preferred-size warning.** Exact tested public source:
+**Registered:** [PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1),
+published 2026-10-13. The [registration receipt](acceptance/palomar-registration.json)
+binds the public record to the exact tested source:
 `51198ac6ad1d1b4b2ad6e3751583e3c6d1c56b71`.
 The [acceptance receipt](acceptance/execution-revision.json) records source and
 report hashes; the [submission packet](PALOMAR_SUBMISSION.md) gives the form values.
@@ -38,8 +40,8 @@ warning. Its mandatory mechanical items are resolved by the protected full
 report; the statement audit is recorded separately in the alignment above.
 Live policy and intake guidance were refreshed on 2026-10-12. All reports,
 logs and manifests have been fetched locally. No progressed proof work remains
-only on the server. The user performs replacement intake with existing
-Palomar ID blank; no submission or registration action is claimed.
+only on the server. Gregory Morse completed replacement intake and registration.
+The public record reports trust level `high`; it is not an independent human review.
 
 Earlier policy/source review, eligibility discussion and interrupted-run recovery
 details are preserved in [the dated audit](history/PALOMAR_AUDIT.before-public-closure-20261011.md). Its old

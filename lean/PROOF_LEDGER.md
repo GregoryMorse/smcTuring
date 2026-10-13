@@ -38,5 +38,7 @@ interface accepted by Comparator.
 The unbounded result uses the ideal integer-address model. Native/physical
 claims retain explicit finite capacity/reach and local ISA/mapping/ABI conditions,
 with head observed before cleanup and exact epilogue/trailing-x64 AX effects.
-Palomar intake and editorial review are user/registry actions outside this closed
-proof ledger. No registration or independent human review is claimed.
+Palomar registration is complete as
+[PALOMAR-2026-10-13-000008, version 1](https://palomar-registry.org/entry?id=PALOMAR-2026-10-13-000008&version=1).
+The [registration receipt](acceptance/palomar-registration.json) records the
+public source binding. No independent human review is claimed.
