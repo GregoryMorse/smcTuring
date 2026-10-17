@@ -1,0 +1,32 @@
+execute_process(COMMAND "${PROGRAM}" --iterations "${ITERATIONS}" --input "${INPUT}"
+  RESULT_VARIABLE result OUTPUT_VARIABLE output ERROR_VARIABLE error TIMEOUT 20)
+if(NOT result STREQUAL "0")
+  message(FATAL_ERROR "Simulator failed (${result}):\n${output}\n${error}")
+endif()
+string(REPLACE "\r\n" "\n" output "${output}")
+set(labels
+  "C Turing machine limited transitions" "C Turing machine"
+  "External assembly Turing machine limited transitions" "External assembly Turing machine"
+  "External assembly mov Turing machine" "C mov Turing machine")
+if(INLINE_VARIANTS)
+  list(APPEND labels "Inline assembly Turing machine limited transitions"
+    "Inline assembly Turing machine" "Inline assembly mov Turing machine")
+endif()
+string(REGEX MATCHALL "[^\n]* -> [^\n]*" lines "${output}")
+list(LENGTH labels expected_count)
+list(LENGTH lines actual_count)
+if(NOT actual_count EQUAL expected_count)
+  message(FATAL_ERROR "Expected ${expected_count} simulator outputs; got ${actual_count}:\n${output}")
+endif()
+foreach(label IN LISTS labels)
+  list(FIND lines "${label}: ${INPUT} -> ${EXPECTED}" found)
+  if(found EQUAL -1)
+    message(FATAL_ERROR "Missing or incorrect result for ${label}:\n${output}")
+  endif()
+  if(ITERATIONS GREATER 0 AND NOT output MATCHES "${label}: [0-9]+\\.[0-9]+ seconds")
+    message(FATAL_ERROR "Missing benchmark for ${label}:\n${output}")
+  endif()
+endforeach()
+if(ITERATIONS EQUAL 0 AND output MATCHES " seconds")
+  message(FATAL_ERROR "Benchmarks ran despite --iterations 0:\n${output}")
+endif()

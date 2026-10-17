@@ -1,13 +1,26 @@
 //Gregory Morse
 //implementation of Stephen Dolan's mov is Turing-complete research paper: https://www.cl.cam.ac.uk/~sd601/papers/mov.pdf
 
-#include <iostream>
-#include <basetsd.h>
-#include <Windows.h>
+#include <cerrno>
+#include <chrono>
+#include <climits>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
-extern "C" void __cdecl MovTM(ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR);
-extern "C" void __cdecl AsmTM(ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR, unsigned char);
-extern "C" void __cdecl AsmListTM(ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR);
+using ULONG_PTR = std::uintptr_t;
+using LONG_PTR = std::intptr_t;
+
+#ifdef _MSC_VER
+#define SMC_CDECL __cdecl
+#else
+#define SMC_CDECL
+#endif
+
+extern "C" void SMC_CDECL MovTM(ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR);
+extern "C" void SMC_CDECL AsmTM(ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR, unsigned char);
+extern "C" void SMC_CDECL AsmListTM(ULONG_PTR, ULONG_PTR, ULONG_PTR, ULONG_PTR);
 
 //mov being Turing complete
 //3 instructions needed:
@@ -21,7 +34,7 @@ int TMCmp(const void* l, const void* r)
 	return *(unsigned char*)l > *(unsigned char*)r ? 1 : -1;
 }
 
-void MovTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOutput, int InExAsmC)
+void MovTM(char turingMachine[][5], int tmSize, const char* Input, int inpSize, bool bOutput, int InExAsmC)
 {
 	//<pointer to trigger symbol> <pointer to next state> <trigger symbol> <pointer to new symbol> <new symbol> <pointer to direction> <direction> <pointer to pointer to new state> <pointer to new state>
 	ULONG_PTR* TransitionTape = (ULONG_PTR*)malloc((tmSize / 5) * 9 * sizeof(ULONG_PTR)); //{old state, old symbol, new symbol, direction, new state}
@@ -61,7 +74,7 @@ void MovTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 		for (int i = 0; i < inpSize; i++) printf("%c", (char)InputTape[i * 2]);
 		printf("\n");
 	}
-#if !defined(_WIN64)
+#if defined(_MSC_VER) && defined(_M_IX86) && !defined(SMCTURING_NO_INLINE_ASM)
 	if (InExAsmC & 1) {
 		for (int i = 0; i < inpSize; i++) {
 			InputTape[i * 2] = Input[i];
@@ -230,7 +243,7 @@ void MovTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 	free(InputTapeLeft);
 }
 
-void CTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOutput, int LimUnlim)
+void CTM(char turingMachine[][5], int tmSize, const char* Input, int inpSize, bool bOutput, int LimUnlim)
 {
 	//not general example: limited transition state capacity, one sided tape
 	unsigned char* TransitionTape = (unsigned char*)malloc(tmSize + inpSize);//{old state, old symbol, new symbol, direction, new state}
@@ -246,7 +259,7 @@ void CTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOu
 			if (CurTransitionPtr[0] == CurState && CurTransitionPtr[1] == *CurInputPtr) {
 				CurState = CurTransitionPtr[4];
 				*CurInputPtr = CurTransitionPtr[2];
-				CurInputPtr += (char)CurTransitionPtr[3];
+				CurInputPtr += (signed char)CurTransitionPtr[3];
 				if (CurState == '2') break;
 				CurTransitionPtr = TransitionTape;
 			}
@@ -266,7 +279,7 @@ void CTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOu
 		//general example with unlimited transition state capacity, dual sided tape
 		ULONG_PTR* TransitionTape = (ULONG_PTR*)malloc(sizeof(ULONG_PTR) * tmSize);
 		for (int i = 0; i < tmSize / 5; i++) {
-			TransitionTape[i * 5] = ((i == tmSize / 5 - 1) || turingMachine[i + 1][0] != turingMachine[i][0]) ? NULL : (ULONG_PTR)(TransitionTape + (i + 1) * 5);
+			TransitionTape[i * 5] = ((i == tmSize / 5 - 1) || turingMachine[i + 1][0] != turingMachine[i][0]) ? 0 : (ULONG_PTR)(TransitionTape + (i + 1) * 5);
 			TransitionTape[i * 5 + 1] = turingMachine[i][1];
 			TransitionTape[i * 5 + 2] = turingMachine[i][2];
 			TransitionTape[i * 5 + 3] = turingMachine[i][3] == 'R' ? 1 : -1;
@@ -276,7 +289,7 @@ void CTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOu
 				idx = (ptr - (char*)turingMachine) / 5;
 				while (idx != 0 && turingMachine[idx - 1][0] == turingMachine[i][4]) idx--;
 			}
-			TransitionTape[i * 5 + 4] = ptr == NULL ? (turingMachine[i][4] == '2' ? NULL : NULL) : (ULONG_PTR)(TransitionTape + (idx * 5));
+			TransitionTape[i * 5 + 4] = ptr == NULL ? 0 : (ULONG_PTR)(TransitionTape + (idx * 5));
 		}
 		unsigned char* InputTape = (unsigned char*)malloc(inpSize);
 		memcpy(InputTape, Input, inpSize);
@@ -285,7 +298,7 @@ void CTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOu
 		do {
 			if (CurTransitionPtr[1] == *CurInputPtr) {
 				*CurInputPtr = (char)CurTransitionPtr[2];
-				CurInputPtr += (char)CurTransitionPtr[3];
+				CurInputPtr += (signed char)CurTransitionPtr[3];
 				CurTransitionPtr = (ULONG_PTR*)CurTransitionPtr[4];
 			}
 			else {
@@ -302,7 +315,7 @@ void CTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOu
 	}
 }
 
-void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool bOutput, int InExLimUnlim)
+void AsmTM(char turingMachine[][5], int tmSize, const char* Input, int inpSize, bool bOutput, int InExLimUnlim)
 {
 	//not general example: limited transition state capacity, one sided tape
 	unsigned char* TransitionTape = (unsigned char*)malloc(tmSize + inpSize);//{old state, old symbol, new symbol, direction, new state}
@@ -311,8 +324,8 @@ void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 	unsigned char* InputTape = TransitionTape + tmSize;
 	memcpy(InputTape, Input, inpSize);
 	unsigned char CurState = '1';
-	unsigned long CurInputPtr;
-	unsigned long CurTransitionPtr;
+	ULONG_PTR CurInputPtr;
+	ULONG_PTR CurTransitionPtr;
 	if (InExLimUnlim & 2)
 		AsmTM((ULONG_PTR)TransitionTape, (ULONG_PTR)InputTape, (ULONG_PTR)&CurTransitionPtr, (ULONG_PTR)&CurInputPtr, CurState);
 	if (bOutput) {
@@ -320,7 +333,7 @@ void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 		fwrite(InputTape, 1, inpSize, stdout);
 		printf("\n");
 	}
-#if !defined(_WIN64)
+#if defined(_MSC_VER) && defined(_M_IX86) && !defined(SMCTURING_NO_INLINE_ASM)
 #define ACCUMULATOR eax
 #define COUNTER ecx
 	if (InExLimUnlim & 1) {
@@ -384,7 +397,7 @@ void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 		//general example with unlimited transition state capacity, dual sided tape
 		ULONG_PTR* TransitionTape = (ULONG_PTR*)malloc(sizeof(ULONG_PTR) * tmSize);
 		for (int i = 0; i < tmSize / 5; i++) {
-			TransitionTape[i * 5] = ((i == tmSize / 5 - 1) || turingMachine[i + 1][0] != turingMachine[i][0]) ? NULL : (ULONG_PTR)(TransitionTape + (i + 1) * 5);
+			TransitionTape[i * 5] = ((i == tmSize / 5 - 1) || turingMachine[i + 1][0] != turingMachine[i][0]) ? 0 : (ULONG_PTR)(TransitionTape + (i + 1) * 5);
 			TransitionTape[i * 5 + 1] = turingMachine[i][1];
 			TransitionTape[i * 5 + 2] = turingMachine[i][2];
 			TransitionTape[i * 5 + 3] = turingMachine[i][3] == 'R' ? 1 : -1;
@@ -394,7 +407,7 @@ void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 				idx = (ptr - (char*)turingMachine) / 5;
 				while (idx != 0 && turingMachine[idx - 1][0] == turingMachine[i][4]) idx--;
 			}
-			TransitionTape[i * 5 + 4] = ptr == NULL ? (turingMachine[i][4] == '2' ? NULL : NULL) : (ULONG_PTR)(TransitionTape + (idx * 5));
+			TransitionTape[i * 5 + 4] = ptr == NULL ? 0 : (ULONG_PTR)(TransitionTape + (idx * 5));
 		}
 		unsigned char* InputTape = (unsigned char*)malloc(inpSize);
 		memcpy(InputTape, Input, inpSize);
@@ -407,7 +420,7 @@ void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 			fwrite(InputTape, 1, inpSize, stdout);
 			printf("\n");
 		}
-#if !defined(_WIN64)
+#if defined(_MSC_VER) && defined(_M_IX86) && !defined(SMCTURING_NO_INLINE_ASM)
 		if (InExLimUnlim & 4) {
 			memcpy(InputTape, Input, inpSize);
 			__asm {
@@ -457,7 +470,36 @@ void AsmTM(char turingMachine[][5], int tmSize, char* Input, int inpSize, bool b
 	}
 }
 
-int main()
+
+// The demonstration has a fixed finite tape. Reject malformed input or an
+// addition that would need another cell to the left of its allocated buffer.
+static bool validInput(const char* input)
+{
+	const std::size_t length = std::strlen(input);
+	if (length < 4 || length > INT_MAX || (length - 2) % 2 != 0) return false;
+	const std::size_t width = (length - 2) / 2;
+	if (input[width] != '_' || input[length - 1] != '_') return false;
+	unsigned carry = 0;
+	for (std::size_t i = width; i > 0; --i) {
+		const char a = input[i - 1];
+		const char b = input[width + i];
+		if ((a != '0' && a != '1') || (b != '0' && b != '1')) return false;
+		carry = (unsigned(a - '0') + unsigned(b - '0') + carry) / 2;
+	}
+	return carry == 0;
+}
+
+template<class Function>
+static void benchmark(const char* name, int iterations, Function run)
+{
+	const auto start = std::chrono::steady_clock::now();
+	for (int i = 0; i < iterations; ++i) run();
+	const auto stop = std::chrono::steady_clock::now();
+	const double elapsed = std::chrono::duration<double>(stop - start).count();
+	printf("%s: %lf seconds\n", name, elapsed);
+}
+
+int main(int argc, char* argv[])
 {
 	char turingMachine[][5] = {
 		{ '1', '0', '0', 'R', '1' },
@@ -478,77 +520,71 @@ int main()
 		{ '7', '0', '1', 'R', '1' },
 		{ '7', '_', '1', 'R', '1' }
 	}; //must be sorted
-	char Input[] = "0100_1001_";
+	const char* Input = "0100_1001_";
+	int iterations = 100000;
+	for (int i = 1; i < argc; ++i) {
+		if (std::strcmp(argv[i], "--help") == 0) {
+			printf("Usage: %s [--iterations N | --no-benchmark] [--input A_B_]\n"
+				"A and B are equal-width binary numbers whose sum fits in A.\n", argv[0]);
+			return 0;
+		}
+		if (std::strcmp(argv[i], "--no-benchmark") == 0) {
+			iterations = 0;
+		} else if (std::strcmp(argv[i], "--iterations") == 0 && i + 1 < argc) {
+			char* end;
+			errno = 0;
+			const char* value = argv[++i];
+			const long count = std::strtol(value, &end, 10);
+			if (errno || end == value || *end || count < 0 || count > INT_MAX) {
+				fprintf(stderr, "--iterations requires an integer between 0 and %d.\n", INT_MAX);
+				return 2;
+			}
+			iterations = static_cast<int>(count);
+		} else if (std::strcmp(argv[i], "--input") == 0 && i + 1 < argc) {
+			Input = argv[++i];
+		} else {
+			fprintf(stderr, "Unknown or incomplete option: %s (see --help).\n", argv[i]);
+			return 2;
+		}
+	}
+	if (!validInput(Input)) {
+		fprintf(stderr, "Input must be A_B_ with equal-width binary numbers and no sum overflow.\n");
+		return 2;
+	}
+	const int inputSize = static_cast<int>(std::strlen(Input));
+	CTM(turingMachine, sizeof(turingMachine), Input, inputSize, true, 3);
+	AsmTM(turingMachine, sizeof(turingMachine), Input, inputSize, true, 15);
+	MovTM(turingMachine, sizeof(turingMachine), Input, inputSize, true, 7);
+	if (iterations == 0) return 0;
 
-	CTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, true, 3);
-	AsmTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, true, 15);
-	MovTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, true, 7);
-
-	LARGE_INTEGER start;
-	LARGE_INTEGER stop;
-	LARGE_INTEGER frequency;
-	QueryPerformanceFrequency(&frequency);
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		CTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 2);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("C Turing machine: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		CTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 1);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("C Turing machine limited transitions: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		AsmTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 8);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("External assembly Turing machine: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-#if !defined(_WIN64)
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		AsmTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 4);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("Inline assembly Turing machine: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
+	benchmark("C Turing machine", iterations, [&] {
+		CTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 2);
+	});
+	benchmark("C Turing machine limited transitions", iterations, [&] {
+		CTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 1);
+	});
+	benchmark("External assembly Turing machine", iterations, [&] {
+		AsmTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 8);
+	});
+	benchmark("External assembly Turing machine limited transitions", iterations, [&] {
+		AsmTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 2);
+	});
+	benchmark("External assembly mov Turing machine", iterations, [&] {
+		MovTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 2);
+	});
+#if defined(_MSC_VER) && defined(_M_IX86) && !defined(SMCTURING_NO_INLINE_ASM)
+	benchmark("Inline assembly Turing machine", iterations, [&] {
+		AsmTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 4);
+	});
+	benchmark("Inline assembly Turing machine limited transitions", iterations, [&] {
+		AsmTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 1);
+	});
+	benchmark("Inline assembly mov Turing machine", iterations, [&] {
+		MovTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 1);
+	});
 #endif
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		AsmTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 2);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("External assembly Turing machine limited transitions: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-#if !defined(_WIN64)
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		AsmTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 1);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("Inline assembly Turing machine limited transitions: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-#endif
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		MovTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 2);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("External assembly mov Turing machine: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-#if !defined(_WIN64)
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		MovTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 1);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("Inline assembly mov Turing machine: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-#endif
-	QueryPerformanceCounter(&start);
-	for (int i = 0; i < 100000; i++) {
-		MovTM(turingMachine, sizeof(turingMachine), Input, sizeof(Input) - 1, false, 4);
-	}
-	QueryPerformanceCounter(&stop);
-	printf("C mov Turing machine: %lf seconds\n", (double)(stop.QuadPart - start.QuadPart) / (double)frequency.QuadPart);
-
-	getc(stdin);
+	benchmark("C mov Turing machine", iterations, [&] {
+		MovTM(turingMachine, sizeof(turingMachine), Input, inputSize, false, 4);
+	});
 	return 0;
 }

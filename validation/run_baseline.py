@@ -1,4 +1,4 @@
-"""Rebuild and check the untouched comparison simulators in all VS configurations."""
+"""Rebuild and check the comparison simulators in all VS configurations."""
 
 from __future__ import annotations
 
@@ -35,7 +35,7 @@ def main() -> None:
     parser.add_argument("--report", default="baseline.json")
     parser.add_argument("--as-of", required=True)
     args = parser.parse_args()
-    report = {"as_of": args.as_of, "purpose": "unchanged source baseline",
+    report = {"as_of": args.as_of, "purpose": "comparison simulator regression baseline",
               "sources": {name: digest(ROOT / name) for name in
                           ["smcTuring/main.cpp", "smcTuring/tm.asm",
                            "smcTuring/smcTuring.vcxproj"]}, "runs": []}

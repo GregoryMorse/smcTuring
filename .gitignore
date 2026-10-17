@@ -1,4 +1,8 @@
 # Visual Studio build output
+/build/
+/build-*/
+/smcTuring/build/
+/smcTuring/build-*/
 [Dd]ebug/
 [Rr]elease/
 x64/

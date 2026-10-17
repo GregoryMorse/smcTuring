@@ -3,6 +3,7 @@
 [![DOI](https://img.shields.io/badge/DOI-10.24425%2F119359-blue)](https://doi.org/10.24425/119359)
 [![IJET](https://img.shields.io/badge/Journal-IJET_Vol._64_No._2_%282018%29-green)](https://ijet.ise.pw.edu.pl/index.php/ijet/article/view/10.24425-119359)
 [![Code license: CC0 1.0](https://img.shields.io/badge/Code_license-CC0_1.0-lightgrey.svg)](LICENSE.txt)
+[![CMake](https://github.com/GregoryMorse/smcTuring/actions/workflows/cmake.yml/badge.svg)](https://github.com/GregoryMorse/smcTuring/actions/workflows/cmake.yml)
 
 Code supplement to the published research paper:
 
@@ -138,15 +139,49 @@ Output: 1101_0000_   (A = 13, B = 0)
 
 ## Requirements
 
-- **Windows** (x86 or x64)
-- **Visual Studio 2022 or later** (developed and tested on VS 2026 Enterprise) with:
-  - MSVC C++ compiler (`cl.exe`)
-  - MASM assembler (`ml.exe` / `ml64.exe`)
-  - Windows 10 SDK (any version — post-build paths resolve via MSBuild properties)
-- The Debug post-build step copies `ucrtbased.dll` and `vcruntime140d.dll` next to the
-  executable so the binary is self-contained when run outside the IDE.
+- **CMake 3.20 or later** and a C++11 compiler, targeting x86 or x86-64.
+- **Windows:** Visual Studio 2022 or later with the MSVC C++ tools, MASM and Windows SDK.
+- **Linux:** GCC or Clang, plus Make or Ninja. A 32-bit build also needs the
+  multilib C++ runtime/development packages (for example, `g++-multilib` on Ubuntu).
+- **Intel macOS (x86-64):** Apple Clang from the Xcode Command Line Tools and CMake.
+
+Windows uses the original MASM routines in `tm.asm`. Linux and Intel macOS use
+the System V ABI port in `tm.S`, with ELF/Mach-O declarations and Intel syntax.
+MSVC's inline assembly
+variants are enabled only for 32-bit MSVC builds.
 
 ## Building
+
+Configure, build and run the tests:
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release --parallel 1
+ctest --test-dir build -C Release --output-on-failure
+```
+
+With a Visual Studio generator, add `-A x64` to the configure command, or use a
+separate build directory with `-A Win32`. Linux selects its native architecture; for a 32-bit
+build use a separate directory and add `-DCMAKE_CXX_FLAGS=-m32 -DCMAKE_ASM_FLAGS=-m32`.
+The `smcTuring` subdirectory can also be configured directly with `cmake -S smcTuring`.
+
+On macOS, select `-DCMAKE_OSX_ARCHITECTURES=x86_64` to build the Intel backend.
+The Linux/macOS executable is `build/smcTuring/smcTuring`; with a Visual Studio
+generator it is `build/smcTuring/Release/smcTuring.exe`. It runs without a
+keyboard pause. Use `--no-benchmark` for just the simulator results,
+`--iterations 1000` to shorten benchmarking, or `--input 0111_0001_` to try another
+equal-width binary addition whose result fits the first field. `--help` lists
+the options. `cmake --install build --config Release --prefix <directory>` installs
+the executable in `bin`.
+
+CTest checks six addition inputs across every available simulator, a short
+benchmark run and rejected invalid inputs. The CMake workflow builds and tests
+Debug/Release on Windows x86/x64, Linux x86/x64 with GCC and Clang, and Intel macOS
+with Apple Clang.
+These comparison-program changes leave the registered Lean statement, proof
+sources and published errata unchanged.
+
+### Original Visual Studio project
 
 Open `smcTuring/smcTuring.vcxproj` (or the solution file) in Visual Studio and build the
 desired configuration, or from a Developer Command Prompt:
@@ -172,6 +207,8 @@ all four are confirmed working.
 >   `#pragma optimize("y", off)` is sufficient — the only reliable fix is full `/Od`.
 >   All other configurations (Debug|Win32, Debug|x64, Release|x64) use their standard
 >   optimisation settings.
+>   CMake preserves these requirements when the inline variants are enabled;
+>   `-DSMCTURING_INLINE_ASM=OFF` builds only the C++ and external assembly variants.
 
 ## Sample Output
 

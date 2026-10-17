@@ -1,0 +1,156 @@
+name: CMake comparison simulators
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - 'CMakeLists.txt'
+      - 'smcTuring/CMakeLists.txt'
+      - 'smcTuring/main.cpp'
+      - 'smcTuring/tm.asm'
+      - 'smcTuring/tm.S'
+      - 'smcTuring/cmake/**'
+      - '.github/workflows/cmake.yml'
+      - 'validation/limited_run.py'
+      - 'validation/memory_budget.py'
+  pull_request:
+    paths:
+      - 'CMakeLists.txt'
+      - 'smcTuring/CMakeLists.txt'
+      - 'smcTuring/main.cpp'
+      - 'smcTuring/tm.asm'
+      - 'smcTuring/tm.S'
+      - 'smcTuring/cmake/**'
+      - '.github/workflows/cmake.yml'
+      - 'validation/limited_run.py'
+      - 'validation/memory_budget.py'
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {cc: gcc, cxx: g++}
+          - {cc: clang, cxx: clang++}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install 32-bit C++ support
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-multilib
+      - name: Build and test x86 and x64 in Debug and Release
+        shell: bash
+        run: |
+          sudo systemd-run --wait --pipe --collect --uid="$(id -u)" --gid="$(id -g)" \
+            --property=MemoryMax=7500000000 --property=MemorySwapMax=0 \
+            --property=CPUQuota=200% --property=TasksMax=128 \
+            --working-directory="$GITHUB_WORKSPACE" \
+            --setenv=CC=${{ matrix.cc }} --setenv=CXX=${{ matrix.cxx }} \
+            bash -c '
+              set -euo pipefail
+              for bits in 64 32; do
+                for configuration in Debug Release; do
+                  folder="build/$CC-$bits-$configuration"
+                  mkdir -p "$folder"
+                  cxx_flags="-m$bits"
+                  if [[ "$CC" == clang ]]; then
+                    # Match the GCC installation whose multilib was installed,
+                    # rather than a newer preinstalled GCC without 32-bit libs.
+                    cxx_flags+=" --gcc-install-dir=$(dirname "$(gcc -print-libgcc-file-name)")"
+                  fi
+                  cmake -S . -B "$folder" -DCMAKE_BUILD_TYPE="$configuration" \
+                    -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_ASM_COMPILER="$CC" \
+                    -DCMAKE_CXX_FLAGS="$cxx_flags" -DCMAKE_ASM_FLAGS="-m$bits" \
+                    2>&1 | tee "$folder/configure.log"
+                  cmake --build "$folder" --parallel 1 2>&1 | tee "$folder/build.log"
+                  ctest --test-dir "$folder" --output-on-failure -j1 \
+                    --output-junit "$PWD/$folder/ctest.xml" 2>&1 | tee "$folder/test.log"
+                done
+              done
+            '
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cmake-linux-${{ matrix.cc }}
+          path: |
+            build/**/*.log
+            build/**/ctest.xml
+            build/**/CMakeCache.txt
+
+  macos:
+    runs-on: macos-15-intel
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Build and test Intel macOS in Debug and Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          for configuration in Debug Release; do
+            folder="build/macos-x64-$configuration"
+            mkdir -p "$folder"
+            cmake -S . -B "$folder" -DCMAKE_BUILD_TYPE="$configuration" \
+              -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_ASM_COMPILER=clang \
+              -DCMAKE_OSX_ARCHITECTURES=x86_64 2>&1 | tee "$folder/configure.log"
+            cmake --build "$folder" --parallel 1 2>&1 | tee "$folder/build.log"
+            ctest --test-dir "$folder" --output-on-failure -j1 \
+              --output-junit "$PWD/$folder/ctest.xml" 2>&1 | tee "$folder/test.log"
+          done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cmake-macos-x64
+          path: |
+            build/**/*.log
+            build/**/ctest.xml
+            build/**/CMakeCache.txt
+
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        architecture: [x64, Win32]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Configure MSVC and MASM
+        shell: pwsh
+        run: |
+          python -B validation/limited_run.py --timeout 180 --output build/configure.log --report build/configure-memory.json -- cmake -S . -B build -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -T host=x64
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Build and test Debug and Release serially
+        shell: pwsh
+        run: |
+          foreach ($configuration in @('Debug', 'Release')) {
+            python -B validation/limited_run.py --timeout 180 --output "build/build-$configuration.log" --report "build/build-$configuration-memory.json" -- cmake --build build --config $configuration --parallel 1
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+            $junit = Join-Path $PWD "build/ctest-$configuration.xml"
+            python -B validation/limited_run.py --timeout 120 --output "build/test-$configuration.log" --report "build/test-$configuration-memory.json" -- ctest --test-dir build -C $configuration --output-on-failure -j1 --output-junit $junit
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cmake-windows-${{ matrix.architecture }}
+          path: |
+            build/**/*.log
+            build/ctest-*.xml
+            build/*-memory.json
+            build/CMakeCache.txt
