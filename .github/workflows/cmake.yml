@@ -6,6 +6,9 @@ on:
     branches: [main, master]
     paths:
       - 'CMakeLists.txt'
+      - 'smcTuring.sln'
+      - 'smcTuring/smcTuring.vcxproj'
+      - 'smcTuring/smcTuring.vcxproj.filters'
       - 'smcTuring/CMakeLists.txt'
       - 'smcTuring/main.cpp'
       - 'smcTuring/tm.asm'
@@ -14,9 +17,13 @@ on:
       - '.github/workflows/cmake.yml'
       - 'validation/limited_run.py'
       - 'validation/memory_budget.py'
+      - 'validation/run_baseline.py'
   pull_request:
     paths:
       - 'CMakeLists.txt'
+      - 'smcTuring.sln'
+      - 'smcTuring/smcTuring.vcxproj'
+      - 'smcTuring/smcTuring.vcxproj.filters'
       - 'smcTuring/CMakeLists.txt'
       - 'smcTuring/main.cpp'
       - 'smcTuring/tm.asm'
@@ -25,11 +32,48 @@ on:
       - '.github/workflows/cmake.yml'
       - 'validation/limited_run.py'
       - 'validation/memory_budget.py'
+      - 'validation/run_baseline.py'
 
 permissions:
   contents: read
 
+concurrency:
+  group: cmake-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  visual-studio-solution:
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {runner: windows-2022, version: '2022'}
+          - {runner: windows-2025-vs2026, version: '2026'}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Build the convenience solution and check output isolation
+        shell: pwsh
+        run: |
+          $asOf = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd')
+          python -B validation/limited_run.py --timeout 840 --output validation/vs-solution.log --report validation/vs-solution-memory.json -- python -B validation/run_baseline.py --as-of $asOf --vs-version ${{ matrix.version }} --solution-output --report vs-solution.json
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: vs-solution-${{ matrix.version }}
+          path: |
+            validation/vs-solution.log
+            validation/vs-solution-memory.json
+            validation/vs-solution.json
+            build/msbuild/**/*.log
+
   linux:
     runs-on: ubuntu-24.04
     timeout-minutes: 15

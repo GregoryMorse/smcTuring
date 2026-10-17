@@ -20,8 +20,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="tm.asm">
+    <MASM Include="tm.asm">
       <Filter>Source Files</Filter>
-    </CustomBuild>
+    </MASM>
   </ItemGroup>
 </Project>

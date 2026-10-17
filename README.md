@@ -180,8 +180,18 @@ Debug/Release on Windows x86/x64, Linux x86/x64 with GCC and Clang, and Intel ma
 with Apple Clang.
 These comparison-program changes leave the registered Lean statement, proof
 sources and published errata unchanged.
+Comparison-only edits run the native build workflow; changes to the Lean or
+native proof inputs retain the full proof and native-binding checks.
 
-### Original Visual Studio project
+### Visual Studio convenience solution
+
+CMake is the primary build. The checked-in `smcTuring.sln` also works with
+Visual Studio 2022 and 2026, selecting v143/v145 from the hosting build tools.
+Executables go to `build/msbuild/<toolset>/<platform>/<configuration>` and
+intermediates to `build/msbuild/obj/<toolset>/<platform>/<configuration>`.
+These directories are separate from CMake's generated projects and outputs.
+CI checks all four solution configurations with each Visual Studio version
+and verifies that builds do not recreate output folders in the source tree.
 
 Open `smcTuring/smcTuring.vcxproj` (or the solution file) in Visual Studio and build the
 desired configuration, or from a Developer Command Prompt:

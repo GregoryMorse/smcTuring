@@ -15,9 +15,18 @@ on:
       - 'lean/lake-manifest.json'
       - 'lean/errata/**'
       - 'smcTuring/**'
+      - '!smcTuring/main.cpp'
+      - '!smcTuring/tm.asm'
+      - '!smcTuring/tm.S'
+      - '!smcTuring/CMakeLists.txt'
+      - '!smcTuring/cmake/**'
+      - '!smcTuring/smcTuring.vcxproj'
+      - '!smcTuring/smcTuring.vcxproj.filters'
       - 'validation/**'
       - '!validation/**/*.md'
+      - '!validation/run_baseline.py'
       - '.github/workflows/**'
+      - '!.github/workflows/cmake.yml'
   pull_request:
     paths:
       - 'lean/**/*.lean'
@@ -26,9 +35,21 @@ on:
       - 'lean/lake-manifest.json'
       - 'lean/errata/**'
       - 'smcTuring/**'
+      - '!smcTuring/main.cpp'
+      - '!smcTuring/tm.asm'
+      - '!smcTuring/tm.S'
+      - '!smcTuring/CMakeLists.txt'
+      - '!smcTuring/cmake/**'
+      - '!smcTuring/smcTuring.vcxproj'
+      - '!smcTuring/smcTuring.vcxproj.filters'
       - 'validation/**'
       - '!validation/**/*.md'
+      - '!validation/run_baseline.py'
       - '.github/workflows/**'
+      - '!.github/workflows/cmake.yml'
+concurrency:
+  group: proof-native-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
