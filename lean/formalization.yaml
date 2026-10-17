@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/99c678e569c7c4c0772db297c5ddd5e4c9b6322e/schema/v0.4.schema.json
 version: "v0.4"
 project:
-  name: "Pure infinitely self-modifying code: a Lean formalization with minimal errata"
+  name: "Pure infinitely self-modifying code: a Lean formalization"
   description: >-
     Formalizes the corrected construction of pure infinitely self-modifying code
     from Gregory Morse's 2018 paper. An unbounded integer-address machine
